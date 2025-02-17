@@ -1,8 +1,5 @@
 package com.example.tenisuj.controller.web;
 
-import com.example.tenisuj.model.Match;
-import com.example.tenisuj.model.Player;
-import com.example.tenisuj.model.dto.PlayerDTO;
 import com.example.tenisuj.service.MatchService;
 import com.example.tenisuj.service.PlayerService;
 import lombok.extern.slf4j.Slf4j;
@@ -11,10 +8,8 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Controller
@@ -37,6 +32,13 @@ public class MatchWeb {
         model.addAttribute("player", playerService.getAllPlayers(null));
         model.addAttribute("playerName", playerName);
         return "matches";
+    }
+
+    @GetMapping("/details/{id}")
+    String getMatchDetails(@PathVariable("id") String matchId, Model model) {
+        setDefaultValues(model);
+        model.addAttribute("match", matchService.getMatch(matchId));
+        return "matchDetails";
     }
 
     private void setDefaultValues(Model model) {
