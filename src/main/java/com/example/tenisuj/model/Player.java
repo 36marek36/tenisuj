@@ -31,7 +31,7 @@ public class Player {
 
     private String gender;
 
-    @DateTimeFormat
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private LocalDate birthDate;
 
     private Boolean leagueStatus;
