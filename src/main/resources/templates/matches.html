@@ -20,7 +20,8 @@
     <h3>Search matches</h3>
     <form th:action="@{/matches/}" method="get" class="mb-4">
         <div class="input-group mb-3">
-            <input type="text" name="playerName" class="form-control" placeholder="Search match" th:value="${playerName}">
+            <input type="text" name="playerName" class="form-control" placeholder="Search match"
+                   th:value="${playerName}">
             <button class="btn btn-primary" type="submit">Search</button>
         </div>
     </form>
@@ -43,13 +44,43 @@
             </thead>
             <tbody>
             <tr th:each="match : ${matches}">
-                <td th:text="${match.player1.firstName + ' ' + match.player1.lastName}">Player 1</td>
-                <td th:text="${match.player2.firstName + ' ' + match.player2.lastName}">Player 2</td>
-                <td th:text="${match.location}">Location</td>
-                <td th:text="${match.dateTime}">Date & Time</td>
-                <td th:text="${match.player1_set1 + ':' + match.player2_set1 + ',' + match.player1_set2 + ':' + match.player2_set2 + ',' + match.player1_set3 + ':' + match.player2_set3 + ',' + match.player1_set4 + ':' + match.player2_set4 + ',' + match.player1_set5 + ':' + match.player2_set5}">Result</td>
-                <td th:text="${match.scratched.firstName + ' ' + match.scratched.lastName}">Scratched</td>
-                <td th:text="${match.winner.firstName + ' ' + match.winner.lastName}">Winner</td>
+                <td th:text="${match.player1?.firstName + ' ' + match.player1?.lastName}">Player 1</td>
+                <td th:text="${match.player2?.firstName + ' ' + match.player2?.lastName}">Player 2</td>
+                <td th:text="${match.location != null ? match.location : 'N/A'}">Location</td>
+                <td th:text="${match.dateTime != null ? match.dateTime : 'N/A'}">Date & Time</td>
+                <td>
+                    <th:block th:if="${match.player1_set1!=null||match.player2_set1!=null}">
+                        <span th:text="${match.player1_set1}"></span>
+                        <span> / </span>
+                        <span th:text="${match.player2_set1}"></span>
+                    </th:block>
+                    <th:block th:if="${match.player1_set2!=null||match.player2_set2!=null}">
+                        <span> ; </span>
+                        <span th:text="${match.player1_set2}"></span>
+                        <span> / </span>
+                        <span th:text="${match.player2_set2}"></span>
+                    </th:block>
+                    <th:block th:if="${match.player1_set3!=null||match.player2_set3!=null}">
+                        <span> ; </span>
+                        <span th:text="${match.player1_set3}"></span>
+                        <span> / </span>
+                        <span th:text="${match.player2_set3}"></span>
+                    </th:block>
+                    <th:block th:if="${match.player1_set4!=null||match.player2_set4!=null}">
+                        <span> ; </span>
+                        <span th:text="${match.player1_set4}"></span>
+                        <span> / </span>
+                        <span th:text="${match.player2_set4}"></span>
+                    </th:block>
+                    <th:block th:if="${match.player1_set5!=null||match.player2_set5!=null}">
+                        <span> ; </span>
+                        <span th:text="${match.player1_set5}"></span>
+                        <span> / </span>
+                        <span th:text="${match.player2_set5}"></span>
+                    </th:block>
+                </td>
+                <td th:text="${match.scratched?.id != null ? match.scratched?.firstName + ' ' + match.scratched?.lastName : ''}">Scratched</td>
+                <td th:text="${match.winner?.id != null ? match.winner?.firstName + ' ' + match.winner?.lastName : 'N/A'}">Winner</td>
             </tr>
             </tbody>
         </table>
