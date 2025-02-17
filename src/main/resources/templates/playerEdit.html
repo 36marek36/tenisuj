@@ -16,8 +16,8 @@
 <div id="menu" th:insert="~{fragments/menu :: menu}"></div>
 <div id="page" class="container mt-4">
     <h2 th:text="${pageTitle}" class="mb-5"></h2>
-    <h3>Edit profile</h3>
-    <form action="#" th:action="@{/profile/edit}" th:object="${player}" method="post" class="mb-4">
+    <h3>Edit player</h3>
+    <form action="#" th:action="@{/players/{id}(id=${player.id})}" th:object="${player}" method="post" class="mb-4">
         <div class="mb-3">
             <label for="firstName" class="form-label">First name</label>
             <input type="text" th:field="*{firstName}" id="firstName" class="form-control">
@@ -61,10 +61,10 @@
     </form>
 </div>
 
-    <footer>
+<footer>
 
 
-    </footer>
+</footer>
 
 </body>
 </html>
