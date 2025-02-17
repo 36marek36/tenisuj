@@ -58,7 +58,7 @@ public class PlayerWeb {
         setDefaultValues(model);
         playerService.editPlayer(playerId, player.getFirstName(),player.getLastName(),player.getEmail(),player.getGender(),player.getBirthDate(),player.getLeagueStatus(),player.getHand(),player.getRating());
         log.info("player edited {}", playerId);
-        return "redirect:/players/" + playerId;
+        return "redirect:/players/";
     }
 
     private void setDefaultValues(Model model) {
