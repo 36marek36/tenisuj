@@ -8,11 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -44,8 +42,23 @@ public class PlayerWeb {
     @PostMapping("/create")
     String createPlayer(Model model, @ModelAttribute("player") Player player) {
         setDefaultValues(model);
-        playerService.addPlayer(player.getFirstName(),player.getLastName(),player.getEmail(),player.getGender(),player.getBirthDate(),player.getLeagueStatus(),player.getHand(),player.getRating(),player.getRegistrationDate());
+        playerService.addPlayer(player.getFirstName(), player.getLastName(), player.getEmail(), player.getGender(), player.getBirthDate(), player.getLeagueStatus(), player.getHand(), player.getRating(), player.getRegistrationDate());
         return "redirect:/players/";
+    }
+
+    @GetMapping("/{id}")
+    public String showEditPlayerForm(@PathVariable("id") String playerId, Model model) {
+        setDefaultValues(model);
+        model.addAttribute("player", playerService.getPlayerById(playerId));
+        return "playerEdit";
+    }
+
+    @PostMapping("/{id}")
+    public String editPlayer(@PathVariable("id") String playerId, Model model, @ModelAttribute("player") Player player) {
+        setDefaultValues(model);
+        playerService.editPlayer(playerId, player.getFirstName(),player.getLastName(),player.getEmail(),player.getGender(),player.getBirthDate(),player.getLeagueStatus(),player.getHand(),player.getRating());
+        log.info("player edited {}", playerId);
+        return "redirect:/players/" + playerId;
     }
 
     private void setDefaultValues(Model model) {

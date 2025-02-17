@@ -13,6 +13,13 @@
 
 </header>
 
+<script>
+    function handleEdit(button) {
+        const url = button.getAttribute('data-edit-url');
+        window.location.href = url;
+    }
+</script>
+
 <div id="menu" th:insert="~{fragments/menu :: menu}"></div>
 <div id="page" class="container mt-4">
     <h2 th:text="${pageTitle}" class="mb-5"></h2>
@@ -87,6 +94,7 @@
                 <th>Hand</th>
                 <th>Rating</th>
                 <th>Registration date</th>
+                <th sec:authorize="hasRole('ROLE_ADMIN')">Admin acitons</th>
             </tr>
             </thead>
             <tbody>
@@ -100,6 +108,9 @@
                 <td th:text="${player.hand}">Hand</td>
                 <td th:text="${player.rating}">Rating</td>
                 <td th:text="${player.registrationDate}">Registration date</td>
+                <td sec:authorize="hasRole('ROLE_ADMIN')">
+                    <button class="btn btn-primary" th:data-edit-url="@{/players/{id}(id=${player.id})}" onclick="handleEdit(this)">Edit</button>
+                </td>
             </tr>
             </tbody>
 
