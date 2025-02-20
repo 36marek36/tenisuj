@@ -105,6 +105,14 @@
                                    id="matchP1S5" class="form-control">
                         </div>
                     </td>
+                    <td>
+                        <form method="post">
+                            <label>
+                                <input type="checkbox" th:field="*{scratchedPlayerId}" th:value="${match.player1.id}"
+                                       th:checked="${match.scratched == match.player1.id}" />
+                            </label>
+                        </form>
+                    </td>
                 </tr>
 
                 <tr>
@@ -146,6 +154,14 @@
                             <input type="number" min="0" max="7" placeholder="Set 5" th:field="*{player2_set5}"
                                    id="matchP2S5" class="form-control">
                         </div>
+                    </td>
+                    <td>
+                        <form method="post">
+                            <label>
+                                <input type="checkbox" th:field="*{scratchedPlayerId}" th:value="${match.player2.id}"
+                                       th:checked="${match.scratched == match.player2.id}" />
+                            </label>
+                        </form>
                     </td>
                 </tr>
 
