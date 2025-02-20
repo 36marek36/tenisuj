@@ -11,3 +11,7 @@ function toggleContent(selectedId) {
         content.style.display = "none";
     }
 }
+
+function handleEdit(button) {
+    window.location.href = button.getAttribute('data-edit-url');
+}

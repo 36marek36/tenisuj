@@ -49,7 +49,7 @@ public class TenisujApplication implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         List<User> users = new ArrayList<>(List.of(
-                new User("Marek", "ROLE_USER", passwordEncoder.encode("123"))
+                new User("Marek", "USER", passwordEncoder.encode("123"))
         ));
 
         List<Player> players = new ArrayList<>(List.of(
