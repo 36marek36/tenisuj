@@ -1,5 +1,7 @@
 package com.example.tenisuj.controller.web;
 
+import com.example.tenisuj.model.dto.UpdateMatchLocationDateAndTimeDto;
+import com.example.tenisuj.model.dto.UpdateResultDto;
 import com.example.tenisuj.service.MatchService;
 import com.example.tenisuj.service.PlayerService;
 import lombok.extern.slf4j.Slf4j;
@@ -7,9 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @Controller
@@ -35,10 +35,33 @@ public class MatchWeb {
     }
 
     @GetMapping("/details/{id}")
-    String getMatchDetails(@PathVariable("id") String matchId, Model model) {
+    String getMatchDetails(@PathVariable("id") String matchId, UpdateMatchLocationDateAndTimeDto updateMatchLocationDateAndTimeDto, UpdateResultDto updateResultDto, Model model) {
         setDefaultValues(model);
         model.addAttribute("match", matchService.getMatch(matchId));
+        model.addAttribute("updateMatchLocationDateAndTimeDto", updateMatchLocationDateAndTimeDto);
+        model.addAttribute("updateResultDto", updateResultDto);
         return "matchDetails";
+    }
+
+    @PostMapping("/details/{id}/add_lad")
+    public String addMatchLocationAndDateTime(@PathVariable("id") String matchId,
+                                              UpdateMatchLocationDateAndTimeDto updateMatchLocationDateAndTimeDto,
+                                              Model model) {
+        setDefaultValues(model);
+        matchService.addLocation(matchId, updateMatchLocationDateAndTimeDto.getLocation(), updateMatchLocationDateAndTimeDto.getDateTime());
+        log.info("Match location, date, and time updated");
+        return "redirect:/matches/";
+    }
+
+    @PostMapping("/details/{id}/add_result")
+    public String addMatchResult(@PathVariable("id") String matchId,
+                                              UpdateResultDto updateResultDto,
+                                              Model model) {
+        setDefaultValues(model);
+        //validacia
+        matchService.addResult(matchId, updateResultDto.getPlayer1_set1(), updateResultDto.getPlayer2_set1(), updateResultDto.getPlayer1_set2(), updateResultDto.getPlayer2_set2(), updateResultDto.getPlayer1_set3(), updateResultDto.getPlayer2_set3(), updateResultDto.getPlayer1_set4(), updateResultDto.getPlayer2_set4(), updateResultDto.getPlayer1_set5(), updateResultDto.getPlayer2_set5(), updateResultDto.getScratchedPlayerId(), updateResultDto.getWinnerPlayerId());
+        log.info("Match result added");
+        return "redirect:/matches/";
     }
 
     private void setDefaultValues(Model model) {

@@ -4,77 +4,78 @@
     <meta charset="UTF-8">
     <title th:text="${pageTitle} ? ${pageTitle} : 'default title'"></title>
     <link th:href="@{/webjars/bootstrap/5.3.3/css/bootstrap.min.css}" rel="stylesheet"/>
-    <!--    <link rel="stylesheet" th:href="@{/css/style.css}">-->
+        <link rel="stylesheet" th:href="@{/css/style.css}">
     <style></style>
 </head>
 <body>
+<div class="page-wrapper">
+    <header>
+        <div id="menu" th:insert="~{fragments/menu :: menu}"></div>
+    </header>
 
-<header>
+    <main>
+        <div id="page" class="container mt-4">
+            <h2 th:text="${pageTitle}" class="mb-5"></h2>
+            <h3>My profile</h3>
+            <form action="#" th:action="@{/profile}" th:object="${player}" method="get" class="mb-4">
 
+                <div class="mb-3">
+                    <label for="firstName">First name</label>
+                    <p id="firstName" th:text="*{firstName}"></p>
+                </div>
 
-</header>
+                <div class="mb-3">
+                    <label for="lastName">Last name</label>
+                    <p id="lastName" th:text="*{lastName}"></p>
+                </div>
 
-<div id="menu" th:insert="~{fragments/menu :: menu}"></div>
-<div id="page" class="container mt-4">
-    <h2 th:text="${pageTitle}" class="mb-5"></h2>
-    <h3>My profile</h3>
-    <form action="#" th:action="@{/profile}" th:object="${player}" method="get" class="mb-4">
+                <div class="mb-3">
+                    <label for="email">Email</label>
+                    <p id="email" th:text="*{email}"></p>
+                </div>
 
-        <div class="mb-3">
-            <label for="firstName">First name</label>
-            <p id="firstName" th:text="*{firstName}"></p>
+                <div class="mb-3">
+                    <label for="gender">Gender</label>
+                    <p id="gender" th:text="*{gender}"></p>
+                </div>
+
+                <div class="mb-3">
+                    <label for="birthDate">Birth date</label>
+                    <p id="birthDate" th:text="*{birthDate}"></p>
+                </div>
+
+                <div class="mb-3">
+                    <label for="leagueStatus">League status</label>
+                    <p id="leagueStatus" th:text="*{leagueStatus}"></p>
+                </div>
+
+                <div class="mb-3">
+                    <label for="hand">Hand</label>
+                    <p id="hand" th:text="*{hand}"></p>
+                </div>
+
+                <div class="mb-3">
+                    <label for="rating">Rating</label>
+                    <p id="rating" th:text="*{rating}"></p>
+                </div>
+
+                <div class="mb-3">
+                    <label for="registrationDate">Registration date</label>
+                    <p id="registrationDate" th:text="*{registrationDate}"></p>
+                </div>
+
+                <div class="mb-3">
+                    <button type="button" class="btn btn-primary"
+                            th:onclick="|window.location.href='@{/profile/edit}'|">Edit profile
+                    </button>
+                </div>
+
+            </form>
         </div>
-
-        <div class="mb-3">
-            <label for="lastName">Last name</label>
-            <p id="lastName" th:text="*{lastName}"></p>
-        </div>
-
-        <div class="mb-3">
-            <label for="email">Email</label>
-            <p id="email" th:text="*{email}"></p>
-        </div>
-
-        <div class="mb-3">
-            <label for="gender">Gender</label>
-            <p id="gender" th:text="*{gender}"></p>
-        </div>
-
-        <div class="mb-3">
-            <label for="birthDate">Birth date</label>
-            <p id="birthDate" th:text="*{birthDate}"></p>
-        </div>
-
-        <div class="mb-3">
-            <label for="leagueStatus">League status</label>
-            <p id="leagueStatus" th:text="*{leagueStatus}"></p>
-        </div>
-
-        <div class="mb-3">
-            <label for="hand">Hand</label>
-            <p id="hand" th:text="*{hand}"></p>
-        </div>
-
-        <div class="mb-3">
-            <label for="rating">Rating</label>
-            <p id="rating" th:text="*{rating}"></p>
-        </div>
-
-        <div class="mb-3">
-            <label for="registrationDate">Registration date</label>
-            <p id="registrationDate" th:text="*{registrationDate}"></p>
-        </div>
-
-        <div class="mb-3">
-            <button type="button" class="btn btn-primary" th:onclick="|window.location.href='@{/profile/edit}'|">Edit profile</button>
-        </div>
-
-    </form>
-</div>
-
+    </main>
     <footer>
-
-
+        <a th:text="${user != null ? user.username : #authentication.name}"></a>
     </footer>
+</div>
 </body>
 </html>

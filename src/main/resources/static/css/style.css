@@ -1,20 +1,44 @@
-h2 {
-    color: #9335DB;
-    font-size: 2rem;
-    font-weight: 800;
+/* Zabezpečenie, aby stránka zaberala 100% výšky */
+html, body {
+    height: 100%;  /* Určíme, že html a body budú mať výšku 100% */
+    margin: 0;     /* Odstránime predvolené okraje */
+}
+
+/* Kontajner pre celú stránku */
+.page-wrapper {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+/* Hlavný obsah stránky */
+main {
+    flex: 1;  /* Tento blok zaberie všetok dostupný priestor */
     padding: 20px;
 }
 
-h3 {
-    color: whitesmoke;
+/* Footer */
+footer {
+    background-color: #333;
+    color: white;
+    padding: 10px;
+    text-align: right;
+}
+h2 {
+    display: flex;
+    justify-content: center;
+    color: #710000;
     font-size: 2rem;
+    font-weight: 800;
+    padding: 20px;
 }
 
 .tabulka {
     display: flex;
     width: 20rem;
     justify-content: center;
-    background-color: darkred;
+    background-color: #710000;
+    color: aliceblue;
     text-align: center;
     padding: 0.2rem;
 }

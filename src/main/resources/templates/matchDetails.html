@@ -2,30 +2,167 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org/"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
-  <meta charset="UTF-8">
-  <title th:text="${pageTitle} ? ${pageTitle} : 'default title'"></title>
-  <link th:href="@{/webjars/bootstrap/5.3.3/css/bootstrap.min.css}" rel="stylesheet"/>
-  <link rel="stylesheet" th:href="@{/css/style.css}">
-  <style></style>
+    <meta charset="UTF-8">
+    <title th:text="${pageTitle} ? ${pageTitle} : 'default title'"></title>
+    <link th:href="@{/webjars/bootstrap/5.3.3/css/bootstrap.min.css}" rel="stylesheet"/>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <style></style>
 
 </head>
 
 <body>
-
-<header>
-
-
-</header>
-
-<div id="menu" th:insert="~{fragments/menu :: menu}"></div>
-<h2 th:text="${match.player1.firstName}" class="mb-sm-2"></h2>
-<h2 th:text="vs" class="mb-sm-2"></h2>
-<h2 th:text="${match.player2.firstName}" class="mb-sm-2"></h2>
+<div class="page-wrapper">
+    <header>
+        <div id="menu" th:insert="~{fragments/menu :: menu}"></div>
+    </header>
 
 
-<footer>
+    <main>
+        <div>
+            <h2 th:text="${match.player1.firstName} + ' ' + ${match.player1.lastName}"></h2>
+            <h2 th:text="vs"></h2>
+            <h2 th:text="${match.player2.firstName} + ' ' + ${match.player2.lastName}"></h2>
+        </div>
 
-</footer>
+        <form method="post" th:action="@{/matches/details/{id}/add_lad(id=${match.id})}"
+              th:object="${updateMatchLocationDateAndTimeDto}">
+            <table class="table table-striped table-hover">
+                <thead>
+                <tr>
+                    <th>Location & Date time</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>
+                        <label for="matchLocation"></label>
+                        <input id="matchLocation" type="text" th:field="*{location}" placeholder="Enter new location"/>
+                        <label for="matchDateTime"></label>
+                        <input id="matchDateTime" type="datetime-local" th:field="*{dateTime}"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <button type="submit" class="btn btn-primary w-100">Add</button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </form>
+
+        <form method="post" th:action="@{/matches/details/{id}/add_result(id=${match.id})}"
+              th:object="${updateResultDto}">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Names</th>
+                    <th>Set 1</th>
+                    <th>Set 2</th>
+                    <th>Set 3</th>
+                    <th>Set 4</th>
+                    <th>Set 5</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>
+                        <span th:text="${match.player1.firstName}"></span>
+                        <span th:text="${match.player1.lastName}"></span>
+                    </td>
+                    <td>
+                        <div class="input-group mb-2">
+                            <label for="matchP1S1" class="form-label"></label>
+                            <input type="number" min="0" max="7" placeholder="Set 1" th:field="*{player1_set1}"
+                                   id="matchP1S1" class="form-control">
+                        </div>
+                    </td>
+                    <td>
+                        <div class="input-group mb-2">
+                            <label for="matchP1S2" class="form-label"></label>
+                            <input type="number" min="0" max="7" placeholder="Set 2" th:field="*{player1_set2}"
+                                   id="matchP1S2" class="form-control">
+                        </div>
+                    </td>
+                    <td>
+                        <div class="input-group mb-2">
+                            <label for="matchP1S3" class="form-label"></label>
+                            <input type="number" min="0" max="7" placeholder="Set 3" th:field="*{player1_set3}"
+                                   id="matchP1S3" class="form-control">
+                        </div>
+                    </td>
+                    <td>
+                        <div class="input-group mb-2">
+                            <label for="matchP1S4" class="form-label"></label>
+                            <input type="number" min="0" max="7" placeholder="Set 4" th:field="*{player1_set4}"
+                                   id="matchP1S4" class="form-control">
+                        </div>
+                    </td>
+                    <td>
+                        <div class="input-group mb-2">
+                            <label for="matchP1S5" class="form-label"></label>
+                            <input type="number" min="0" max="7" placeholder="Set 5" th:field="*{player1_set5}"
+                                   id="matchP1S5" class="form-control">
+                        </div>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <span th:text="${match.player2.firstName}"></span>
+                        <span th:text="${match.player2.lastName}"></span>
+                    </td>
+                    <td>
+                        <div class="input-group mb-2">
+                            <label for="matchP2S1" class="form-label"></label>
+                            <input type="number" min="0" max="7" placeholder="Set 1" th:field="*{player2_set1}"
+                                   id="matchP2S1" class="form-control">
+                        </div>
+                    </td>
+                    <td>
+                        <div class="input-group mb-2">
+                            <label for="matchP2S2" class="form-label"></label>
+                            <input type="number" min="0" max="7" placeholder="Set 2" th:field="*{player2_set2}"
+                                   id="matchP2S2" class="form-control">
+                        </div>
+                    </td>
+                    <td>
+                        <div class="input-group mb-2">
+                            <label for="matchP2S3" class="form-label"></label>
+                            <input type="number" min="0" max="7" placeholder="Set 3" th:field="*{player2_set3}"
+                                   id="matchP2S3" class="form-control">
+                        </div>
+                    </td>
+                    <td>
+                        <div class="input-group mb-2">
+                            <label for="matchP2S4" class="form-label"></label>
+                            <input type="number" min="0" max="7" placeholder="Set 4" th:field="*{player2_set4}"
+                                   id="matchP2S4" class="form-control">
+                        </div>
+                    </td>
+                    <td>
+                        <div class="input-group mb-2">
+                            <label for="matchP2S5" class="form-label"></label>
+                            <input type="number" min="0" max="7" placeholder="Set 5" th:field="*{player2_set5}"
+                                   id="matchP2S5" class="form-control">
+                        </div>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td colspan="6">
+                        <button type="submit" class="btn btn-primary w-100">Submit Results</button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </form>
+    </main>
+
+
+    <footer>
+        <a th:text="${user != null ? user.username : #authentication.name}"></a>
+    </footer>
+</div>
 
 <script th:src="@{/scripts/script.js}"></script>
 </body>

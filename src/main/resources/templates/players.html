@@ -4,123 +4,124 @@
     <meta charset="UTF-8">
     <title th:text="${pageTitle} ? ${pageTitle} : 'default title'"></title>
     <link th:href="@{/webjars/bootstrap/5.3.3/css/bootstrap.min.css}" rel="stylesheet"/>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
     <style></style>
 </head>
 <body>
+<div class="page-wrapper">
 
-<header>
+    <header>
+        <div id="menu" th:insert="~{fragments/menu :: menu}"></div>
+    </header>
 
 
-</header>
-
-<script>
-    function handleEdit(button) {
-        const url = button.getAttribute('data-edit-url');
-        window.location.href = url;
-    }
-</script>
-
-<div id="menu" th:insert="~{fragments/menu :: menu}"></div>
-<div class="container mt-4">
-    <h2 th:text="${pageTitle}" class="mb-5"></h2>
-    <h3>Search player</h3>
-    <form th:action="@{/players/}" method="get" class="mb-4">
-        <div class="input-group mb-3">
-            <input type="text" name="keyword" class="form-control" placeholder="Search player" th:value="${keyword}">
-            <button class="btn btn-primary" type="submit">Search</button>
+    <main>
+        <div class="container mt-4">
+            <h2 th:text="${pageTitle}" class="mb-5"></h2>
+            <h3>Search player</h3>
+            <form th:action="@{/players/}" method="get" class="mb-4">
+                <div class="input-group mb-3">
+                    <input type="text" name="keyword" class="form-control" placeholder="Search player"
+                           th:value="${keyword}">
+                    <button class="btn btn-primary" type="submit">Search</button>
+                </div>
+            </form>
         </div>
-    </form>
-</div>
-<div class="container mt-4" sec:authorize="hasRole('ROLE_ADMIN')">
-    <h3>Add new player</h3>
-    <form action="#" th:action="@{/players/create}" th:object="${player}" method="post" class="mb-4">
-        <div class="mb-3">
-            <label for="firstName" class="form-label">First name</label>
-            <input type="text" th:field="*{firstName}" id="firstName" class="form-control">
+        <div class="container mt-4" sec:authorize="hasRole('ROLE_ADMIN')">
+            <h3>Add new player</h3>
+            <form action="#" th:action="@{/players/create}" th:object="${player}" method="post" class="mb-4">
+                <div class="mb-3">
+                    <label for="firstName" class="form-label">First name</label>
+                    <input type="text" th:field="*{firstName}" id="firstName" class="form-control">
+                </div>
+
+                <div class="mb-3">
+                    <label for="lastName" class="form-label">Last name</label>
+                    <input type="text" th:field="*{lastName}" id="lastName" class="form-control">
+                </div>
+
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email</label>
+                    <input type="email" th:field="*{email}" id="email" class="form-control">
+                </div>
+
+                <div class="mb-3">
+                    <label for="gender" class="form-label">Gender</label>
+                    <select th:field="*{gender}" id="gender" class="form-control">
+                        <option value="" selected>Select Gender</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label for="birthday" class="form-label">Birthday</label>
+                    <input type="date" th:field="*{birthDate}" id="birthday" class="form-control">
+                </div>
+
+                <div class="mb-3">
+                    <label for="hand" class="form-label">Hand</label>
+                    <select th:field="*{hand}" id="hand" class="form-control">
+                        <option value="" selected>Select Hand</option>
+                        <option value="Left">Left</option>
+                        <option value="Right">Right</option>
+                    </select>
+                </div>
+
+                <p>
+                    <button type="submit">ADD</button>
+                </p>
+            </form>
         </div>
 
-        <div class="mb-3">
-            <label for="lastName" class="form-label">Last name</label>
-            <input type="text" th:field="*{lastName}" id="lastName" class="form-control">
+        <div th:switch="${#lists.size(players)}">
+            <p th:case="0">No players</p>
+            <div th:case="*">
+                <table class="table table-striped table-hover">
+                    <thead>
+                    <tr>
+                        <th>First name</th>
+                        <th>Last name</th>
+                        <th>Email</th>
+                        <th>Gender</th>
+                        <th>Age</th>
+                        <th>League status</th>
+                        <th>Hand</th>
+                        <th>Rating</th>
+                        <th>Registration date</th>
+                        <th sec:authorize="hasRole('ROLE_ADMIN')">Admin acitons</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="player : ${players}">
+                        <td th:text="${player.firstName}">First name</td>
+                        <td th:text="${player.lastName}">Last name</td>
+                        <td th:text="${player.email}">Email</td>
+                        <td th:text="${player.gender}">Gender</td>
+                        <td th:text="${player.age}">Age</td>
+                        <td th:text="${player.leagueStatus}">League status</td>
+                        <td th:text="${player.hand}">Hand</td>
+                        <td th:text="${player.rating}">Rating</td>
+                        <td th:text="${player.registrationDate}">Registration date</td>
+                        <td sec:authorize="hasRole('ROLE_ADMIN')">
+                            <button class="btn btn-primary" th:data-edit-url="@{/players/{id}(id=${player.id})}"
+                                    onclick="handleEdit(this)">Edit
+                            </button>
+                        </td>
+                    </tr>
+                    </tbody>
+
+                </table>
+            </div>
         </div>
-
-        <div class="mb-3">
-            <label for="email" class="form-label">Email</label>
-            <input type="email" th:field="*{email}" id="email" class="form-control">
-        </div>
-
-        <div class="mb-3">
-            <label for="gender" class="form-label">Gender</label>
-            <select th:field="*{gender}" id="gender" class="form-control">
-                <option value="" selected>Select Gender</option>
-                <option value="Male">Male</option>
-                <option value="Female">Female</option>
-                <option value="Other">Other</option>
-            </select>
-        </div>
-
-        <div class="mb-3">
-            <label for="birthday" class="form-label">Birthday</label>
-            <input type="date" th:field="*{birthDate}" id="birthday" class="form-control">
-        </div>
-
-        <div class="mb-3">
-            <label for="hand" class="form-label">Hand</label>
-            <select th:field="*{hand}" id="hand" class="form-control">
-                <option value="" selected>Select Hand</option>
-                <option value="Left">Left</option>
-                <option value="Right">Right</option>
-            </select>
-        </div>
-
-        <p>
-            <button type="submit">ADD</button>
-        </p>
-    </form>
-</div>
-
-<div th:switch="${#lists.size(players)}">
-    <p th:case="0">No players</p>
-    <div th:case="*">
-        <table class="table table-striped table-hover">
-            <thead>
-            <tr>
-                <th>First name</th>
-                <th>Last name</th>
-                <th>Email</th>
-                <th>Gender</th>
-                <th>Age</th>
-                <th>League status</th>
-                <th>Hand</th>
-                <th>Rating</th>
-                <th>Registration date</th>
-                <th sec:authorize="hasRole('ROLE_ADMIN')">Admin acitons</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="player : ${players}">
-                <td th:text="${player.firstName}">First name</td>
-                <td th:text="${player.lastName}">Last name</td>
-                <td th:text="${player.email}">Email</td>
-                <td th:text="${player.gender}">Gender</td>
-                <td th:text="${player.age}">Age</td>
-                <td th:text="${player.leagueStatus}">League status</td>
-                <td th:text="${player.hand}">Hand</td>
-                <td th:text="${player.rating}">Rating</td>
-                <td th:text="${player.registrationDate}">Registration date</td>
-                <td sec:authorize="hasRole('ROLE_ADMIN')">
-                    <button class="btn btn-primary" th:data-edit-url="@{/players/{id}(id=${player.id})}" onclick="handleEdit(this)">Edit</button>
-                </td>
-            </tr>
-            </tbody>
-
-        </table>
-    </div>
+    </main>
 
     <footer>
-
-
+        <a th:text="${user != null ? user.username : #authentication.name}"></a>
     </footer>
+
 </div>
+<script th:src="@{/scripts/script.js}"></script>
 </body>
 </html>

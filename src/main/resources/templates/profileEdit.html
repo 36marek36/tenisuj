@@ -4,67 +4,66 @@
     <meta charset="UTF-8">
     <title th:text="${pageTitle} ? ${pageTitle} : 'default title'"></title>
     <link th:href="@{/webjars/bootstrap/5.3.3/css/bootstrap.min.css}" rel="stylesheet"/>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
     <style></style>
 </head>
 <body>
+<div class="page-wrapper">
+    <header>
+        <div id="menu" th:insert="~{fragments/menu :: menu}"></div>
+    </header>
 
-<header>
-
-
-</header>
-
-<div id="menu" th:insert="~{fragments/menu :: menu}"></div>
-<div id="page" class="container mt-4">
-    <h2 th:text="${pageTitle}" class="mb-5"></h2>
-    <h3>Edit profile</h3>
-    <form action="#" th:action="@{/profile/edit}" th:object="${player}" method="post" class="mb-4">
-        <div class="mb-3">
-            <label for="firstName" class="form-label">First name</label>
-            <input type="text" th:field="*{firstName}" id="firstName" class="form-control">
+    <main>
+        <div id="page" class="container mt-4">
+            <h2 th:text="${pageTitle}" class="mb-5"></h2>
+            <h3>Edit profile</h3>
+            <form action="#" th:action="@{/profile/edit}" th:object="${player}" method="post" class="mb-4">
+                <div class="mb-3">
+                    <label for="firstName" class="form-label">First name</label>
+                    <input type="text" th:field="*{firstName}" id="firstName" class="form-control">
+                </div>
+                <div class="mb-3">
+                    <label for="lastName" class="form-label">Last name</label>
+                    <input type="text" th:field="*{lastName}" id="lastName" class="form-control">
+                </div>
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email</label>
+                    <input type="email" th:field="*{email}" id="email" class="form-control">
+                </div>
+                <div class="mb-3">
+                    <label for="gender" class="form-label">Gender</label>
+                    <select th:field="*{gender}" id="gender" class="form-control">
+                        <option value="" th:selected="${player.gender == ''}"></option>
+                        <option value="Male" th:selected="${player.gender == 'Male'}">Male</option>
+                        <option value="Female" th:selected="${player.gender == 'Female'}">Female</option>
+                        <option value="Other" th:selected="${player.gender == 'Other'}">Other</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="birthday" class="form-label">Birthday</label>
+                    <input type="date" th:field="*{birthDate}" id="birthday" class="form-control">
+                </div>
+                <div class="mb-3">
+                    <label for="leagueStatus" class="form-label">League status</label>
+                    <input type="hidden" th:field="*{leagueStatus}" id="leagueStatus" class="form-control">
+                </div>
+                <div class="mb-3">
+                    <label for="hand" class="form-label">Hand</label>
+                    <select th:field="*{hand}" id="hand" class="form-control">
+                        <option value="" th:selected="${player.hand == ''}"></option>
+                        <option value="Left" th:selected="${player.hand == 'Left'}">Left</option>
+                        <option value="Right" th:selected="${player.hand == 'Right'}">Right</option>
+                    </select>
+                </div>
+                <p>
+                    <button type="submit" class="btn btn-primary">Update profile</button>
+                </p>
+            </form>
         </div>
-        <div class="mb-3">
-            <label for="lastName" class="form-label">Last name</label>
-            <input type="text" th:field="*{lastName}" id="lastName" class="form-control">
-        </div>
-        <div class="mb-3">
-            <label for="email" class="form-label">Email</label>
-            <input type="email" th:field="*{email}" id="email" class="form-control">
-        </div>
-        <div class="mb-3">
-            <label for="gender" class="form-label">Gender</label>
-            <select th:field="*{gender}" id="gender" class="form-control">
-                <option value="" th:selected="${player.gender == ''}"></option>
-                <option value="Male" th:selected="${player.gender == 'Male'}">Male</option>
-                <option value="Female" th:selected="${player.gender == 'Female'}">Female</option>
-                <option value="Other" th:selected="${player.gender == 'Other'}">Other</option>
-            </select>
-        </div>
-        <div class="mb-3">
-            <label for="birthday" class="form-label">Birthday</label>
-            <input type="date" th:field="*{birthDate}" id="birthday" class="form-control">
-        </div>
-        <div class="mb-3">
-            <label for="leagueStatus" class="form-label">League status</label>
-            <input type="hidden" th:field="*{leagueStatus}" id="leagueStatus" class="form-control">
-        </div>
-        <div class="mb-3">
-            <label for="hand" class="form-label">Hand</label>
-            <select th:field="*{hand}" id="hand" class="form-control">
-                <option value="" th:selected="${player.hand == ''}"></option>
-                <option value="Left" th:selected="${player.hand == 'Left'}">Left</option>
-                <option value="Right" th:selected="${player.hand == 'Right'}">Right</option>
-            </select>
-        </div>
-        <p>
-            <button type="submit" class="btn btn-primary">Update profile</button>
-        </p>
-    </form>
-</div>
-
+    </main>
     <footer>
-
-
+        <a th:text="${user != null ? user.username : #authentication.name}"></a>
     </footer>
-
+</div>
 </body>
 </html>

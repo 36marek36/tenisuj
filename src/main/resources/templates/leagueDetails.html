@@ -11,171 +11,174 @@
 </head>
 
 <body>
+<div class="page-wrapper">
 
-<header>
+    <header>
+        <div id="menu" th:insert="~{fragments/menu :: menu}"></div>
+    </header>
 
+    <main>
 
-</header>
+        <h2 th:text="${league.name}" class="mb-4"></h2>
+        <table class="table table-striped table-hover">
+            <thead>
+            <tr>
+                <th>Player name</th>
+                <th>Player contact</th>
+                <th sec:authorize="hasRole('ROLE_ADMIN')">Start matches</th>
+            </tr>
+            </thead>
 
+            <tr>
+                <td>
+                    <ul class="no-bullets">
+                        <li th:each="player : ${league.players}">
+                            <span th:text="${player.firstName}"></span>
+                            <span th:text="${player.lastName}"></span>
+                        </li>
+                    </ul>
+                </td>
 
-<div id="menu" th:insert="~{fragments/menu :: menu}"></div>
-<h2 th:text="${league.name}" class="mb-4"></h2>
-<table class="table table-striped table-hover">
-    <thead>
-    <tr>
-        <th>Player name</th>
-        <th>Player contact</th>
-        <th sec:authorize="hasRole('ROLE_ADMIN')">Start matches</th>
-    </tr>
-    </thead>
+                <td>
+                    <ul class="no-bullets">
+                        <li th:each="player : ${league.players}">
+                            <span th:text="${player.email}"></span>
+                        </li>
+                    </ul>
+                </td>
 
-    <tr>
-        <td>
-            <ul class="no-bullets">
-                <li th:each="player : ${league.players}">
-                    <span th:text="${player.firstName}"></span>
-                    <span th:text="${player.lastName}"></span>
-                </li>
-            </ul>
-        </td>
+                <td sec:authorize="hasRole('ROLE_ADMIN')">
+                    <form method="get" th:action="@{/leagues/add-matches/{id}(id=${league.id})}">
+                        <button type="submit" class="btn btn-primary">Start</button>
+                    </form>
+                </td>
+            </tr>
+        </table>
 
-        <td>
-            <ul class="no-bullets">
-                <li th:each="player : ${league.players}">
-                    <span th:text="${player.email}"></span>
-                </li>
-            </ul>
-        </td>
+        <h4 th:text="Table" class="tabulka"></h4>
+        <div class="tabulka">
+            <table class="table table-sm table-hover">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Name</th>
+                    <th>Rating</th>
+                </tr>
+                </thead>
 
-        <td sec:authorize="hasRole('ROLE_ADMIN')">
-            <form method="get" th:action="@{/leagues/add-matches/{id}(id=${league.id})}">
-                <button type="submit" class="btn btn-primary">Start</button>
-            </form>
-        </td>
-    </tr>
-</table>
-
-<h3 th:text="Table" class="tabulka"></h3>
-<div class="tabulka">
-    <table class="table table-sm table-hover">
-        <thead>
-        <tr>
-            <th>#</th>
-            <th>Name</th>
-            <th>Rating</th>
-        </tr>
-        </thead>
-
-        <tbody>
-        <tr th:each="player, iterStat : ${sortedPlayers}">
-            <td th:text="${iterStat.count}"></td>
-            <td th:text="${player.firstName} + ' ' + ${player.lastName}"></td>
-            <td th:text="${player.rating}"></td>
-        </tr>
-        </tbody>
-    </table>
-</div>
-
-
-<div>
-    <button sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_USER')" onclick="toggleContent('matches')">
-        League Matches
-    </button>
-    <button sec:authorize="hasRole('ROLE_ADMIN')" onclick="toggleContent('addPlayer')">add player</button>
-</div>
-
-
-<table id="matches" style="display:none" class="table table-striped table-hover">
-    <thead>
-    <tr>
-        <th>League matches</th>
-        <th>Matches results</th>
-        <th>Matches winner</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr>
-        <td>
-            <ul>
-                <li th:each="match : ${league.matches}">
-                    <span th:text="${match.player1.firstName}"></span>
-                    <span th:text="${match.player1.lastName}"></span>
-                    <span> vs </span>
-                    <span th:text="${match.player2.firstName}"></span>
-                    <span th:text="${match.player2.lastName}"></span>
-                </li>
-            </ul>
-        </td>
-
-        <td>
-            <ul>
-                <li th:each="match : ${league.matches}">
-                    <th:block th:if="${match.player1_set1!=null||match.player2_set1!=null}">
-                        <span th:text="${match.player1_set1}"></span>
-                        <span> / </span>
-                        <span th:text="${match.player2_set1}"></span>
-                    </th:block>
-                    <th:block th:if="${match.player1_set2!=null||match.player2_set2!=null}">
-                        <span> ; </span>
-                        <span th:text="${match.player1_set2}"></span>
-                        <span> / </span>
-                        <span th:text="${match.player2_set2}"></span>
-                    </th:block>
-                    <th:block th:if="${match.player1_set3!=null||match.player2_set3!=null}">
-                        <span> ; </span>
-                        <span th:text="${match.player1_set3}"></span>
-                        <span> / </span>
-                        <span th:text="${match.player2_set3}"></span>
-                    </th:block>
-                    <th:block th:if="${match.player1_set4!=null||match.player2_set4!=null}">
-                        <span> ; </span>
-                        <span th:text="${match.player1_set4}"></span>
-                        <span> / </span>
-                        <span th:text="${match.player2_set4}"></span>
-                    </th:block>
-                    <th:block th:if="${match.player1_set5!=null||match.player2_set5!=null}">
-                        <span> ; </span>
-                        <span th:text="${match.player1_set5}"></span>
-                        <span> / </span>
-                        <span th:text="${match.player2_set5}"></span>
-                    </th:block>
-                </li>
-            </ul>
-        </td>
-
-        <td>
-            <ul>
-                <li th:each="match : ${league.matches}" th:if="${match.winner!=null}">
-                    <span th:text="${match.winner.firstName}"></span>
-                    <span th:text="${match.winner.lastName}"></span>
-                </li>
-            </ul>
-        </td>
-    </tr>
-    </tbody>
-</table>
-
-<div id="addPlayer" style="display:none" sec:authorize="hasRole('ROLE_ADMIN')">
-    <h4>Add player to league</h4>
-    <form th:action="@{/leagues/details/{id}/add(id=${league.id})}" th:object="${updateLeagueDto}" method="post"
-          class="mb-4">
-        <div class="mb-3">
-            <label for="playerId" class="form-label">Player:</label>
-            <select th:field="*{playerId}" id="playerId" class="form-select">
-                <option value="" disabled selected>Select a player</option>
-                <option th:each="player : ${players}"
-                        th:value="${player.id}"
-                        th:text="${player.firstName} + ' ' + ${player.lastName}"></option>
-            </select>
+                <tbody>
+                <tr th:each="player, iterStat : ${sortedPlayers}">
+                    <td th:text="${iterStat.count}"></td>
+                    <td th:text="${player.firstName} + ' ' + ${player.lastName}"></td>
+                    <td th:text="${player.rating}"></td>
+                </tr>
+                </tbody>
+            </table>
         </div>
-        <button type="submit">Add Player</button>
-    </form>
+
+
+        <div>
+            <button sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_USER')" onclick="toggleContent('matches')">
+                League Matches
+            </button>
+            <button sec:authorize="hasRole('ROLE_ADMIN')" onclick="toggleContent('addPlayer')">add player</button>
+        </div>
+
+
+        <table id="matches" style="display:none" class="table table-striped table-hover">
+            <thead>
+            <tr>
+                <th>League matches</th>
+                <th>Matches results</th>
+                <th>Matches winner</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>
+                    <ul>
+                        <li th:each="match : ${league.matches}">
+                            <span th:text="${match.player1.firstName}"></span>
+                            <span th:text="${match.player1.lastName}"></span>
+                            <span> vs </span>
+                            <span th:text="${match.player2.firstName}"></span>
+                            <span th:text="${match.player2.lastName}"></span>
+                        </li>
+                    </ul>
+                </td>
+
+                <td>
+                    <ul>
+                        <li th:each="match : ${league.matches}">
+                            <th:block th:if="${match.player1_set1!=null||match.player2_set1!=null}">
+                                <span th:text="${match.player1_set1}"></span>
+                                <span> / </span>
+                                <span th:text="${match.player2_set1}"></span>
+                            </th:block>
+                            <th:block th:if="${match.player1_set2!=null||match.player2_set2!=null}">
+                                <span> ; </span>
+                                <span th:text="${match.player1_set2}"></span>
+                                <span> / </span>
+                                <span th:text="${match.player2_set2}"></span>
+                            </th:block>
+                            <th:block th:if="${match.player1_set3!=null||match.player2_set3!=null}">
+                                <span> ; </span>
+                                <span th:text="${match.player1_set3}"></span>
+                                <span> / </span>
+                                <span th:text="${match.player2_set3}"></span>
+                            </th:block>
+                            <th:block th:if="${match.player1_set4!=null||match.player2_set4!=null}">
+                                <span> ; </span>
+                                <span th:text="${match.player1_set4}"></span>
+                                <span> / </span>
+                                <span th:text="${match.player2_set4}"></span>
+                            </th:block>
+                            <th:block th:if="${match.player1_set5!=null||match.player2_set5!=null}">
+                                <span> ; </span>
+                                <span th:text="${match.player1_set5}"></span>
+                                <span> / </span>
+                                <span th:text="${match.player2_set5}"></span>
+                            </th:block>
+                        </li>
+                    </ul>
+                </td>
+
+                <td>
+                    <ul>
+                        <li th:each="match : ${league.matches}" th:if="${match.winner!=null}">
+                            <span th:text="${match.winner.firstName}"></span>
+                            <span th:text="${match.winner.lastName}"></span>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <div id="addPlayer" style="display:none" sec:authorize="hasRole('ROLE_ADMIN')">
+            <h4>Add player to league</h4>
+            <form th:action="@{/leagues/details/{id}/add(id=${league.id})}" th:object="${updateLeagueDto}" method="post"
+                  class="mb-4">
+                <div class="mb-3">
+                    <label for="playerId" class="form-label">Player:</label>
+                    <select th:field="*{playerId}" id="playerId" class="form-select">
+                        <option value="" disabled selected>Select a player</option>
+                        <option th:each="player : ${players}"
+                                th:value="${player.id}"
+                                th:text="${player.firstName} + ' ' + ${player.lastName}"></option>
+                    </select>
+                </div>
+                <button type="submit">Add Player</button>
+            </form>
+        </div>
+    </main>
+
+    <footer>
+        <a th:text="${user != null ? user.username : #authentication.name}"></a>
+    </footer>
 </div>
-
-<footer>
-
-</footer>
 
 <script th:src="@{/scripts/script.js}"></script>
+
 </body>
 </html>
