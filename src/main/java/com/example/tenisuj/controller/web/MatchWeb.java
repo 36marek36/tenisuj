@@ -1,5 +1,6 @@
 package com.example.tenisuj.controller.web;
 
+import com.example.tenisuj.model.Match;
 import com.example.tenisuj.model.dto.UpdateMatchLocationDateAndTimeDto;
 import com.example.tenisuj.model.dto.UpdateResultDto;
 import com.example.tenisuj.service.MatchService;
@@ -35,9 +36,33 @@ public class MatchWeb {
     }
 
     @GetMapping("/details/{id}")
-    String getMatchDetails(@PathVariable("id") String matchId, UpdateMatchLocationDateAndTimeDto updateMatchLocationDateAndTimeDto, UpdateResultDto updateResultDto, Model model) {
+    String getMatchDetails(@PathVariable("id") String matchId, Model model) {
         setDefaultValues(model);
-        model.addAttribute("match", matchService.getMatch(matchId));
+        Match match = matchService.getMatch(matchId);
+
+        UpdateMatchLocationDateAndTimeDto updateMatchLocationDateAndTimeDto = new UpdateMatchLocationDateAndTimeDto();
+        updateMatchLocationDateAndTimeDto.setLocation(match.getLocation());
+        updateMatchLocationDateAndTimeDto.setDateTime(match.getDateTime());
+
+        UpdateResultDto updateResultDto = new UpdateResultDto();
+        updateResultDto.setPlayer1_set1(match.getPlayer1_set1());
+        updateResultDto.setPlayer2_set1(match.getPlayer2_set1());
+        updateResultDto.setPlayer1_set2(match.getPlayer1_set2());
+        updateResultDto.setPlayer2_set2(match.getPlayer2_set2());
+        updateResultDto.setPlayer1_set3(match.getPlayer1_set3());
+        updateResultDto.setPlayer2_set3(match.getPlayer2_set3());
+        updateResultDto.setPlayer1_set4(match.getPlayer1_set4());
+        updateResultDto.setPlayer2_set4(match.getPlayer2_set4());
+        updateResultDto.setPlayer1_set5(match.getPlayer1_set5());
+        updateResultDto.setPlayer2_set5(match.getPlayer2_set5());
+        if (match.getScratched() != null) {
+            updateResultDto.setScratchedPlayerId(match.getScratched().getId());
+        }
+        if (match.getWinner() != null) {
+            updateResultDto.setWinnerPlayerId(match.getWinner().getId());
+        }
+
+        model.addAttribute("match", match);
         model.addAttribute("updateMatchLocationDateAndTimeDto", updateMatchLocationDateAndTimeDto);
         model.addAttribute("updateResultDto", updateResultDto);
         return "matchDetails";
