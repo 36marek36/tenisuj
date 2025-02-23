@@ -1,6 +1,7 @@
 package com.example.tenisuj.controller.web;
 
 import com.example.tenisuj.model.Match;
+import com.example.tenisuj.model.Player;
 import com.example.tenisuj.model.dto.UpdateMatchLocationDateAndTimeDto;
 import com.example.tenisuj.model.dto.UpdateResultDto;
 import com.example.tenisuj.service.MatchService;
@@ -55,6 +56,7 @@ public class MatchWeb {
         updateResultDto.setPlayer2_set4(match.getPlayer2_set4());
         updateResultDto.setPlayer1_set5(match.getPlayer1_set5());
         updateResultDto.setPlayer2_set5(match.getPlayer2_set5());
+
         if (match.getScratched() != null) {
             updateResultDto.setScratchedPlayerId(match.getScratched().getId());
         }
@@ -80,12 +82,20 @@ public class MatchWeb {
 
     @PostMapping("/details/{id}/add_result")
     public String addMatchResult(@PathVariable("id") String matchId,
-                                              UpdateResultDto updateResultDto,
-                                              Model model) {
+                                 UpdateResultDto updateResultDto,
+                                 Model model) {
         setDefaultValues(model);
+        Match match = matchService.getMatch(matchId);
+        if (updateResultDto.getScratchedPlayerId() != null) {
+            Player scratched = playerService.getPlayerById(updateResultDto.getScratchedPlayerId());
+            match.setScratched(scratched);
+        } else {
+            match.setScratched(null);
+        }
         //validacia
         matchService.addResult(matchId, updateResultDto.getPlayer1_set1(), updateResultDto.getPlayer2_set1(), updateResultDto.getPlayer1_set2(), updateResultDto.getPlayer2_set2(), updateResultDto.getPlayer1_set3(), updateResultDto.getPlayer2_set3(), updateResultDto.getPlayer1_set4(), updateResultDto.getPlayer2_set4(), updateResultDto.getPlayer1_set5(), updateResultDto.getPlayer2_set5(), updateResultDto.getScratchedPlayerId(), updateResultDto.getWinnerPlayerId());
         log.info("Match result added");
+        log.info("Scratched Player ID:" + updateResultDto.getScratchedPlayerId());
         return "redirect:/matches/";
     }
 
