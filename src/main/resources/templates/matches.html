@@ -35,7 +35,7 @@
                     <tr>
                         <th>Player 1</th>
                         <th>Player 2</th>
-                        <th>Details</th>
+                        <th sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_USER')">Details</th>
                         <th>Location</th>
                         <th>Date & Time</th>
                         <th>Result</th>
@@ -47,7 +47,7 @@
                     <tr th:each="match : ${matches}">
                         <td th:text="${match.player1?.firstName + ' ' + match.player1?.lastName}">Player 1</td>
                         <td th:text="${match.player2?.firstName + ' ' + match.player2?.lastName}">Player 2</td>
-                        <td>
+                        <td sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_USER')">
                             <form method="get" th:action="@{/matches/details/{id}(id=${match.id})}">
                                 <button type="submit" class="btn btn-primary">Show</button>
                             </form>
