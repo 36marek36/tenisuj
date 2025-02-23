@@ -45,24 +45,7 @@ public class MatchWeb {
         updateMatchLocationDateAndTimeDto.setLocation(match.getLocation());
         updateMatchLocationDateAndTimeDto.setDateTime(match.getDateTime());
 
-        UpdateResultDto updateResultDto = new UpdateResultDto();
-        updateResultDto.setPlayer1_set1(match.getPlayer1_set1());
-        updateResultDto.setPlayer2_set1(match.getPlayer2_set1());
-        updateResultDto.setPlayer1_set2(match.getPlayer1_set2());
-        updateResultDto.setPlayer2_set2(match.getPlayer2_set2());
-        updateResultDto.setPlayer1_set3(match.getPlayer1_set3());
-        updateResultDto.setPlayer2_set3(match.getPlayer2_set3());
-        updateResultDto.setPlayer1_set4(match.getPlayer1_set4());
-        updateResultDto.setPlayer2_set4(match.getPlayer2_set4());
-        updateResultDto.setPlayer1_set5(match.getPlayer1_set5());
-        updateResultDto.setPlayer2_set5(match.getPlayer2_set5());
-
-        if (match.getScratched() != null) {
-            updateResultDto.setScratchedPlayerId(match.getScratched().getId());
-        }
-        if (match.getWinner() != null) {
-            updateResultDto.setWinnerPlayerId(match.getWinner().getId());
-        }
+        UpdateResultDto updateResultDto = getUpdateResultDto(match);
 
         model.addAttribute("match", match);
         model.addAttribute("updateMatchLocationDateAndTimeDto", updateMatchLocationDateAndTimeDto);
@@ -97,6 +80,28 @@ public class MatchWeb {
         log.info("Match result added");
         log.info("Scratched Player ID:" + updateResultDto.getScratchedPlayerId());
         return "redirect:/matches/";
+    }
+
+    private static UpdateResultDto getUpdateResultDto(Match match) {
+        UpdateResultDto updateResultDto = new UpdateResultDto();
+        updateResultDto.setPlayer1_set1(match.getPlayer1_set1());
+        updateResultDto.setPlayer2_set1(match.getPlayer2_set1());
+        updateResultDto.setPlayer1_set2(match.getPlayer1_set2());
+        updateResultDto.setPlayer2_set2(match.getPlayer2_set2());
+        updateResultDto.setPlayer1_set3(match.getPlayer1_set3());
+        updateResultDto.setPlayer2_set3(match.getPlayer2_set3());
+        updateResultDto.setPlayer1_set4(match.getPlayer1_set4());
+        updateResultDto.setPlayer2_set4(match.getPlayer2_set4());
+        updateResultDto.setPlayer1_set5(match.getPlayer1_set5());
+        updateResultDto.setPlayer2_set5(match.getPlayer2_set5());
+
+        if (match.getScratched() != null) {
+            updateResultDto.setScratchedPlayerId(match.getScratched().getId());
+        }
+        if (match.getWinner() != null) {
+            updateResultDto.setWinnerPlayerId(match.getWinner().getId());
+        }
+        return updateResultDto;
     }
 
     private void setDefaultValues(Model model) {
