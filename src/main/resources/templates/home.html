@@ -29,6 +29,12 @@
             </div>
         </div>
 
+        <div sec:authorize="hasRole('ROLE_USER')" class="mb-3">
+            <button type="button" class="btn btn-primary"
+                    th:onclick="|window.location.href='@{/matches/my_matches/{playerId}}'|">My Matches
+            </button>
+        </div>
+
 <!--        <p th:text="${home}"></p>-->
 
     </main>
