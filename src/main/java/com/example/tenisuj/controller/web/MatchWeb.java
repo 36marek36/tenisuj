@@ -36,7 +36,8 @@ public class MatchWeb {
     String getAllMatches(Model model, @Param("playerName") String playerName) {
         setDefaultValues(model);
         model.addAttribute("matches", matchService.getMatches(playerName));
-        model.addAttribute("player", playerService.getAllPlayers(null));
+        model.addAttribute("match", new Match());
+        model.addAttribute("players", playerService.getAllPlayers(null));
         model.addAttribute("playerName", playerName);
         return "matches";
     }
@@ -107,6 +108,13 @@ public class MatchWeb {
             return "redirect:/home";
         }
 
+        return "redirect:/matches/";
+    }
+
+    @PostMapping("/create_match")
+    public String createMatch(@ModelAttribute("match") Match match, Model model) {
+        setDefaultValues(model);
+        matchService.addMatch(match.getPlayer1().getId(), match.getPlayer2().getId());
         return "redirect:/matches/";
     }
 
