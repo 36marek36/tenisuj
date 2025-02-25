@@ -96,7 +96,7 @@
             <tbody>
             <tr>
                 <td>
-                    <ul>
+                    <ul class="no-bullets">
                         <li th:each="match : ${league.matches}">
                             <span th:text="${match.player1.firstName}"></span>
                             <span th:text="${match.player1.lastName}"></span>
@@ -108,7 +108,7 @@
                 </td>
 
                 <td>
-                    <ul>
+                    <ul class="no-bullets">
                         <li th:each="match : ${league.matches}">
                             <th:block th:if="${match.player1_set1!=null||match.player2_set1!=null}">
                                 <span th:text="${match.player1_set1}"></span>
@@ -144,7 +144,7 @@
                 </td>
 
                 <td>
-                    <ul>
+                    <ul class="no-bullets">
                         <li th:each="match : ${league.matches}" th:if="${match.winner!=null}">
                             <span th:text="${match.winner.firstName}"></span>
                             <span th:text="${match.winner.lastName}"></span>
