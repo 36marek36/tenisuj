@@ -11,10 +11,11 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.security.Principal;
 
 @Slf4j
 @Controller
@@ -33,8 +34,8 @@ public class MatchWeb {
     }
 
     @GetMapping("/")
-    String getAllMatches(Model model, @Param("playerName") String playerName) {
-        setDefaultValues(model);
+    String getAllMatches(Model model, @Param("playerName") String playerName, Principal principal) {
+        setDefaultValues(model,principal);
         model.addAttribute("matches", matchService.getMatches(playerName));
         model.addAttribute("match", new Match());
         model.addAttribute("players", playerService.getAllPlayers(null));
@@ -43,22 +44,21 @@ public class MatchWeb {
     }
 
     @GetMapping("/my_matches/{playerId}")
-    String getMyMatches(Model model, @PathVariable("playerId") String playerId) {
-        setDefaultValues(model);
-        String currentUser = SecurityContextHolder.getContext().getAuthentication().getName();
-        playerId = userService.getUser(currentUser).getPlayer().getId();
+    String getMyMatches(Model model,Principal principal, @PathVariable("playerId") String playerId) {
+        setDefaultValues(model,principal);
+        playerId = userService.getUser(principal.getName()).getPlayer().getId();
         model.addAttribute("myMatches", matchService.findAllPlayerMatches(playerId));
         log.info("getMyMatches:" + playerId);
         return "myMatches";
     }
 
     @GetMapping("/details/{id}")
-    String getMatchDetails(@PathVariable("id") String matchId, Model model, HttpServletRequest request) {
+    String getMatchDetails(@PathVariable("id") String matchId, Model model,Principal principal, HttpServletRequest request) {
         String referer = request.getHeader("Referer");
         if (referer != null) {
             request.getSession().setAttribute("previousPage", referer);
         }
-        setDefaultValues(model);
+        setDefaultValues(model,principal);
         Match match = matchService.getMatch(matchId);
 
         UpdateMatchLocationDateAndTimeDto updateMatchLocationDateAndTimeDto = new UpdateMatchLocationDateAndTimeDto();
@@ -75,9 +75,7 @@ public class MatchWeb {
 
     @PostMapping("/details/{id}/add_lad")
     public String addMatchLocationAndDateTime(@PathVariable("id") String matchId,
-                                              UpdateMatchLocationDateAndTimeDto updateMatchLocationDateAndTimeDto,
-                                              Model model) {
-        setDefaultValues(model);
+                                              UpdateMatchLocationDateAndTimeDto updateMatchLocationDateAndTimeDto) {
         matchService.addLocation(matchId, updateMatchLocationDateAndTimeDto.getLocation(), updateMatchLocationDateAndTimeDto.getDateTime());
         log.info("Match location, date, and time updated");
         return "redirect:/matches/";
@@ -86,9 +84,7 @@ public class MatchWeb {
     @PostMapping("/details/{id}/add_result")
     public String addMatchResult(@PathVariable("id") String matchId,
                                  UpdateResultDto updateResultDto,
-                                 Model model,
                                  HttpServletRequest request) {
-        setDefaultValues(model);
         Match match = matchService.getMatch(matchId);
         if (updateResultDto.getScratchedPlayerId() != null) {
             Player scratched = playerService.getPlayerById(updateResultDto.getScratchedPlayerId());
@@ -112,8 +108,7 @@ public class MatchWeb {
     }
 
     @PostMapping("/create_match")
-    public String createMatch(@ModelAttribute("match") Match match, Model model) {
-        setDefaultValues(model);
+    public String createMatch(@ModelAttribute("match") Match match) {
         matchService.addMatch(match.getPlayer1().getId(), match.getPlayer2().getId());
         return "redirect:/matches/";
     }
@@ -140,8 +135,14 @@ public class MatchWeb {
         return updateResultDto;
     }
 
-    private void setDefaultValues(Model model) {
+    private void setDefaultValues(Model model,Principal principal) {
         model.addAttribute("pageTitle", "Matches");
+        if (principal != null) {
+            if (userService.getUser(principal.getName()).getPlayer() != null) {
+                model.addAttribute("user", userService.getUser(principal.getName()));
+                model.addAttribute("player", playerService.getPlayerById(userService.getUser(principal.getName()).getPlayer().getId()));
+            } else {
+                model.addAttribute("player", null);}
+        }
     }
-
 }

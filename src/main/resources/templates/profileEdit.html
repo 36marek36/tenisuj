@@ -43,10 +43,6 @@
                     <input type="date" th:field="*{birthDate}" id="birthday" class="form-control">
                 </div>
                 <div class="mb-3">
-                    <label for="leagueStatus" class="form-label">League status</label>
-                    <input type="hidden" th:field="*{leagueStatus}" id="leagueStatus" class="form-control">
-                </div>
-                <div class="mb-3">
                     <label for="hand" class="form-label">Hand</label>
                     <select th:field="*{hand}" id="hand" class="form-control">
                         <option value="" th:selected="${player.hand == ''}"></option>

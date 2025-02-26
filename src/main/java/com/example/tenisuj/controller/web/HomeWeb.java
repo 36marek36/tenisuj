@@ -1,6 +1,5 @@
 package com.example.tenisuj.controller.web;
 
-import com.example.tenisuj.model.Player;
 import com.example.tenisuj.service.HomeService;
 import com.example.tenisuj.service.PlayerService;
 import com.example.tenisuj.service.UserService;
@@ -26,17 +25,20 @@ public class HomeWeb {
 
     @GetMapping("/home")
     public String player(Model model, Principal principal) {
-        setDefaultValues(model);
+        setDefaultValues(model, principal);
         model.addAttribute("home", homeService.getHome());
-        if (principal != null) {
-            if (userService.getUser(principal.getName()).getPlayer() != null) {
-                model.addAttribute("player", playerService.getPlayerById(userService.getUser(principal.getName()).getPlayer().getId()));
-            } else model.addAttribute("player", null);
-        } else model.addAttribute("player", null);
+
         return "home";
     }
 
-    private void setDefaultValues(Model model) {
+    public void setDefaultValues(Model model, Principal principal) {
         model.addAttribute("pageTitle", "Tenisuj-sk");
+        if (principal != null) {
+            if (userService.getUser(principal.getName()).getPlayer() != null) {
+                model.addAttribute("user", userService.getUser(principal.getName()));
+                model.addAttribute("player", playerService.getPlayerById(userService.getUser(principal.getName()).getPlayer().getId()));
+            } else {
+                model.addAttribute("player", null);}
+        }
     }
 }

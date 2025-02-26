@@ -55,7 +55,7 @@ public class SecurityConfig {
                                 .requestMatchers("/home", "/login", "/signup","/players/**","/matches/**","/leagues/**","/css/**", "/js/**", "/images/**", "/webjars/**").permitAll()
 
                                 // Adresy ktore vyžadujú prihlásenie
-                                .requestMatchers( "profile/**").authenticated()
+                                .requestMatchers( "/profile/**").authenticated()
 
                                 // Admin sekcia
                                 .requestMatchers("/users/**").hasRole("ADMIN")

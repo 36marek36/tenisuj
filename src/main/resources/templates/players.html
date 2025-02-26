@@ -29,7 +29,7 @@
         </div>
         <div class="container mt-4" sec:authorize="hasRole('ROLE_ADMIN')">
             <h3>Add new player</h3>
-            <form action="#" th:action="@{/players/create}" th:object="${player}" method="post" class="mb-4">
+            <form action="#" th:action="@{/players/create}" th:object="${newPlayer}" method="post" class="mb-4">
                 <div class="mb-3">
                     <label for="firstName" class="form-label">First name</label>
                     <input type="text" th:field="*{firstName}" id="firstName" class="form-control">
@@ -90,7 +90,7 @@
                         <th>Hand</th>
                         <th>Rating</th>
                         <th>Registration date</th>
-                        <th sec:authorize="hasRole('ROLE_ADMIN')">Admin acitons</th>
+                        <th sec:authorize="hasRole('ROLE_ADMIN')">Admin actions</th>
                     </tr>
                     </thead>
                     <tbody>

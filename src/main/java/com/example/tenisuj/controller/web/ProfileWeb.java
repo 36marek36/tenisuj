@@ -36,7 +36,7 @@ public class ProfileWeb {
     }
 
     @PostMapping("/create")
-    String createPlayer(Model model, @ModelAttribute("player") Player player, Principal principal) {
+    String createPlayer(@ModelAttribute("player") Player player, Principal principal) {
         Player savedPlayer = playerService.addPlayer(player.getFirstName(), player.getLastName(), player.getEmail(), player.getGender(), player.getBirthDate(), player.getLeagueStatus(), player.getHand(), player.getRating(), player.getRegistrationDate());
         userService.updateUser(principal.getName(), null, savedPlayer.getId());
         return "redirect:/profile/";

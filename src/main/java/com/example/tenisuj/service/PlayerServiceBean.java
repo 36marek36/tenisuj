@@ -31,6 +31,7 @@ public class PlayerServiceBean implements PlayerService {
     public Player addPlayer(@NonNull String firstName, @NonNull String lastName, String email, String gender, LocalDate birthday, Boolean leagueStatus, String hand, int rating, LocalDate registrationDate) {
 
         registrationDate = LocalDate.now();
+        leagueStatus=false;
 
         if (gender.equalsIgnoreCase("MALE")) {
             gender = "Male";
