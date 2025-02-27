@@ -69,11 +69,7 @@ public class LeagueWeb {
     private void setDefaultValues(Model model, Principal principal) {
         model.addAttribute("pageTitle", "Leagues");
         if (principal != null) {
-            if (userService.getUser(principal.getName()).getPlayer() != null) {
-                model.addAttribute("user", userService.getUser(principal.getName()));
-                model.addAttribute("player", playerService.getPlayerById(userService.getUser(principal.getName()).getPlayer().getId()));
-            } else {
-                model.addAttribute("player", null);}
+            userService.addUserAndPlayerToModel(principal.getName(), model);
         }
     }
 }

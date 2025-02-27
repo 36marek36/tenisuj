@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 
 import java.util.List;
@@ -20,12 +21,14 @@ public class UserServiceBean implements UserService {
     private final UserRepository userRepository;
     private final PlayerRepository playerRepository;
     private final PasswordEncoder passwordEncoder;
+    private final PlayerService playerService;
 
     @Autowired
-    public UserServiceBean(UserRepository userRepository, PlayerRepository playerRepository, PasswordEncoder passwordEncoder) {
+    public UserServiceBean(UserRepository userRepository, PlayerRepository playerRepository, PasswordEncoder passwordEncoder, PlayerService playerService) {
         this.userRepository = userRepository;
         this.playerRepository = playerRepository;
         this.passwordEncoder = passwordEncoder;
+        this.playerService = playerService;
     }
 
     @Override
@@ -96,6 +99,13 @@ public class UserServiceBean implements UserService {
     @Override
     public List<User> getUsersByName(String name) {
         return userRepository.findByUsernameContainingIgnoreCase(name);
+    }
+
+    @Override
+    public void addUserAndPlayerToModel(String username, Model model) {
+        User user = getUser(username);
+        model.addAttribute("user", user);
+        model.addAttribute("player", (user != null && user.getPlayer() != null) ? playerService.getPlayerById(user.getPlayer().getId()) : null);
     }
 
     private String encryptPassword(String password) {
