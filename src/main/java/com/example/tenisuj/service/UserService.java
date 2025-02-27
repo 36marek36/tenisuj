@@ -1,6 +1,7 @@
 package com.example.tenisuj.service;
 
 import com.example.tenisuj.model.User;
+import org.springframework.ui.Model;
 
 import java.util.List;
 
@@ -16,5 +17,7 @@ public interface UserService {
     void updateUser(String username, String password, String playerId);
 
     List<User> getUsersByName(String name);
+
+    void addUserAndPlayerToModel (String username, Model model);
 
 }
