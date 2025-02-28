@@ -28,6 +28,9 @@
     </div>
     <button type="submit" class="btn btn-primary">Login</button>
   </form>
+  <div th:if="${loginMessage != null}" class="alert alert-info mt-3">
+    <span th:text="${loginMessage}"></span>
+  </div>
 </div>
 </body>
 </html>
