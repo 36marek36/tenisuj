@@ -16,7 +16,7 @@
         <div id="page" class="container mt-4">
             <h2 th:text="${pageTitle}" class="mb-5"></h2>
             <h3>Edit profile</h3>
-            <form action="#" th:action="@{/profile/edit}" th:object="${player}" method="post" class="mb-4">
+            <form action="#" th:action="@{/profile/edit}" th:object="${editPlayer}" method="post" class="mb-4">
                 <div class="mb-3">
                     <label for="firstName" class="form-label">First name</label>
                     <input type="text" th:field="*{firstName}" id="firstName" class="form-control">
@@ -32,10 +32,10 @@
                 <div class="mb-3">
                     <label for="gender" class="form-label">Gender</label>
                     <select th:field="*{gender}" id="gender" class="form-control">
-                        <option value="" th:selected="${player.gender == ''}"></option>
-                        <option value="Male" th:selected="${player.gender == 'Male'}">Male</option>
-                        <option value="Female" th:selected="${player.gender == 'Female'}">Female</option>
-                        <option value="Other" th:selected="${player.gender == 'Other'}">Other</option>
+                        <option value="" th:selected="${editPlayer.gender == ''}"></option>
+                        <option value="Male" th:selected="${editPlayer.gender == 'Male'}">Male</option>
+                        <option value="Female" th:selected="${editPlayer.gender == 'Female'}">Female</option>
+                        <option value="Other" th:selected="${editPlayer.gender == 'Other'}">Other</option>
                     </select>
                 </div>
                 <div class="mb-3">
@@ -45,9 +45,9 @@
                 <div class="mb-3">
                     <label for="hand" class="form-label">Hand</label>
                     <select th:field="*{hand}" id="hand" class="form-control">
-                        <option value="" th:selected="${player.hand == ''}"></option>
-                        <option value="Left" th:selected="${player.hand == 'Left'}">Left</option>
-                        <option value="Right" th:selected="${player.hand == 'Right'}">Right</option>
+                        <option value="" th:selected="${editPlayer.hand == ''}"></option>
+                        <option value="Left" th:selected="${editPlayer.hand == 'Left'}">Left</option>
+                        <option value="Right" th:selected="${editPlayer.hand == 'Right'}">Right</option>
                     </select>
                 </div>
                 <p>

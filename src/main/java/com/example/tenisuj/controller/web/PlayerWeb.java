@@ -30,8 +30,8 @@ public class PlayerWeb {
     }
 
     @GetMapping("/")
-    String getAllPlayers(Model model, @Param("keyword") String keyword,Principal principal) {
-        setDefaultValues(model,principal);
+    String getAllPlayers(Model model, @Param("keyword") String keyword, Principal principal) {
+        setDefaultValues(model, principal);
         List<Player> players = playerService.getAllPlayers(keyword);
         List<PlayerDTO> playerDTOs = players.stream()
                 .map(PlayerDTO::new)
@@ -49,20 +49,20 @@ public class PlayerWeb {
     }
 
     @GetMapping("/{id}")
-    public String showEditPlayerForm(@PathVariable("id") String playerId, Model model,Principal principal) {
-        setDefaultValues(model,principal);
-        model.addAttribute("player", playerService.getPlayerById(playerId));
+    public String showEditPlayerForm(@PathVariable("id") String playerId, Model model, Principal principal) {
+        setDefaultValues(model, principal);
+        model.addAttribute("editPlayer", playerService.getPlayerById(playerId));
         return "playerEdit";
     }
 
     @PostMapping("/{id}")
-    public String editPlayer(@PathVariable("id") String playerId, @ModelAttribute("player") Player player) {
+    public String editPlayer(@PathVariable("id") String playerId, @ModelAttribute("editPlayer") Player player) {
         playerService.editPlayer(playerId, player.getFirstName(), player.getLastName(), player.getEmail(), player.getGender(), player.getBirthDate(), player.getLeagueStatus(), player.getHand(), player.getRating());
         log.info("player edited {}", playerId);
         return "redirect:/players/";
     }
 
-    private void setDefaultValues(Model model,Principal principal) {
+    private void setDefaultValues(Model model, Principal principal) {
         model.addAttribute("pageTitle", "Players");
         if (principal != null) {
             userService.addUserAndPlayerToModel(principal.getName(), model);

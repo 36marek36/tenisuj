@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title th:text="${pageTitle} ? ${pageTitle} : 'default title'"></title>
     <link th:href="@{/webjars/bootstrap/5.3.3/css/bootstrap.min.css}" rel="stylesheet"/>
-        <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
     <style></style>
 </head>
 <body>
@@ -17,7 +17,7 @@
         <div id="page" class="container mt-4">
             <h2 th:text="${pageTitle}" class="mb-5"></h2>
             <h3>Create profile</h3>
-            <form action="#" th:action="@{/profile/create}" th:object="${player}" method="post" class="mb-4">
+            <form action="#" th:action="@{/profile/create}" th:object="${createPlayer}" method="post" class="mb-4">
                 <div class="mb-3">
                     <label for="firstName" class="form-label">First name</label>
                     <input type="text" th:field="*{firstName}" id="firstName" class="form-control">
