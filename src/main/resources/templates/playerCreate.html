@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" xmlns:th="http://www.thymeleaf.org/">
+<head>
+  <meta charset="UTF-8">
+  <title th:text="${pageTitle} ? ${pageTitle} : 'default title'"></title>
+  <link th:href="@{/webjars/bootstrap/5.3.3/css/bootstrap.min.css}" rel="stylesheet"/>
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+  <style></style>
+</head>
+<body>
+<div class="page-wrapper">
+
+  <header>
+    <div id="menu" th:insert="~{fragments/menu :: menu}"></div>
+  </header>
+
+
+  <main>
+
+    <div class="container mt-4" sec:authorize="hasRole('ROLE_ADMIN')">
+      <h3>Add new player</h3>
+      <form action="#" th:action="@{/players/create}" th:object="${newPlayer}" method="post" class="mb-4">
+
+        <div class="mb-3">
+          <label for="firstName" class="form-label">First name</label>
+          <input type="text" th:field="*{firstName}" id="firstName" class="form-control" th:errorclass="is-invalid">
+          <span th:if="${#fields.hasErrors('firstName')}" class="invalid-feedback" th:errors="*{firstName}"></span>
+        </div>
+
+        <div class="mb-3">
+          <label for="lastName" class="form-label">Last name</label>
+          <input type="text" th:field="*{lastName}" id="lastName" class="form-control" th:errorclass="is-invalid">
+          <span th:if="${#fields.hasErrors('lastName')}" class="invalid-feedback" th:errors="*{lastName}"></span>
+        </div>
+
+        <div class="mb-3">
+          <label for="email" class="form-label">Email</label>
+          <input type="text" th:field="*{email}" id="email" class="form-control" th:errorclass="is-invalid">
+          <span th:if="${#fields.hasErrors('email')}" class="invalid-feedback" th:errors="*{email}"></span>
+        </div>
+
+        <div class="mb-3">
+          <label for="gender" class="form-label">Gender</label>
+          <select th:field="*{gender}" id="gender" class="form-control">
+            <option value="" selected>Select Gender</option>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+
+        <div class="mb-3">
+          <label for="birthday" class="form-label">Birthday</label>
+          <input type="date" th:field="*{birthDate}" id="birthday" class="form-control">
+        </div>
+
+        <div class="mb-3">
+          <label for="hand" class="form-label">Hand</label>
+          <select th:field="*{hand}" id="hand" class="form-control">
+            <option value="" selected>Select Hand</option>
+            <option value="Left">Left</option>
+            <option value="Right">Right</option>
+          </select>
+        </div>
+
+        <p>
+          <button type="submit">ADD</button>
+        </p>
+      </form>
+    </div>
+
+  </main>
+
+  <footer>
+    <a th:text="${user != null ? user.username : #authentication.name}"></a>
+  </footer>
+
+</div>
+<script th:src="@{/scripts/script.js}"></script>
+</body>
+</html>

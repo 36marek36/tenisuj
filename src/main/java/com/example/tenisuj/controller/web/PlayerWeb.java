@@ -4,11 +4,13 @@ import com.example.tenisuj.model.Player;
 import com.example.tenisuj.model.dto.PlayerDTO;
 import com.example.tenisuj.service.PlayerService;
 import com.example.tenisuj.service.UserService;
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -37,13 +39,22 @@ public class PlayerWeb {
                 .map(PlayerDTO::new)
                 .collect(Collectors.toList());
         model.addAttribute("players", playerDTOs);
-        model.addAttribute("newPlayer", new Player());
         model.addAttribute("keyword", keyword);
         return "players";
     }
 
+    @GetMapping("/create")
+    String createPlayer(Model model, Principal principal) {
+        setDefaultValues(model, principal);
+        model.addAttribute("newPlayer", new Player());
+        return "playerCreate";
+    }
+
     @PostMapping("/create")
-    String createPlayer(@ModelAttribute("player") Player player) {
+    String createPlayer(@ModelAttribute("newPlayer") @Valid Player player, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return "playerCreate";
+        }
         playerService.addPlayer(player.getFirstName(), player.getLastName(), player.getEmail(), player.getGender(), player.getBirthDate(), player.getLeagueStatus(), player.getHand(), player.getRating(), player.getRegistrationDate());
         return "redirect:/players/";
     }
