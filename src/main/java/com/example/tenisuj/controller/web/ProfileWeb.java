@@ -1,6 +1,7 @@
 package com.example.tenisuj.controller.web;
 
 import com.example.tenisuj.model.Player;
+import com.example.tenisuj.model.User;
 import com.example.tenisuj.service.PlayerService;
 import com.example.tenisuj.service.UserService;
 import org.springframework.stereotype.Controller;
@@ -23,20 +24,19 @@ public class ProfileWeb {
 
     @GetMapping("/")
     public String getProfile(Model model, Principal principal) {
-        setDefaultValues(model);
-        model.addAttribute("user", userService.getUser(principal.getName()));
-        model.addAttribute("player",playerService.getPlayerById(userService.getUser(principal.getName()).getPlayer().getId()));
+        setDefaultValues(model, principal);
         return "profile";
     }
 
     @GetMapping("/create")
-    public String showCreateProfileForm(Model model) {
-        model.addAttribute("player", new Player());
+    public String showCreateProfileForm(Model model, Principal principal) {
+        setDefaultValues(model, principal);
+        model.addAttribute("createPlayer", new Player());
         return "profileCreate";
     }
 
     @PostMapping("/create")
-    String createPlayer(@ModelAttribute("player") Player player, Principal principal) {
+    String createPlayer(@ModelAttribute("createPlayer") Player player, Principal principal) {
         Player savedPlayer = playerService.addPlayer(player.getFirstName(), player.getLastName(), player.getEmail(), player.getGender(), player.getBirthDate(), player.getLeagueStatus(), player.getHand(), player.getRating(), player.getRegistrationDate());
         userService.updateUser(principal.getName(), null, savedPlayer.getId());
         return "redirect:/profile/";
@@ -44,18 +44,27 @@ public class ProfileWeb {
 
     @GetMapping("/edit")
     public String showEditProfileForm(Model model, Principal principal) {
-        model.addAttribute("player", userService.getUser(principal.getName()).getPlayer());
+        setDefaultValues(model, principal);
+        model.addAttribute("editPlayer", userService.getUser(principal.getName()).getPlayer());
         return "profileEdit";
     }
 
     @PostMapping("/edit")
-    public String editPlayer(Model model, @ModelAttribute("player") Player player, Principal principal) {
-        setDefaultValues(model);
-        playerService.editPlayer(userService.getUser(principal.getName()).getPlayer().getId(), player.getFirstName(),player.getLastName(),player.getEmail(),player.getGender(),player.getBirthDate(),player.getLeagueStatus(),player.getHand(),player.getRating());
+    public String editPlayer(@ModelAttribute("editPlayer") Player player, Principal principal) {
+        playerService.editPlayer(userService.getUser(principal.getName()).getPlayer().getId(), player.getFirstName(), player.getLastName(), player.getEmail(), player.getGender(), player.getBirthDate(), player.getLeagueStatus(), player.getHand(), player.getRating());
         return "redirect:/profile/";
     }
 
-    private void setDefaultValues(Model model) {
+    private void setDefaultValues(Model model, Principal principal) {
         model.addAttribute("pageTitle", "Profile");
+        if (principal != null) {
+            User currentUsername = userService.getUser(principal.getName());
+            if (currentUsername != null && currentUsername.getPlayer() != null) {
+                model.addAttribute("user", currentUsername);
+                model.addAttribute("player", playerService.getPlayerById(currentUsername.getPlayer().getId()));
+            } else {
+                model.addAttribute("player", null);
+            }
+        }
     }
 }

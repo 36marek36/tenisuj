@@ -102,10 +102,14 @@ public class UserServiceBean implements UserService {
     }
 
     @Override
-    public void addUserAndPlayerToModel(String username, Model model) {
-        User user = getUser(username);
-        model.addAttribute("user", user);
-        model.addAttribute("player", (user != null && user.getPlayer() != null) ? playerService.getPlayerById(user.getPlayer().getId()) : null);
+    public void addUserAndPlayerToModel(String currentUsername, Model model) {
+        User user = getUser(currentUsername);
+        if (user != null && user.getPlayer() != null) {
+            model.addAttribute("user", user);
+            model.addAttribute("player", playerService.getPlayerById(user.getPlayer().getId()));
+        } else {
+            model.addAttribute("player", null);
+        }
     }
 
     private String encryptPassword(String password) {
