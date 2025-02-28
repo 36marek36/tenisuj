@@ -4,8 +4,10 @@ import com.example.tenisuj.model.Player;
 import com.example.tenisuj.model.User;
 import com.example.tenisuj.service.PlayerService;
 import com.example.tenisuj.service.UserService;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -36,7 +38,10 @@ public class ProfileWeb {
     }
 
     @PostMapping("/create")
-    String createPlayer(@ModelAttribute("createPlayer") Player player, Principal principal) {
+    String createPlayer(@ModelAttribute("createPlayer") @Valid Player player, BindingResult bindingResult, Principal principal) {
+        if (bindingResult.hasErrors()) {
+            return "profileCreate";
+        }
         Player savedPlayer = playerService.addPlayer(player.getFirstName(), player.getLastName(), player.getEmail(), player.getGender(), player.getBirthDate(), player.getLeagueStatus(), player.getHand(), player.getRating(), player.getRegistrationDate());
         userService.updateUser(principal.getName(), null, savedPlayer.getId());
         return "redirect:/profile/";
