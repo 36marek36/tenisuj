@@ -112,6 +112,11 @@ public class UserServiceBean implements UserService {
         }
     }
 
+    @Override
+    public boolean userExists(String username) {
+        return userRepository.existsById(username);
+    }
+
     private String encryptPassword(String password) {
         return passwordEncoder.encode(password);
     }

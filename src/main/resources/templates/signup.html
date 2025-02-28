@@ -28,6 +28,9 @@
     </div>
     <button type="submit" class="btn btn-primary">Sign Up</button>
   </form>
+  <div th:if="${signupError != null}" class="alert alert-info mt-3">
+    <span th:text="${signupError}"></span>
+  </div>
 </div>
 </body>
 </html>

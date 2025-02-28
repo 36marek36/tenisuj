@@ -24,10 +24,15 @@ public class LoginWeb {
     }
 
     @GetMapping("/login")
-    public String login(Model model, Principal principal, @RequestParam(value = "message", required = false) String message) {
+    public String login(Model model, Principal principal,
+                        @RequestParam(value = "successMessage", required = false) String message,
+                        @RequestParam(value = "error", required = false) String error) {
         setDefaultValues(model, principal);
         if (message != null) {
             model.addAttribute("loginMessage", message);
+        }
+        if (error != null) {
+            model.addAttribute("loginError", "Invalid username or password.");
         }
         return "login";
     }
@@ -39,14 +44,22 @@ public class LoginWeb {
     }
 
     @GetMapping("/signup")
-    public String signup() {
+    public String signup(Model model, Principal principal, @RequestParam(value = "signupError", required = false) String message) {
+        setDefaultValues(model, principal);
+        if (message != null) {
+            model.addAttribute("signupError", message);
+        }
         return "signup";
     }
 
     @PostMapping("/signup")
     public String processSignup(@ModelAttribute("user") User user, RedirectAttributes redirectAttributes) {
+        if (userService.userExists(user.getUsername())) {
+            redirectAttributes.addFlashAttribute("signupError", "Username already exists");
+            return "redirect:/signup";
+        }
         userService.addUser(user.getUsername(), user.getPassword());
-        redirectAttributes.addAttribute("message", "User "+ user.getUsername() + " created successfully. Please login");
+        redirectAttributes.addAttribute("successMessage", "User " + user.getUsername() + " created successfully. Please login");
         return "redirect:/login";
     }
 
