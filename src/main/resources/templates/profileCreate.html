@@ -20,17 +20,20 @@
             <form action="#" th:action="@{/profile/create}" th:object="${createPlayer}" method="post" class="mb-4">
                 <div class="mb-3">
                     <label for="firstName" class="form-label">First name</label>
-                    <input type="text" th:field="*{firstName}" id="firstName" class="form-control">
+                    <input type="text" th:field="*{firstName}" id="firstName" class="form-control" th:errorclass="is-invalid">
+                    <span th:if="${#fields.hasErrors('firstName')}" class="invalid-feedback" th:errors="*{firstName}"></span>
                 </div>
 
                 <div class="mb-3">
                     <label for="lastName" class="form-label">Last name</label>
-                    <input type="text" th:field="*{lastName}" id="lastName" class="form-control">
+                    <input type="text" th:field="*{lastName}" id="lastName" class="form-control" th:errorclass="is-invalid">
+                    <span th:if="${#fields.hasErrors('lastName')}" class="invalid-feedback" th:errors="*{lastName}"></span>
                 </div>
 
                 <div class="mb-3">
                     <label for="email" class="form-label">Email</label>
-                    <input type="email" th:field="*{email}" id="email" class="form-control">
+                    <input type="text" th:field="*{email}" id="email" class="form-control" th:errorclass="is-invalid">
+                    <span th:if="${#fields.hasErrors('email')}" class="invalid-feedback" th:errors="*{email}"></span>
                 </div>
 
                 <div class="mb-3">
