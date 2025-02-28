@@ -20,4 +20,6 @@ public interface UserService {
 
     void addUserAndPlayerToModel (String username, Model model);
 
+    boolean userExists(String username);
+
 }

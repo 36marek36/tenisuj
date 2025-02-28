@@ -31,6 +31,9 @@
   <div th:if="${loginMessage != null}" class="alert alert-info mt-3">
     <span th:text="${loginMessage}"></span>
   </div>
+  <div th:if="${loginError}" class="alert alert-danger">
+    <span th:text="${loginError}"></span>
+  </div>
 </div>
 </body>
 </html>
