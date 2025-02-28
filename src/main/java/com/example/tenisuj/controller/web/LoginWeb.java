@@ -8,6 +8,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
 
@@ -22,8 +24,11 @@ public class LoginWeb {
     }
 
     @GetMapping("/login")
-    public String login(Model model, Principal principal) {
+    public String login(Model model, Principal principal, @RequestParam(value = "message", required = false) String message) {
         setDefaultValues(model, principal);
+        if (message != null) {
+            model.addAttribute("loginMessage", message);
+        }
         return "login";
     }
 
@@ -39,8 +44,9 @@ public class LoginWeb {
     }
 
     @PostMapping("/signup")
-    public String processSignup(@ModelAttribute("user") User user) {
+    public String processSignup(@ModelAttribute("user") User user, RedirectAttributes redirectAttributes) {
         userService.addUser(user.getUsername(), user.getPassword());
+        redirectAttributes.addAttribute("message", "User "+ user.getUsername() + " created successfully. Please login");
         return "redirect:/login";
     }
 
