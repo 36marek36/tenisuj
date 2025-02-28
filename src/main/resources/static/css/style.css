@@ -32,6 +32,10 @@ h2 {
     font-weight: 800;
     padding: 20px;
 }
+h3{
+    display: flex;
+    justify-content: center;
+}
 
 .tabulka {
     display: flex;
@@ -54,6 +58,18 @@ ul.no-bullets {
 input.error {
     color: black;
     border: 1px solid red;
+}
+
+.div-center {
+    display: flex;
+    justify-content: center;}
+
+.button{
+    border: 2px solid black; /* Čierny okraj */
+    padding: 10px 20px; /* Pridanie vnútorného odsadenia */
+    background-color: #007bff; /* Farba pozadia tlačidla (môžeš prispôsobiť) */
+    color: white; /* Farba textu */
+    border-radius: 5px; /* Zaoblené rohy */
 }
 
 
