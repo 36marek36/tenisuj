@@ -30,7 +30,7 @@
             </div>
         </div>
 
-        <div sec:authorize="hasAnyRole('ROLE_USER','ROLE_ADMIN')" class="mb-3">
+        <div th:if="${player != null}" sec:authorize="hasAnyRole('ROLE_USER','ROLE_ADMIN')" class="mb-3">
             <button type="button" class="btn btn-primary"
                     th:onclick="|window.location.href='@{/matches/my_matches/{playerId}}'|">My Matches
             </button>
