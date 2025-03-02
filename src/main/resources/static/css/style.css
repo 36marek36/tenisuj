@@ -2,6 +2,14 @@
 html, body {
     height: 100%;  /* Určíme, že html a body budú mať výšku 100% */
     margin: 0;     /* Odstránime predvolené okraje */
+    display: flex;
+    flex-direction: column;
+}
+
+/* Hlavný obsah stránky */
+main {
+    flex: 1;  /* Tento blok zaberie všetok dostupný priestor */
+    padding: 15px;
 }
 
 /* Kontajner pre celú stránku */
@@ -11,17 +19,10 @@ html, body {
     height: 100%;
 }
 
-/* Hlavný obsah stránky */
-main {
-    flex: 1;  /* Tento blok zaberie všetok dostupný priestor */
-    padding: 20px;
-}
-
-/* Footer */
 footer {
     background-color: #333;
     color: white;
-    padding: 10px;
+    padding: 15px;
     text-align: right;
 }
 h2 {
@@ -32,7 +33,13 @@ h2 {
     font-weight: 800;
     padding: 20px;
 }
+
 h3{
+    display: flex;
+    justify-content: center;
+}
+
+h4{
     display: flex;
     justify-content: center;
 }
@@ -70,6 +77,58 @@ input.error {
     background-color: #007bff; /* Farba pozadia tlačidla (môžeš prispôsobiť) */
     color: white; /* Farba textu */
     border-radius: 5px; /* Zaoblené rohy */
+}
+
+aside {
+    justify-content: flex-start; /* Text bude hore */
+    flex-direction: column;
+    height: 100%;
+    width: 60%;
+    background-color: black;
+    color: whitesmoke;
+    padding: 10px; /* Voliteľné, na pridanie medzery okolo textu */
+}
+
+.playerDet{
+    text-align: left;
+    margin-top: 30px;
+    margin-left: 15px;
+    width: 40%;
+}
+
+.tenisuj {
+    max-height: 100%;
+    max-width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 0;
+}
+
+.image-container {
+    width: 100%;
+    height: auto;
+    position: relative;
+}
+
+.image-container img {
+    width: 100%; /*Nastaví šírku obrázka na 100% šírky rodičovského kontajnera (image-container).*/
+    height: 100%; /* Nastaví výšku obrázka na 100% výšky rodičovského kontajnera. */
+    object-fit: cover; /* Tento príkaz zabezpečí, že obrázok pokryje celú plochu kontajnera, ale zachová svoj pomer strán. Časť obrázka môže byť orezaná, aby zapadol do priestoru. */
+    position: absolute; /* Nastaví pozíciu obrázka ako absolútnu, čo znamená, že sa bude umiestňovať voči najbližšiemu rodičovi s relatívnou pozíciou. */
+    top: 0; /* Nastaví obrázok na horný okraj rodičovského kontajnera. */
+    left: 0; /* Nastaví obrázok na ľavý okraj rodičovského kontajnera. */
+    z-index: 1;  /* Určuje, že obrázok bude mať nižšiu vrstvu ako gradient, ktorý bude mať vyšší z-index (2), čím bude gradient zobrazený nad obrázkom). */
+}
+
+.image-container:before {
+    content: ''; /* Tento príkaz vytvára obsah pre pseudo-element. V tomto prípade je prázdny reťazec, takže sa nezobrazí žiadny text. */
+    position: absolute; /* Nastaví pozíciu pseudo-elementu ako absolútnu, podobne ako obrázok. */
+    top: 0; /* Umiestni pseudo-element na horný okraj rodičovského kontajnera. */
+    left: 0; /* Umiestni pseudo-element na ľavý okraj rodičovského kontajnera. */
+    right: 0; /* Umiestni pseudo-element na pravý okraj rodičovského kontajnera. */
+    bottom: 0; /* Umiestni pseudo-element na dolný okraj rodičovského kontajnera. */
+    background: linear-gradient(to right, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0) 100%); /* Vytvára lineárny gradient zľava doprava. Začína čiernou farbou (rgba(0, 0, 0, 1)) a postupne prechádza do priesvitnej farby (rgba(0, 0, 0, 0)), čím vytvára efekt stmavenia na ľavej strane obrázka. */
+    z-index: 2; /* Nastavuje z-index na vyššiu hodnotu (2), čím zabezpečí, že tento gradient bude nad obrázkom, ktorý má z-index 1. */
 }
 
 
