@@ -55,7 +55,7 @@ public class PlayerWeb {
         if (bindingResult.hasErrors()) {
             return "playerCreate";
         }
-        playerService.addPlayer(player.getFirstName(), player.getLastName(), player.getEmail(), player.getGender(), player.getBirthDate(), player.getLeagueStatus(), player.getHand(), player.getRating(), player.getRegistrationDate());
+        playerService.addPlayer(player.getFirstName(), player.getLastName(), player.getEmail(), player.getGender(), player.getBirthDate(), player.getLeagueStatus(), player.getHand(), player.getRating(), player.getLeagueRating(), player.getRegistrationDate());
         return "redirect:/players/";
     }
 

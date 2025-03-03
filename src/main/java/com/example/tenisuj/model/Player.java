@@ -42,6 +42,8 @@ public class Player {
 
     private int rating;
 
+    private int leagueRating;
+
     private LocalDate registrationDate;
 
 }
