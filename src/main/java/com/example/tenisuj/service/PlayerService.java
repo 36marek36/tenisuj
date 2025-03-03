@@ -15,6 +15,7 @@ public interface PlayerService {
                      Boolean leagueStatus,
                      String hand,
                      int rating,
+                     int leagueRating,
                      LocalDate registrationDate);
 
     List<Player> getAllPlayers(String keyword);
@@ -34,5 +35,7 @@ public interface PlayerService {
                       int rating);
 
     int updateRating(String playerId);
+
+    int updateRatingInLeague(String playerId);
 
 }

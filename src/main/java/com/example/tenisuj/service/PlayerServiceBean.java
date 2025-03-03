@@ -28,7 +28,7 @@ public class PlayerServiceBean implements PlayerService {
     }
 
     @Override
-    public Player addPlayer(@NonNull String firstName, @NonNull String lastName, String email, String gender, LocalDate birthday, Boolean leagueStatus, String hand, int rating, LocalDate registrationDate) {
+    public Player addPlayer(@NonNull String firstName, @NonNull String lastName, String email, String gender, LocalDate birthday, Boolean leagueStatus, String hand, int rating,int leagueRating, LocalDate registrationDate) {
 
         registrationDate = LocalDate.now();
         leagueStatus=false;
@@ -48,7 +48,7 @@ public class PlayerServiceBean implements PlayerService {
             hand = "Unknown";
         }
 
-        var player = new Player(UUID.randomUUID().toString(), firstName, lastName, email, gender, birthday, leagueStatus,null, hand, rating, registrationDate);
+        var player = new Player(UUID.randomUUID().toString(), firstName, lastName, email, gender, birthday, leagueStatus,null, hand, rating,leagueRating, registrationDate);
         playerRepository.save(player);
         log.info("Adding player: {}", player.getId());
         return player;
@@ -137,6 +137,16 @@ public class PlayerServiceBean implements PlayerService {
         playerRepository.save(player);
         log.info("Updated player rating: {}", player);
         return player.getRating();
+    }
+
+    @Override
+    public int updateRatingInLeague(String playerId) {
+        var player = playerRepository.findById(playerId)
+                .orElseThrow(() -> new IllegalArgumentException("Player not found"));
+        player.setLeagueRating(100 / matchRepository.findAllPlayedPlayerMatchesInLeague(playerId,player.getLeagueId()).size() * matchRepository.findWonPlayerMatchesInLeague(playerId,player.getLeagueId()).size());
+        playerRepository.save(player);
+        log.info("Updated player rating in league: {}", player);
+        return player.getLeagueRating();
     }
 
 }

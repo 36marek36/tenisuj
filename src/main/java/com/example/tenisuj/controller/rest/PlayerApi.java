@@ -37,7 +37,7 @@ public class PlayerApi {
 
     @PostMapping("/create")
     ResponseEntity<Player> createPlayer(@RequestBody Player player) {
-        Player created = playerService.addPlayer(player.getFirstName(), player.getLastName(), player.getEmail(), player.getGender(), player.getBirthDate(), player.getLeagueStatus(), player.getHand(), player.getRating(), player.getRegistrationDate());
+        Player created = playerService.addPlayer(player.getFirstName(), player.getLastName(), player.getEmail(), player.getGender(), player.getBirthDate(), player.getLeagueStatus(), player.getHand(), player.getRating(),player.getLeagueRating(), player.getRegistrationDate());
         log.info("Created player: {}", created);
         return new ResponseEntity<>(created, HttpStatus.CREATED);
     }
