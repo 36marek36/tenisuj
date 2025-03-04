@@ -81,26 +81,60 @@ input.error {
 
 aside {
     justify-content: flex-start; /* Text bude hore */
+    align-items: flex-start; /* Zarovná všetky deti (napríklad texty v tabuľkách) na začiatok */
     flex-direction: column;
     height: 100%;
     width: 60%;
-    background-color: black;
+    background: linear-gradient(to right, black 60%, #710000 100%);
     color: whitesmoke;
     padding: 10px; /* Voliteľné, na pridanie medzery okolo textu */
 }
 
-.playerDet{
-    text-align: left;
-    margin-top: 30px;
-    margin-left: 15px;
-    width: 40%;
+.tables-container {
+    display: flex; /* Umožní umiestnenie tabuliek vedľa seba */
+    justify-content: space-between; /* Rozdelí tabulky na maximálny možný priestor */
+    width: 100%; /* Tabuľky zaberú celú šírku rodiča */
+    padding: 8px;
+}
+
+.playerDet {
+
+    width: 48%; /* Každá tabuľka zaberie 48% šírky rodiča (zabezpečí medzi nimi trochu medzery) */
+    border-collapse: collapse; /* Zabezpečí, že tabuľka bude mať čistý vzhľad bez medzier medzi bunkami */
+    margin: 0;
+}
+
+.playerDet th, .playerDet td {
+    padding: 2px; /* Pridá trochu paddingu do tabuliek pre lepšie rozmiestnenie textu */
+    /*border: 1px solid #ddd; !* Zabezpečí okraje medzi bunkami tabuliek *!*/
+}
+
+.playerDet th {
+    text-align: left; /* Zarovná názvy stĺpcov naľavo */
+}
+
+.playerDet td {
+    text-align: left; /* Zarovná údaje naľavo */
+}
+
+.photo {
+    width: 60%; /* Nastaví šírku divu na 100% šírky obrazovky */
+    overflow: hidden; /* Skryje akýkoľvek obsah, ktorý presahuje hranice divu */
+    margin-top: 50px;
+}
+
+.photo img {
+    width: 100%; /* Obrázok sa prispôsobí šírke divu */
+    height: 100%; /* Obrázok sa prispôsobí výške divu */
+    object-fit: cover; /* Zachová pomer strán obrázka a vyplní celý div, pričom nebude zdeformovaný */
+
 }
 
 .tenisuj {
     max-height: 100%;
     max-width: 100%;
     display: flex;
-    justify-content: center;
+    /*justify-content: center;*/
     padding: 0;
 }
 
@@ -127,7 +161,7 @@ aside {
     left: 0; /* Umiestni pseudo-element na ľavý okraj rodičovského kontajnera. */
     right: 0; /* Umiestni pseudo-element na pravý okraj rodičovského kontajnera. */
     bottom: 0; /* Umiestni pseudo-element na dolný okraj rodičovského kontajnera. */
-    background: linear-gradient(to right, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0) 100%); /* Vytvára lineárny gradient zľava doprava. Začína čiernou farbou (rgba(0, 0, 0, 1)) a postupne prechádza do priesvitnej farby (rgba(0, 0, 0, 0)), čím vytvára efekt stmavenia na ľavej strane obrázka. */
+    background: linear-gradient(to right, #710000 0%, rgba(0, 0, 0, 0) 75%); /* Vytvára lineárny gradient zľava doprava. Začína čiernou farbou (rgba(0, 0, 0, 1)) a postupne prechádza do priesvitnej farby (rgba(0, 0, 0, 0)), čím vytvára efekt stmavenia na ľavej strane obrázka. */
     z-index: 2; /* Nastavuje z-index na vyššiu hodnotu (2), čím zabezpečí, že tento gradient bude nad obrázkom, ktorý má z-index 1. */
 }
 
