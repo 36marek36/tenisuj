@@ -35,7 +35,7 @@ public class MatchWeb {
 
     @GetMapping("/")
     String getAllMatches(Model model, @Param("playerName") String playerName, Principal principal) {
-        setDefaultValues(model,principal);
+        setDefaultValues(model, principal);
         model.addAttribute("matches", matchService.getMatches(playerName));
         model.addAttribute("match", new Match());
         model.addAttribute("players", playerService.getAllPlayers(null));
@@ -44,8 +44,8 @@ public class MatchWeb {
     }
 
     @GetMapping("/my_matches/{playerId}")
-    String getMyMatches(Model model,Principal principal, @PathVariable("playerId") String playerId) {
-        setDefaultValues(model,principal);
+    String getMyMatches(Model model, Principal principal, @PathVariable("playerId") String playerId) {
+        setDefaultValues(model, principal);
         playerId = userService.getUser(principal.getName()).getPlayer().getId();
         model.addAttribute("myMatches", matchService.findAllPlayerMatches(playerId));
         log.info("getMyMatches:" + playerId);
@@ -53,12 +53,12 @@ public class MatchWeb {
     }
 
     @GetMapping("/details/{id}")
-    String getMatchDetails(@PathVariable("id") String matchId, Model model,Principal principal, HttpServletRequest request) {
+    String getMatchDetails(@PathVariable("id") String matchId, Model model, Principal principal, HttpServletRequest request) {
         String referer = request.getHeader("Referer");
         if (referer != null) {
             request.getSession().setAttribute("previousPage", referer);
         }
-        setDefaultValues(model,principal);
+        setDefaultValues(model, principal);
         Match match = matchService.getMatch(matchId);
 
         UpdateMatchLocationDateAndTimeDto updateMatchLocationDateAndTimeDto = new UpdateMatchLocationDateAndTimeDto();
@@ -84,6 +84,7 @@ public class MatchWeb {
     @PostMapping("/details/{id}/add_result")
     public String addMatchResult(@PathVariable("id") String matchId,
                                  UpdateResultDto updateResultDto,
+                                 @RequestParam String status,
                                  HttpServletRequest request) {
         Match match = matchService.getMatch(matchId);
         if (updateResultDto.getScratchedPlayerId() != null) {
@@ -92,10 +93,12 @@ public class MatchWeb {
         } else {
             match.setScratched(null);
         }
+        match.setStatus(status);
 
         matchService.addResult(matchId, updateResultDto.getPlayer1_set1(), updateResultDto.getPlayer2_set1(), updateResultDto.getPlayer1_set2(), updateResultDto.getPlayer2_set2(), updateResultDto.getPlayer1_set3(), updateResultDto.getPlayer2_set3(), updateResultDto.getPlayer1_set4(), updateResultDto.getPlayer2_set4(), updateResultDto.getPlayer1_set5(), updateResultDto.getPlayer2_set5(), updateResultDto.getScratchedPlayerId(), updateResultDto.getWinnerPlayerId());
         log.info("Match result added");
         log.info("Scratched Player ID:" + updateResultDto.getScratchedPlayerId());
+        log.info("Status:" + match.getStatus());
 
         String previousPage = (String) request.getSession().getAttribute("previousPage");
         log.info("previousPage:" + previousPage);
@@ -104,6 +107,18 @@ public class MatchWeb {
             return "redirect:/home";
         }
 
+        return "redirect:/matches/";
+    }
+
+    @PostMapping("/approveMatch")
+    public String approveMatch(@RequestParam String matchId) {
+        matchService.approveMatch(matchId);
+        return "redirect:/matches/";
+    }
+
+    @PostMapping("/rejectMatch")
+    public String rejectMatch(@RequestParam String matchId) {
+        matchService.rejectMatch(matchId);
         return "redirect:/matches/";
     }
 
@@ -135,10 +150,10 @@ public class MatchWeb {
         return updateResultDto;
     }
 
-    private void setDefaultValues(Model model,Principal principal) {
+    private void setDefaultValues(Model model, Principal principal) {
         model.addAttribute("pageTitle", "Matches");
         if (principal != null) {
-           userService.addUserAndPlayerToModel(principal.getName(), model);
+            userService.addUserAndPlayerToModel(principal.getName(), model);
         }
     }
 }

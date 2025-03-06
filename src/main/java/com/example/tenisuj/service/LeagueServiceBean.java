@@ -93,7 +93,7 @@ public class LeagueServiceBean implements LeagueService {
                 if (player1.equals(player2)) {
                     continue;
                 }
-                matchList.add(new Match(UUID.randomUUID().toString(), player1, player2, null, null, null, null, null, null, null, null, null, null, null, null, null, null,leagueId));
+                matchList.add(new Match(UUID.randomUUID().toString(), player1, player2, null, null, null, null, null, null, null, null, null, null, null, null, null, null,leagueId,null));
 
             }
         }

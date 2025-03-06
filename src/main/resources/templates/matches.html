@@ -69,6 +69,8 @@
                         <th>Result</th>
                         <th>Scratched</th>
                         <th>Winner</th>
+                        <th>Status</th>
+                        <th sec:authorize="hasRole('ROLE_ADMIN')">Action</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -119,11 +121,26 @@
                         <td th:text="${match.winner?.id != null ? match.winner?.firstName + ' ' + match.winner?.lastName : 'N/A'}">
                             Winner
                         </td>
+                        <td th:text="${match.status}">Status</td>
+                        <td>
+                            <form th:action="@{/matches/approveMatch}" method="post">
+                                <input type="hidden" th:value="${match.id}" name="matchId"/>
+                                <button type="submit" th:disabled="${match.status != 'pending'}">Approve</button>
+                            </form>
+                        </td>
+
+                        <td th:if="${match.status=='pending'}" sec:authorize="hasRole('ROLE_ADMIN')">
+                            <form th:action="@{/matches/rejectMatch}" method="POST">
+                                <input type="hidden" name="matchId" th:value="${match.id}">
+                                <button type="submit">Reject</button>
+                            </form>
+                        </td>
                     </tr>
                     </tbody>
                 </table>
             </div>
         </div>
+
     </main>
 
     <footer>

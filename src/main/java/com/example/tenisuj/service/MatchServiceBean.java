@@ -38,7 +38,7 @@ public class MatchServiceBean implements MatchService {
         Player player2 = playerRepository.findById(player2Id)
                 .orElseThrow(() -> new RuntimeException("Player not found"));
 
-        Match match = new Match(UUID.randomUUID().toString(), player1, player2, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+        Match match = new Match(UUID.randomUUID().toString(), player1, player2, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null,null);
 
         matchRepository.save(match);
         log.info("Match added");
@@ -188,5 +188,21 @@ public class MatchServiceBean implements MatchService {
 
         log.info("Match result updated: {}", match.getId());
         return match;
+    }
+
+    @Override
+    public void approveMatch(String matchId) {
+        Match match = getMatch(matchId);
+        match.setStatus("approved");
+        matchRepository.save(match);
+    }
+
+    @Override
+    public void rejectMatch(String matchId) {
+        Match match = getMatch(matchId);
+        match.setStatus("rejected");
+        match = new Match(matchId,match.getPlayer1(),match.getPlayer2(),null,null,null,null,null,null,null,null,null,null,null,null,null,null,match.getLeagueId(),match.getStatus());
+        matchRepository.save(match);
+
     }
 }
