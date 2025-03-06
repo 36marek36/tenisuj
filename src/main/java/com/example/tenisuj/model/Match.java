@@ -49,6 +49,8 @@ public class Match {
 
     private String leagueId;
 
+    private String status;
+
 //    private boolean confirmedResult;
 
 }

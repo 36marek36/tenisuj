@@ -7,12 +7,19 @@ import java.util.List;
 
 public interface MatchService {
     Match addMatch(String player1Id, String player2Id);
+
     Match getMatch(String matchId);
+
     List<Match> findAllPlayerMatches(String playerId);
+
     List<Match> findWonPlayerMatches(String playerId);
+
     List<Match> getMatches(String playerName);
+
     void deleteMatch(String matchId);
+
     Match addLocation(String matchId, String Location, LocalDateTime dateTime);
+
     Match addResult(
             String matchId,
             Integer player1_set1,
@@ -27,4 +34,7 @@ public interface MatchService {
             Integer player2_set5,
             String scratchedPlayerId,
             String winnerPlayerId);
+
+    void approveMatch(String matchId);
+    void rejectMatch(String matchId);
 }
