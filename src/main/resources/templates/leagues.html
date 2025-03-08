@@ -44,22 +44,19 @@
                     </tr>
                     </tbody>
                 </table>
+            </div>
+            <div class="container mt-4" sec:authorize="hasRole('ROLE_ADMIN')">
+                <h4>Add new league</h4>
+                <form action="#" th:action="@{/leagues/create}" th:object="${league}" method="post" class="mb-4">
+                    <div class="mb-3">
+                        <label for="leagueName" class="form-label">League name</label>
+                        <input type="text" th:field="*{name}" id="leagueName" class="form-control">
+                    </div>
 
-                <div class="container mt-4" sec:authorize="hasRole('ROLE_ADMIN')">
-                    <h4>Add new league</h4>
-                    <form action="#" th:action="@{/leagues/create}" th:object="${league}" method="post" class="mb-4">
-                        <div class="mb-3">
-                            <label for="leagueName" class="form-label">League name</label>
-                            <input type="text" th:field="*{name}" id="leagueName" class="form-control">
-                        </div>
-
-                        <p>
-                            <button type="submit">ADD</button>
-                        </p>
-                    </form>
-                </div>
-
-
+                    <p>
+                        <button type="submit">ADD</button>
+                    </p>
+                </form>
             </div>
         </div>
     </main>
