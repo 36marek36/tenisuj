@@ -6,7 +6,9 @@ import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import java.time.LocalDateTime;
+
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 @Entity(name = "reservations")
 @Data
@@ -21,8 +23,11 @@ public class Reservation {
     private String place;
 
     @NotNull
-    private LocalDateTime startTime;
+    private LocalDate date;
 
     @NotNull
-    private LocalDateTime endTime;
+    private LocalTime startTime;
+
+    @NotNull
+    private LocalTime endTime;
 }
