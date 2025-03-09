@@ -1,9 +1,10 @@
 package com.example.tenisuj.service;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 public interface ReservationService {
 
-    boolean isAvailable(String place, LocalDateTime startTime,LocalDateTime endTime);
-    void createReservation(String place, LocalDateTime startTime,LocalDateTime endTime);
+    boolean isAvailable(String place, LocalDate date, LocalTime startTime, LocalTime endTime);
+    void createReservation(String place,LocalDate date, LocalTime startTime,LocalTime endTime);
 }
