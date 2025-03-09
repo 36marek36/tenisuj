@@ -34,8 +34,8 @@ public class ReservationWeb {
             return "reservation-form";
         }
 
-        if (reservationService.isAvailable(reservation.getPlace(),reservation.getDateTime())){
-            reservationService.createReservation(reservation.getPlace(),reservation.getDateTime());
+        if (reservationService.isAvailable(reservation.getPlace(),reservation.getStartTime(),reservation.getEndTime())){
+            reservationService.createReservation(reservation.getPlace(),reservation.getStartTime(),reservation.getEndTime());
             log.info("Reservation created");
             model.addAttribute("message", "Reservation successfully made");
         }else {
