@@ -23,17 +23,14 @@ public class ReservationServiceBean implements ReservationService {
 
 
     @Override
-    public boolean isAvailable(String place, LocalDateTime dateTime) {
-        LocalDateTime start = dateTime.minusMinutes(30);
-        LocalDateTime end = dateTime.plusMinutes(30);
-
-        List<Reservation> existingReservations = reservationRepository.findByPlaceAndDateTimeBetween(place, start, end);
-        return existingReservations.isEmpty();
+    public boolean isAvailable(String place, LocalDateTime startTime, LocalDateTime endTime) {
+        List<Reservation> conflictingReservations = reservationRepository.findConflictingReservations(place, startTime, endTime);
+        return conflictingReservations.isEmpty();
     }
 
     @Override
-    public void createReservation(String place, LocalDateTime dateTime) {
-        Reservation reservation = new Reservation(UUID.randomUUID().toString(), place, dateTime);
+    public void createReservation(String place, LocalDateTime startTime,LocalDateTime endTime) {
+        Reservation reservation = new Reservation(UUID.randomUUID().toString(), place, startTime,endTime);
         log.info("Reservation created: {}", reservation);
         reservationRepository.save(reservation);
     }

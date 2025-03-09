@@ -21,5 +21,8 @@ public class Reservation {
     private String place;
 
     @NotNull
-    private LocalDateTime dateTime;
+    private LocalDateTime startTime;
+
+    @NotNull
+    private LocalDateTime endTime;
 }
