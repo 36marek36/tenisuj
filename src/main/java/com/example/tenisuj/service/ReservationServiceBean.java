@@ -36,4 +36,19 @@ public class ReservationServiceBean implements ReservationService {
         reservationRepository.save(reservation);
     }
 
+    @Override
+    public List<Reservation> getAllReservations() {
+        return reservationRepository.findAll().stream().toList();
+    }
+
+    @Override
+    public void deleteReservation(String id) {
+        if (!reservationRepository.existsById(id)) {
+            throw new IllegalArgumentException("Reservation not found");
+        }
+        reservationRepository.deleteById(id);
+        log.info("Reservation deleted: {}", reservationRepository.findById(id));
+    }
+
+
 }
