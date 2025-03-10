@@ -8,7 +8,7 @@ import java.util.List;
 public interface ReservationService {
 
     boolean isAvailable(String place, LocalDate date, LocalTime startTime, LocalTime endTime);
-    void createReservation(String place, LocalDate date, LocalTime startTime, LocalTime endTime);
+    void createReservation(String place, LocalDate date, LocalTime startTime, LocalTime endTime,String customer);
     List<Reservation> getAllReservations();
     void deleteReservation(String id);
 }
