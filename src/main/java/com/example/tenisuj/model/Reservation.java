@@ -2,6 +2,8 @@ package com.example.tenisuj.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -33,4 +35,8 @@ public class Reservation {
 
     @NotNull
     private String customer;
+
+    @ManyToOne
+    @JoinColumn(name = "match_id")
+    Match match;
 }

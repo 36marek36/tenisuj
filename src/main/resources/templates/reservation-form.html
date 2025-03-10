@@ -60,6 +60,14 @@
                 <label for="customer">Customer:</label>
                 <input type="text" id="customer" name="customer" th:value="${customer}" required><br><br>
 
+                <label for="myMatches" class="form-label">Matches</label>
+                <select th:field="*{match}" id="myMatches" class="form-select">
+                    <option value="" selected>Select from your matches (or leave blank)</option>
+                    <option th:each="match : ${myMatches}"
+                            th:value="${match.id}"
+                            th:text="${match.getPlayer1().firstName} + ' ' + ${match.getPlayer1().lastName} + ' vs ' + ${match.getPlayer2().firstName} + ' ' + ${match.getPlayer2().lastName}"></option>
+                </select>
+
                 <button type="submit">Make</button>
             </form>
         </div>

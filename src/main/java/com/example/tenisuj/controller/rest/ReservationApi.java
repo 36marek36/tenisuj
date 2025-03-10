@@ -24,7 +24,7 @@ public class ReservationApi {
     @PostMapping("/create")
     ResponseEntity<String> addReservation(@RequestBody Reservation reservation) {
         if (reservationService.isAvailable(reservation.getPlace(), reservation.getDate(), reservation.getStartTime(), reservation.getEndTime())) {
-            reservationService.createReservation(reservation.getPlace(), reservation.getDate(), reservation.getStartTime(), reservation.getEndTime(), reservation.getCustomer());
+            reservationService.createReservation(reservation.getPlace(), reservation.getDate(), reservation.getStartTime(), reservation.getEndTime(), reservation.getCustomer(),reservation.getMatch());
             return ResponseEntity.ok("Reservation successfully made");
         } else {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Reservation not available");
