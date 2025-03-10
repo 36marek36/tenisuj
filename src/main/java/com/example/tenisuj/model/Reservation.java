@@ -30,4 +30,7 @@ public class Reservation {
 
     @NotNull
     private LocalTime endTime;
+
+    @NotNull
+    private String customer;
 }

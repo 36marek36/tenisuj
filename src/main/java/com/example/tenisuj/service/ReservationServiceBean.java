@@ -30,8 +30,8 @@ public class ReservationServiceBean implements ReservationService {
     }
 
     @Override
-    public void createReservation(String place,LocalDate date, LocalTime startTime,LocalTime endTime) {
-        Reservation reservation = new Reservation(UUID.randomUUID().toString(), place,date, startTime,endTime);
+    public void createReservation(String place,LocalDate date, LocalTime startTime,LocalTime endTime,String customer) {
+        Reservation reservation = new Reservation(UUID.randomUUID().toString(), place,date, startTime,endTime,customer);
         log.info("Reservation created: {}", reservation);
         reservationRepository.save(reservation);
     }

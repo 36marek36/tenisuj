@@ -2,6 +2,7 @@ package com.example.tenisuj.controller.web;
 
 import com.example.tenisuj.model.Reservation;
 import com.example.tenisuj.service.ReservationService;
+import com.example.tenisuj.service.UserService;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,31 +12,40 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import java.security.Principal;
 
 @Slf4j
 @Controller
+@RequestMapping("/reservations")
 public class ReservationWeb {
 
     private final ReservationService reservationService;
+    private final UserService userService;
 
     @Autowired
-    public ReservationWeb(ReservationService reservationService) {
+    public ReservationWeb(ReservationService reservationService, UserService userService) {
         this.reservationService = reservationService;
+        this.userService = userService;
     }
 
-    @GetMapping("/reservation")
-    public String showReservationForm(Model model) {
+    @GetMapping("/")
+    public String showReservationForm(Model model, Principal principal) {
+        setDefaultValues(model, principal);
         model.addAttribute("reservation", new Reservation());
+        model.addAttribute("reservations", reservationService.getAllReservations());
+
         return "reservation-form";
     }
-    @PostMapping("/reservation")
+    @PostMapping("/")
     public String makeReservation(@Valid @ModelAttribute("reservation") Reservation reservation,BindingResult bindingResult,Model model) {
         if (bindingResult.hasErrors()) {
             return "reservation-form";
         }
 
         if (reservationService.isAvailable(reservation.getPlace(),reservation.getDate(),reservation.getStartTime(),reservation.getEndTime())){
-            reservationService.createReservation(reservation.getPlace(),reservation.getDate(),reservation.getStartTime(),reservation.getEndTime());
+            reservationService.createReservation(reservation.getPlace(),reservation.getDate(),reservation.getStartTime(),reservation.getEndTime(),reservation.getCustomer());
             log.info("Reservation created");
             model.addAttribute("message", "Reservation successfully made");
         }else {
@@ -43,5 +53,11 @@ public class ReservationWeb {
             model.addAttribute("message", "Reservation not available");
         }
         return "reservation-result";
+    }
+    private void setDefaultValues(Model model, Principal principal) {
+        model.addAttribute("pageTitle", "Players");
+        if (principal != null) {
+            userService.addUserAndPlayerToModel(principal.getName(), model);
+        }
     }
 }
