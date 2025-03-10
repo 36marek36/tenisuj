@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.UUID;
@@ -17,10 +18,12 @@ import java.util.UUID;
 public class ReservationServiceBean implements ReservationService {
 
     private final ReservationRepository reservationRepository;
+    private final MatchService matchService;
 
     @Autowired
-    public ReservationServiceBean(ReservationRepository reservationRepository) {
+    public ReservationServiceBean(ReservationRepository reservationRepository, MatchService matchService) {
         this.reservationRepository = reservationRepository;
+        this.matchService = matchService;
     }
 
 
@@ -33,6 +36,10 @@ public class ReservationServiceBean implements ReservationService {
     @Override
     public void createReservation(String place,LocalDate date, LocalTime startTime,LocalTime endTime,String customer,Match match) {
         Reservation reservation = new Reservation(UUID.randomUUID().toString(), place,date, startTime,endTime,customer,match);
+        if (reservation.getMatch() != null) {
+            LocalDateTime dateTime = date.atTime(startTime);
+            matchService.addLocation(match.getId(), place,dateTime);
+        }
         log.info("Reservation created: {}", reservation);
         reservationRepository.save(reservation);
     }
