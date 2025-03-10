@@ -1,6 +1,7 @@
 package com.example.tenisuj.controller.web;
 
 import com.example.tenisuj.model.Reservation;
+import com.example.tenisuj.model.User;
 import com.example.tenisuj.service.ReservationService;
 import com.example.tenisuj.service.UserService;
 import jakarta.validation.Valid;
@@ -33,6 +34,11 @@ public class ReservationWeb {
     @GetMapping("/")
     public String showReservationForm(Model model, Principal principal) {
         setDefaultValues(model, principal);
+        if (principal != null) {
+            User user = userService.getUser(principal.getName());
+            String playerName = user.getPlayer().getFirstName() + " " + user.getPlayer().getLastName();
+            model.addAttribute("customer", playerName);
+        }
         model.addAttribute("reservation", new Reservation());
         model.addAttribute("reservations", reservationService.getAllReservations());
 
