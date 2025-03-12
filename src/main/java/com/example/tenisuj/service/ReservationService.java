@@ -12,4 +12,6 @@ public interface ReservationService {
     void createReservation(String place, LocalDate date, LocalTime startTime, LocalTime endTime, String customer, Match match);
     List<Reservation> getAllReservations();
     void deleteReservation(String id);
+    void approveReservation(String reservationId);
+    void rejectReservation(String reservationId);
 }

@@ -35,7 +35,7 @@ public class ReservationServiceBean implements ReservationService {
 
     @Override
     public void createReservation(String place,LocalDate date, LocalTime startTime,LocalTime endTime,String customer,Match match) {
-        Reservation reservation = new Reservation(UUID.randomUUID().toString(), place,date, startTime,endTime,customer,match);
+        Reservation reservation = new Reservation(UUID.randomUUID().toString(), place,date, startTime,endTime,customer,match,"pending");
         if (reservation.getMatch() != null) {
             LocalDateTime dateTime = date.atTime(startTime);
             matchService.addLocation(match.getId(), place,dateTime);
@@ -56,6 +56,22 @@ public class ReservationServiceBean implements ReservationService {
         }
         reservationRepository.deleteById(id);
         log.info("Reservation deleted: {}", reservationRepository.findById(id));
+    }
+
+    @Override
+    public void approveReservation(String reservationId) {
+        Reservation reservation = reservationRepository.findById(reservationId)
+                .orElseThrow(() -> new IllegalArgumentException("Reservation not found"));
+        reservation.setStatus("approved");
+        reservationRepository.save(reservation);
+    }
+
+    @Override
+    public void rejectReservation(String reservationId) {
+        Reservation reservation = reservationRepository.findById(reservationId)
+                .orElseThrow(() -> new IllegalArgumentException("Reservation not found"));
+        reservationRepository.delete(reservation);
+
     }
 
 
