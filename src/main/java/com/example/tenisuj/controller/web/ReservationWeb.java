@@ -11,10 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 
@@ -65,6 +62,19 @@ public class ReservationWeb {
             log.info("Reservation not available");
             model.addAttribute("message", "Reservation not available");
         }
+        return "reservation-result";
+    }
+
+    @PostMapping("/approveReservation")
+    public String approveReservation(@RequestParam String reservationId,Model model) {
+        reservationService.approveReservation(reservationId);
+        model.addAttribute("message", "Reservation approved");
+        return "reservation-result";
+    }
+    @PostMapping("/rejectReservation")
+    public String rejectReservation(@RequestParam String reservationId,Model model) {
+        reservationService.rejectReservation(reservationId);
+        model.addAttribute("message", "Reservation rejected");
         return "reservation-result";
     }
     private void setDefaultValues(Model model, Principal principal) {

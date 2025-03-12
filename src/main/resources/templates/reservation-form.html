@@ -27,6 +27,8 @@
                         <th>Date</th>
                         <th>Start Time</th>
                         <th>End Time</th>
+                        <th>Status</th>
+                        <th sec:authorize="hasRole('ROLE_ADMIN')" th:colspan="2">Action</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -36,6 +38,20 @@
                         <td th:text="${reservation.date}">Date</td>
                         <td th:text="${reservation.startTime}">Start Time</td>
                         <td th:text="${reservation.endTime}">End Time</td>
+                        <td th:text="${reservation.status}">Status</td>
+                        <td>
+                            <form sec:authorize="hasRole('ROLE_ADMIN')" th:action="@{/reservations/approveReservation}" method="post">
+                                <input type="hidden" th:value="${reservation.id}" name="reservationId"/>
+                                <button type="submit" th:disabled="${reservation.status != 'pending'}">Approve</button>
+                            </form>
+                        </td>
+
+                        <td sec:authorize="hasRole('ROLE_ADMIN')">
+                            <form th:action="@{/reservations/rejectReservation}" method="POST">
+                                <input type="hidden" name="reservationId" th:value="${reservation.id}">
+                                <button type="submit">Reject</button>
+                            </form>
+                        </td>
                     </tr>
                     </tbody>
                 </table>
@@ -60,13 +76,13 @@
                 <label for="customer">Customer:</label>
                 <input type="text" id="customer" name="customer" th:value="${customer}" required><br><br>
 
-                <label for="myMatches" class="form-label">Matches</label>
+                <label for="myMatches" class="form-label">My Matches</label>
                 <select th:field="*{match}" id="myMatches" class="form-select">
                     <option value="" selected>Select from your matches (or leave blank)</option>
                     <option th:each="match : ${myMatches}"
                             th:value="${match.id}"
                             th:text="${match.getPlayer1().firstName} + ' ' + ${match.getPlayer1().lastName} + ' vs ' + ${match.getPlayer2().firstName} + ' ' + ${match.getPlayer2().lastName}"></option>
-                </select>
+                </select><br><br>
 
                 <button type="submit">Make</button>
             </form>
