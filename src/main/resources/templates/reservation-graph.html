@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Reservation Graph</title>
+  <style>
+    .time-slot {
+      width: 50px;
+      height: 30px;
+      display: inline-block;
+      margin: 2px;
+      text-align: center;
+      vertical-align: top;
+    }
+    .reserved {
+      background-color: red;
+      color: white;
+    }
+    .free {
+      background-color: green;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+
+<h2>Reservation Graph</h2>
+
+<div>
+  <div th:each="slot : ${timeSlots}">
+    <div class="time-slot"
+         th:class="${slot.reserved} ? 'reserved' : 'free'">
+      <span th:text="${slot.time}"></span>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
