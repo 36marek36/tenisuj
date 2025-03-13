@@ -1,6 +1,7 @@
 package com.example.tenisuj.service;
 
 import com.example.tenisuj.model.Match;
+import com.example.tenisuj.model.Player;
 import com.example.tenisuj.model.Reservation;
 import com.example.tenisuj.repository.ReservationRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -19,11 +20,13 @@ public class ReservationServiceBean implements ReservationService {
 
     private final ReservationRepository reservationRepository;
     private final MatchService matchService;
+    private final PlayerService playerService;
 
     @Autowired
-    public ReservationServiceBean(ReservationRepository reservationRepository, MatchService matchService) {
+    public ReservationServiceBean(ReservationRepository reservationRepository, MatchService matchService, PlayerService playerService) {
         this.reservationRepository = reservationRepository;
         this.matchService = matchService;
+        this.playerService = playerService;
     }
 
 
@@ -67,12 +70,10 @@ public class ReservationServiceBean implements ReservationService {
     }
 
     @Override
-    public void rejectReservation(String reservationId) {
-        Reservation reservation = reservationRepository.findById(reservationId)
-                .orElseThrow(() -> new IllegalArgumentException("Reservation not found"));
-        reservationRepository.delete(reservation);
-
+    public List<Reservation> getAllPlayerReservation(String playerId) {
+        Player player = playerService.getPlayerById(playerId);
+        String playerFullName = player.getFirstName() + " " + player.getLastName();
+        return reservationRepository.findAllPlayerReservations(playerFullName);
     }
-
 
 }

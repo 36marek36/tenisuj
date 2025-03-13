@@ -13,5 +13,5 @@ public interface ReservationService {
     List<Reservation> getAllReservations();
     void deleteReservation(String id);
     void approveReservation(String reservationId);
-    void rejectReservation(String reservationId);
+    List<Reservation> getAllPlayerReservation(String playerId);
 }

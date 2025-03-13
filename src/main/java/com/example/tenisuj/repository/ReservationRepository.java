@@ -21,4 +21,7 @@ public interface ReservationRepository extends JpaRepository<Reservation, String
                                                   @Param("date") LocalDate date,
                                                   @Param("startTime") LocalTime startTime,
                                                   @Param("endTime") LocalTime endTime);
+
+    @Query("select r from reservations r where r.customer= :playerFullName")
+    List<Reservation> findAllPlayerReservations(String playerFullName);
 }
