@@ -164,7 +164,29 @@ aside {
     background: linear-gradient(to right, #710000 0%, rgba(0, 0, 0, 0) 75%); /* Vytvára lineárny gradient zľava doprava. Začína čiernou farbou (rgba(0, 0, 0, 1)) a postupne prechádza do priesvitnej farby (rgba(0, 0, 0, 0)), čím vytvára efekt stmavenia na ľavej strane obrázka. */
     z-index: 2; /* Nastavuje z-index na vyššiu hodnotu (2), čím zabezpečí, že tento gradient bude nad obrázkom, ktorý má z-index 1. */
 }
+.time-row {
+    display: flex;
+    justify-content: space-evenly;
+}
 
+.time-slot {
+    margin: 0 10px;
+    text-align: center;
+    width: 80px;
+    height: 40px;
+    line-height: 40px;
+    border-radius: 5px;
+}
+
+.reserved {
+    background-color: red;
+    color: white;
+}
+
+.free {
+    background-color: green;
+    color: white;
+}
 
 @supports (-webkit-appearance: none) or (-moz-appearance: none) {
     .checkbox-wrapper-13 input[type=checkbox] {

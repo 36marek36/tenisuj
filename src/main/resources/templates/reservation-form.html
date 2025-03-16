@@ -58,6 +58,16 @@
             </div>
         </div>
 
+        <h2>Reservation Graph</h2>
+        <div>
+            <div class="time-row">
+                <div th:each="slot : ${timeSlots}" class="time-slot"
+                     th:class="${slot.reserved} ? 'reserved' : 'free'">
+                    <span th:text="${slot.time}"></span>
+                </div>
+            </div>
+        </div>
+
         <div>
             <h2>Make reservation</h2>
             <form action="#" th:action="@{/reservations/}" th:object="${reservation}" method="post">
