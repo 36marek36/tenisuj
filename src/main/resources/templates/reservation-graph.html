@@ -4,18 +4,25 @@
   <meta charset="UTF-8">
   <title>Reservation Graph</title>
   <style>
-    .time-slot {
-      width: 50px;
-      height: 30px;
-      display: inline-block;
-      margin: 2px;
-      text-align: center;
-      vertical-align: top;
+    .time-row {
+      display: flex;
+      justify-content: space-evenly;
     }
+
+    .time-slot {
+      margin: 0 10px;
+      text-align: center;
+      width: 80px;
+      height: 40px;
+      line-height: 40px;
+      border-radius: 5px;
+    }
+
     .reserved {
       background-color: red;
       color: white;
     }
+
     .free {
       background-color: green;
       color: white;
@@ -25,10 +32,9 @@
 <body>
 
 <h2>Reservation Graph</h2>
-
 <div>
-  <div th:each="slot : ${timeSlots}">
-    <div class="time-slot"
+  <div class="time-row">
+    <div th:each="slot : ${timeSlots}" class="time-slot"
          th:class="${slot.reserved} ? 'reserved' : 'free'">
       <span th:text="${slot.time}"></span>
     </div>
