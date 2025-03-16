@@ -3,6 +3,7 @@ package com.example.tenisuj.service;
 import com.example.tenisuj.model.Match;
 import com.example.tenisuj.model.Player;
 import com.example.tenisuj.model.Reservation;
+import com.example.tenisuj.model.ReservationTimeSlot;
 import com.example.tenisuj.repository.ReservationRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -31,17 +33,17 @@ public class ReservationServiceBean implements ReservationService {
 
 
     @Override
-    public boolean isAvailable(String place,LocalDate date, LocalTime startTime, LocalTime endTime) {
-        List<Reservation> conflictingReservations = reservationRepository.findConflictingReservations(place,date, startTime, endTime);
+    public boolean isAvailable(String place, LocalDate date, LocalTime startTime, LocalTime endTime) {
+        List<Reservation> conflictingReservations = reservationRepository.findConflictingReservations(place, date, startTime, endTime);
         return conflictingReservations.isEmpty();
     }
 
     @Override
-    public void createReservation(String place,LocalDate date, LocalTime startTime,LocalTime endTime,String customer,Match match) {
-        Reservation reservation = new Reservation(UUID.randomUUID().toString(), place,date, startTime,endTime,customer,match,"pending");
+    public void createReservation(String place, LocalDate date, LocalTime startTime, LocalTime endTime, String customer, Match match) {
+        Reservation reservation = new Reservation(UUID.randomUUID().toString(), place, date, startTime, endTime, customer, match, "pending");
         if (reservation.getMatch() != null) {
             LocalDateTime dateTime = date.atTime(startTime);
-            matchService.addLocation(match.getId(), place,dateTime);
+            matchService.addLocation(match.getId(), place, dateTime);
         }
         log.info("Reservation created: {}", reservation);
         reservationRepository.save(reservation);
@@ -76,4 +78,27 @@ public class ReservationServiceBean implements ReservationService {
         return reservationRepository.findAllPlayerReservations(playerFullName);
     }
 
+    @Override
+    public boolean isTimeReserved(LocalTime time, List<Reservation> reservations) {
+        for (Reservation reservation : reservations) {
+            if (!time.isBefore(reservation.getStartTime()) && !time.isAfter(reservation.getEndTime())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public List<ReservationTimeSlot> generateTimeSlots(List<Reservation> reservations, LocalDate date) {
+        List<ReservationTimeSlot> timeSlots = new ArrayList<>();
+
+        for (int hour = 0; hour < 24; hour++) {
+            for (int minute = 0; minute < 60; minute += 30) {
+                LocalTime time = LocalTime.of(hour, minute);
+                boolean reserved = isTimeReserved(time, reservations);
+                timeSlots.add(new ReservationTimeSlot(time, reserved));
+            }
+        }
+        return timeSlots;
+    }
 }

@@ -51,6 +51,12 @@ public class ReservationWeb {
             }
 
         }
+        LocalDate today = LocalDate.now();
+        List<Reservation> reservations = reservationRepository.findApprovedReservationsByDate(today);
+
+        List<ReservationTimeSlot> timeSlots = reservationService.generateTimeSlots(reservations,today);
+
+        model.addAttribute("timeSlots", timeSlots);
         model.addAttribute("reservation", new Reservation());
         model.addAttribute("reservations", reservationService.getAllReservations());
 
@@ -94,42 +100,6 @@ public class ReservationWeb {
         log.info("My reservations found");
         return "my-reservations";
     }
-
-    @GetMapping("/reservation-graph")
-    public String showReservationGraph(Model model,Principal principal) {
-        setDefaultValues(model, principal);
-        LocalDate today = LocalDate.now();
-        List<Reservation> reservations = reservationRepository.findApprovedReservationsByDate(today);
-
-        List<ReservationTimeSlot> timeSlots = generateTimeSlots(reservations,today);
-
-        model.addAttribute("timeSlots", timeSlots);
-
-        return "reservation-graph";
-    }
-
-    private List<ReservationTimeSlot> generateTimeSlots (List<Reservation> reservations, LocalDate date) {
-        List<ReservationTimeSlot> timeSlots = new ArrayList<>();
-
-        for (int hour = 0; hour < 24; hour++) {
-            for (int minute = 0; minute < 60; minute+=30) {
-                LocalTime time = LocalTime.of(hour, minute);
-                boolean reserved = isTimeReserved(time,reservations);
-                timeSlots.add(new ReservationTimeSlot(time,reserved));
-            }
-        }
-        return timeSlots;
-    }
-
-    private boolean isTimeReserved (LocalTime time,List<Reservation> reservations) {
-        for (Reservation reservation : reservations) {
-            if (!time.isBefore(reservation.getStartTime()) && !time.isAfter(reservation.getEndTime())) {
-                return true;
-            }
-        }
-        return false;
-    }
-
 
     private void setDefaultValues(Model model, Principal principal) {
         model.addAttribute("pageTitle", "Players");
