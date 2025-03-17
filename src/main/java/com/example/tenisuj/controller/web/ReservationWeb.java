@@ -3,6 +3,7 @@ package com.example.tenisuj.controller.web;
 import com.example.tenisuj.model.Reservation;
 import com.example.tenisuj.model.ReservationTimeSlot;
 import com.example.tenisuj.model.User;
+import com.example.tenisuj.model.enums.Location;
 import com.example.tenisuj.repository.ReservationRepository;
 import com.example.tenisuj.service.MatchService;
 import com.example.tenisuj.service.ReservationService;
@@ -49,6 +50,7 @@ public class ReservationWeb {
             }
 
         }
+        model.addAttribute("locations", Location.values());
         model.addAttribute("reservation", new Reservation());
         model.addAttribute("reservations", reservationService.getAllReservations());
 
@@ -94,21 +96,28 @@ public class ReservationWeb {
         log.info("My reservations found");
         return "my-reservations";
     }
+
     @GetMapping("/reservations-graph")
     public String showReservationGraph(@RequestParam(value = "date", required = false) String date, Model model, Principal principal) {
         setDefaultValues(model, principal);
-        LocalDate selectedDate=(date != null && !date.isEmpty()) ? LocalDate.parse(date) : LocalDate.now();
-        List<Reservation> reservations1 = reservationRepository.findApprovedReservationsByDateAndPlace(selectedDate, "kurt1");
-        List<Reservation> reservations2 = reservationRepository.findApprovedReservationsByDateAndPlace(selectedDate, "kurt2");
-        List<Reservation> reservations3 = reservationRepository.findApprovedReservationsByDateAndPlace(selectedDate, "kurt3");
-
-        List<ReservationTimeSlot> timeSlots1 = reservationService.generateTimeSlots(reservations1, selectedDate);
-        List<ReservationTimeSlot> timeSlots2 = reservationService.generateTimeSlots(reservations2, selectedDate);
-        List<ReservationTimeSlot> timeSlots3 = reservationService.generateTimeSlots(reservations3, selectedDate);
-
-        model.addAttribute("timeSlots1", timeSlots1);
-        model.addAttribute("timeSlots2", timeSlots2);
-        model.addAttribute("timeSlots3", timeSlots3);
+        LocalDate selectedDate = (date != null && !date.isEmpty()) ? LocalDate.parse(date) : LocalDate.now();
+        Location[] locations = {Location.Court1, Location.Court2, Location.Court3};
+        for (int i = 0; i < locations.length; i++) {
+            List<Reservation> reservations = reservationRepository.findApprovedReservationsByDateAndPlace(selectedDate, locations[i]);
+            List<ReservationTimeSlot> timeSlots = reservationService.generateTimeSlots(reservations, selectedDate);
+            model.addAttribute("timeSlots" + (i + 1), timeSlots);
+        }
+//        List<Reservation> reservations1 = reservationRepository.findApprovedReservationsByDateAndPlace(selectedDate, Location.Court1);
+//        List<Reservation> reservations2 = reservationRepository.findApprovedReservationsByDateAndPlace(selectedDate, Location.Court2);
+//        List<Reservation> reservations3 = reservationRepository.findApprovedReservationsByDateAndPlace(selectedDate, Location.Court3);
+//
+//        List<ReservationTimeSlot> timeSlots1 = reservationService.generateTimeSlots(reservations1, selectedDate);
+//        List<ReservationTimeSlot> timeSlots2 = reservationService.generateTimeSlots(reservations2, selectedDate);
+//        List<ReservationTimeSlot> timeSlots3 = reservationService.generateTimeSlots(reservations3, selectedDate);
+//
+//        model.addAttribute("timeSlots1", timeSlots1);
+//        model.addAttribute("timeSlots2", timeSlots2);
+//        model.addAttribute("timeSlots3", timeSlots3);
         model.addAttribute("selectedDate", selectedDate);
         log.info("selectedDate: " + selectedDate);
         return "reservations-graph";

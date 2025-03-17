@@ -1,5 +1,6 @@
 package com.example.tenisuj.model;
 
+import com.example.tenisuj.model.enums.Location;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -25,7 +26,7 @@ public class Match {
     @ManyToOne
     private Player player2;
 
-    private String location;
+    private Location location;
 
     @DateTimeFormat
     private LocalDateTime dateTime;
