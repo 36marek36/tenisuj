@@ -2,7 +2,7 @@ package com.example.tenisuj.service;
 
 import com.example.tenisuj.model.Match;
 import com.example.tenisuj.model.Reservation;
-import com.example.tenisuj.model.ReservationTimeSlot;
+import com.example.tenisuj.model.dto.ReservationTimeSlot;
 import com.example.tenisuj.model.enums.Location;
 
 import java.time.LocalDate;
