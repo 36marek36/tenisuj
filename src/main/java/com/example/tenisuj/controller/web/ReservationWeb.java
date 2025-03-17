@@ -17,8 +17,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.time.LocalDate;
-import java.time.LocalTime;
-import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -51,28 +49,23 @@ public class ReservationWeb {
             }
 
         }
-        LocalDate today = LocalDate.now();
-        List<Reservation> reservations = reservationRepository.findApprovedReservationsByDate(today);
-
-        List<ReservationTimeSlot> timeSlots = reservationService.generateTimeSlots(reservations,today);
-
-        model.addAttribute("timeSlots", timeSlots);
         model.addAttribute("reservation", new Reservation());
         model.addAttribute("reservations", reservationService.getAllReservations());
 
         return "reservation-form";
     }
+
     @PostMapping("/")
-    public String makeReservation(@Valid @ModelAttribute("reservation") Reservation reservation,BindingResult bindingResult,Model model) {
+    public String makeReservation(@Valid @ModelAttribute("reservation") Reservation reservation, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
             return "reservation-form";
         }
 
-        if (reservationService.isAvailable(reservation.getPlace(),reservation.getDate(),reservation.getStartTime(),reservation.getEndTime())){
-            reservationService.createReservation(reservation.getPlace(),reservation.getDate(),reservation.getStartTime(),reservation.getEndTime(),reservation.getCustomer(),reservation.getMatch());
+        if (reservationService.isAvailable(reservation.getPlace(), reservation.getDate(), reservation.getStartTime(), reservation.getEndTime())) {
+            reservationService.createReservation(reservation.getPlace(), reservation.getDate(), reservation.getStartTime(), reservation.getEndTime(), reservation.getCustomer(), reservation.getMatch());
             log.info("Reservation created");
             model.addAttribute("message", "Reservation successfully made");
-        }else {
+        } else {
             log.info("Reservation not available");
             model.addAttribute("message", "Reservation not available");
         }
@@ -80,25 +73,43 @@ public class ReservationWeb {
     }
 
     @PostMapping("/approveReservation")
-    public String approveReservation(@RequestParam String reservationId,Model model) {
+    public String approveReservation(@RequestParam String reservationId, Model model) {
         reservationService.approveReservation(reservationId);
         model.addAttribute("message", "Reservation approved");
         return "reservation-result";
     }
+
     @PostMapping("/rejectReservation")
-    public String rejectReservation(@RequestParam String reservationId,Model model) {
+    public String rejectReservation(@RequestParam String reservationId, Model model) {
         reservationService.deleteReservation(reservationId);
         model.addAttribute("message", "Reservation rejected");
         return "reservation-result";
     }
 
     @GetMapping("/my_reservations/{playerId}")
-    public String showMyReservations(@PathVariable String playerId, Model model,Principal principal) {
+    public String showMyReservations(@PathVariable String playerId, Model model, Principal principal) {
         setDefaultValues(model, principal);
         playerId = userService.getUser(principal.getName()).getPlayer().getId();
         model.addAttribute("myReservations", reservationService.getAllPlayerReservation(playerId));
         log.info("My reservations found");
         return "my-reservations";
+    }
+    @GetMapping("/reservations-graph")
+    public String showReservationGraph(Model model, Principal principal) {
+        setDefaultValues(model, principal);
+        LocalDate today = LocalDate.now();
+        List<Reservation> reservations1 = reservationRepository.findApprovedReservationsByDateAndPlace(today, "kurt1");
+        List<Reservation> reservations2 = reservationRepository.findApprovedReservationsByDateAndPlace(today, "kurt2");
+        List<Reservation> reservations3 = reservationRepository.findApprovedReservationsByDateAndPlace(today, "kurt3");
+
+        List<ReservationTimeSlot> timeSlots1 = reservationService.generateTimeSlots(reservations1, today);
+        List<ReservationTimeSlot> timeSlots2 = reservationService.generateTimeSlots(reservations2, today);
+        List<ReservationTimeSlot> timeSlots3 = reservationService.generateTimeSlots(reservations3, today);
+
+        model.addAttribute("timeSlots1", timeSlots1);
+        model.addAttribute("timeSlots2", timeSlots2);
+        model.addAttribute("timeSlots3", timeSlots3);
+        return "reservations-graph";
     }
 
     private void setDefaultValues(Model model, Principal principal) {
