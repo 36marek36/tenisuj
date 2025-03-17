@@ -2,6 +2,7 @@ package com.example.tenisuj.service;
 
 import com.example.tenisuj.model.Match;
 import com.example.tenisuj.model.Player;
+import com.example.tenisuj.model.enums.Location;
 import com.example.tenisuj.repository.MatchRepository;
 import com.example.tenisuj.repository.PlayerRepository;
 import lombok.NonNull;
@@ -80,7 +81,7 @@ public class MatchServiceBean implements MatchService {
     }
 
     @Override
-    public Match addLocation(String matchId, String location, LocalDateTime dateTime) {
+    public Match addLocation(String matchId, Location location, LocalDateTime dateTime) {
 
         var match = matchRepository
                 .findById(matchId)

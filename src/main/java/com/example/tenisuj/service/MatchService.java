@@ -1,6 +1,7 @@
 package com.example.tenisuj.service;
 
 import com.example.tenisuj.model.Match;
+import com.example.tenisuj.model.enums.Location;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -18,7 +19,7 @@ public interface MatchService {
 
     void deleteMatch(String matchId);
 
-    Match addLocation(String matchId, String Location, LocalDateTime dateTime);
+    Match addLocation(String matchId, Location Location, LocalDateTime dateTime);
 
     Match addResult(
             String matchId,

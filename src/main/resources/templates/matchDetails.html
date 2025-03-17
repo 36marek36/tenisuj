@@ -35,8 +35,11 @@
                 <tbody>
                 <tr>
                     <td>
-                        <label for="matchLocation"></label>
-                        <input id="matchLocation" type="text" th:field="*{location}" placeholder="Enter new location"/>
+                        <label for="matchPlace">Place:</label>
+                        <select id="matchPlace" th:field="*{location}">
+                            <option th:each="location : ${locations}" th:value="${location}"
+                                    th:text="${location}"></option>
+                        </select>
                         <label for="matchDateTime"></label>
                         <input id="matchDateTime" type="datetime-local" th:field="*{dateTime}"/>
                     </td>
@@ -107,7 +110,8 @@
                     </td>
                     <td class="checkbox-wrapper-13">
                         <label for="c1-1">
-                            <input id="c1-1" type="checkbox" th:field="*{scratchedPlayerId}" th:value="${match.player1.id}"
+                            <input id="c1-1" type="checkbox" th:field="*{scratchedPlayerId}"
+                                   th:value="${match.player1.id}"
                                    th:checked="${match.scratched == match.player1.id}"/>
                         </label>
                     </td>
@@ -155,7 +159,8 @@
                     </td>
                     <td class="checkbox-wrapper-13">
                         <label for="c1-2">
-                            <input id="c1-2" type="checkbox" th:field="*{scratchedPlayerId}" th:value="${match.player2.id}"
+                            <input id="c1-2" type="checkbox" th:field="*{scratchedPlayerId}"
+                                   th:value="${match.player2.id}"
                                    th:checked="${match.scratched == match.player2.id}"/>
                         </label>
                     </td>

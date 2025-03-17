@@ -4,6 +4,7 @@ import com.example.tenisuj.model.Match;
 import com.example.tenisuj.model.Player;
 import com.example.tenisuj.model.Reservation;
 import com.example.tenisuj.model.ReservationTimeSlot;
+import com.example.tenisuj.model.enums.Location;
 import com.example.tenisuj.repository.ReservationRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,13 +34,13 @@ public class ReservationServiceBean implements ReservationService {
 
 
     @Override
-    public boolean isAvailable(String place, LocalDate date, LocalTime startTime, LocalTime endTime) {
+    public boolean isAvailable(Location place, LocalDate date, LocalTime startTime, LocalTime endTime) {
         List<Reservation> conflictingReservations = reservationRepository.findConflictingReservations(place, date, startTime, endTime);
         return conflictingReservations.isEmpty();
     }
 
     @Override
-    public void createReservation(String place, LocalDate date, LocalTime startTime, LocalTime endTime, String customer, Match match) {
+    public void createReservation(Location place, LocalDate date, LocalTime startTime, LocalTime endTime, String customer, Match match) {
         Reservation reservation = new Reservation(UUID.randomUUID().toString(), place, date, startTime, endTime, customer, match, "pending");
         if (reservation.getMatch() != null) {
             LocalDateTime dateTime = date.atTime(startTime);

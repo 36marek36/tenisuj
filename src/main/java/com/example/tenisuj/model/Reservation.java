@@ -1,5 +1,6 @@
 package com.example.tenisuj.model;
 
+import com.example.tenisuj.model.enums.Location;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
@@ -22,7 +23,7 @@ public class Reservation {
     private String id;
 
     @NotNull
-    private String place;
+    private Location place;
 
     @NotNull
     private LocalDate date;

@@ -4,6 +4,7 @@ import com.example.tenisuj.model.Match;
 import com.example.tenisuj.model.Player;
 import com.example.tenisuj.model.dto.UpdateMatchLocationDateAndTimeDto;
 import com.example.tenisuj.model.dto.UpdateResultDto;
+import com.example.tenisuj.model.enums.Location;
 import com.example.tenisuj.service.MatchService;
 import com.example.tenisuj.service.PlayerService;
 import com.example.tenisuj.service.UserService;
@@ -68,6 +69,7 @@ public class MatchWeb {
         UpdateResultDto updateResultDto = getUpdateResultDto(match);
 
         model.addAttribute("match", match);
+        model.addAttribute("locations", Location.values());
         model.addAttribute("updateMatchLocationDateAndTimeDto", updateMatchLocationDateAndTimeDto);
         model.addAttribute("updateResultDto", updateResultDto);
         return "matchDetails";
