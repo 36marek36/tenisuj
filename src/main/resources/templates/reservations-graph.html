@@ -16,6 +16,14 @@
     </header>
 
     <main>
+        <form method="get" th:action="@{/reservations/reservations-graph}">
+            <label for="date">Select date:</label>
+            <input type="date" id="date" name="date" th:value="${selectedDate}"/>
+            <button type="submit">Show Reservations</button>
+        </form>
+
+        <h2>Reservations for</h2>
+        <h2 th:text="${selectedDate.getDayOfWeek()+' '+selectedDate.getDayOfMonth()+'.'+selectedDate.getMonthValue()+'.'+selectedDate.getYear()}"></h2>
         <div>
             <h3>Kurt 1</h3>
             <div class="time-row">
@@ -45,7 +53,6 @@
                 </div>
             </div>
         </div>
-
 
 
     </main>

@@ -95,20 +95,22 @@ public class ReservationWeb {
         return "my-reservations";
     }
     @GetMapping("/reservations-graph")
-    public String showReservationGraph(Model model, Principal principal) {
+    public String showReservationGraph(@RequestParam(value = "date", required = false) String date, Model model, Principal principal) {
         setDefaultValues(model, principal);
-        LocalDate today = LocalDate.now();
-        List<Reservation> reservations1 = reservationRepository.findApprovedReservationsByDateAndPlace(today, "kurt1");
-        List<Reservation> reservations2 = reservationRepository.findApprovedReservationsByDateAndPlace(today, "kurt2");
-        List<Reservation> reservations3 = reservationRepository.findApprovedReservationsByDateAndPlace(today, "kurt3");
+        LocalDate selectedDate=(date != null && !date.isEmpty()) ? LocalDate.parse(date) : LocalDate.now();
+        List<Reservation> reservations1 = reservationRepository.findApprovedReservationsByDateAndPlace(selectedDate, "kurt1");
+        List<Reservation> reservations2 = reservationRepository.findApprovedReservationsByDateAndPlace(selectedDate, "kurt2");
+        List<Reservation> reservations3 = reservationRepository.findApprovedReservationsByDateAndPlace(selectedDate, "kurt3");
 
-        List<ReservationTimeSlot> timeSlots1 = reservationService.generateTimeSlots(reservations1, today);
-        List<ReservationTimeSlot> timeSlots2 = reservationService.generateTimeSlots(reservations2, today);
-        List<ReservationTimeSlot> timeSlots3 = reservationService.generateTimeSlots(reservations3, today);
+        List<ReservationTimeSlot> timeSlots1 = reservationService.generateTimeSlots(reservations1, selectedDate);
+        List<ReservationTimeSlot> timeSlots2 = reservationService.generateTimeSlots(reservations2, selectedDate);
+        List<ReservationTimeSlot> timeSlots3 = reservationService.generateTimeSlots(reservations3, selectedDate);
 
         model.addAttribute("timeSlots1", timeSlots1);
         model.addAttribute("timeSlots2", timeSlots2);
         model.addAttribute("timeSlots3", timeSlots3);
+        model.addAttribute("selectedDate", selectedDate);
+        log.info("selectedDate: " + selectedDate);
         return "reservations-graph";
     }
 
