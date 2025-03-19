@@ -21,14 +21,14 @@
             <input type="date" id="date" name="date" th:value="${selectedDate}"/>
             <button type="submit">Show Reservations</button>
         </form>
-
         <h2>Reservations for</h2>
         <h2 th:text="${selectedDate.getDayOfWeek()+' '+selectedDate.getDayOfMonth()+'.'+selectedDate.getMonthValue()+'.'+selectedDate.getYear()}"></h2>
+
         <div th:each="location : ${timeSlotForLocations}">
             <h3 th:text="${location.name}"></h3>
             <div class="time-row">
                 <div th:each="slot : ${location.reservationTimeSlots}" class="time-slot"
-                     th:class="${slot.reserved} ? 'reserved' : 'free'">
+                     th:class="${slot.status == 'approved' ? 'approved' : (slot.status == 'pending' ? 'pending' : 'free')}">
                     <span th:text="${slot.time}"></span>
                 </div>
             </div>

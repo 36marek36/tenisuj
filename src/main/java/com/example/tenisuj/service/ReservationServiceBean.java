@@ -90,16 +90,33 @@ public class ReservationServiceBean implements ReservationService {
     }
 
     @Override
-    public List<ReservationTimeSlot> generateTimeSlots(List<Reservation> reservations, LocalDate date) {
+    public List<ReservationTimeSlot> generateTimeSlotsWithStatus(List<Reservation> reservations, LocalDate date) {
         List<ReservationTimeSlot> timeSlots = new ArrayList<>();
 
         for (int hour = 0; hour < 24; hour++) {
             for (int minute = 0; minute < 60; minute += 30) {
                 LocalTime time = LocalTime.of(hour, minute);
                 boolean reserved = isTimeReserved(time, reservations);
-                timeSlots.add(new ReservationTimeSlot(time, reserved));
+                String status = getReservationStatus(time, reservations); // Získame stav rezervácie
+
+                timeSlots.add(new ReservationTimeSlot(time, reserved, status)); // Pridáme aj status
             }
         }
         return timeSlots;
+    }
+
+    @Override
+    public String getReservationStatus(LocalTime time, List<Reservation> reservations) {
+        // Pre každú rezerváciu skontrolujeme, či jej čas spadá do daného slotu
+        for (Reservation reservation : reservations) {
+            LocalTime startTime = reservation.getStartTime();
+            LocalTime endTime = reservation.getEndTime();
+
+            // Skontrolujeme, či je daný časový slot v intervale medzi startTime a endTime
+            if ((time.isAfter(startTime) || time.equals(startTime)) && (time.isBefore(endTime) || time.equals(endTime))) {
+                return reservation.getStatus(); // Vráti status rezervácie (pending, approved)
+            }
+        }
+        return "free"; // Ak časový slot nie je obsadený, je free
     }
 }
