@@ -12,4 +12,5 @@ import java.time.LocalTime;
 public class ReservationTimeSlot {
     private LocalTime time;
     private boolean reserved;
+    private String status; // Stav rezervácie (pending, approved, alebo free)
 }

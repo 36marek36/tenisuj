@@ -18,5 +18,6 @@ public interface ReservationService {
     void approveReservation(String reservationId);
     List<Reservation> getAllPlayerReservation(String playerId);
     boolean isTimeReserved (LocalTime time,List<Reservation> reservations);
-    List<ReservationTimeSlot> generateTimeSlots (List<Reservation> reservations, LocalDate date);
+    List<ReservationTimeSlot> generateTimeSlotsWithStatus(List<Reservation> reservations, LocalDate date);
+    String getReservationStatus(LocalTime time, List<Reservation> reservations);
 }

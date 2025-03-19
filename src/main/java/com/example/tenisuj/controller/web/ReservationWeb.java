@@ -105,14 +105,23 @@ public class ReservationWeb {
         LocalDate selectedDate = (date != null && !date.isEmpty()) ? LocalDate.parse(date) : LocalDate.now();
         Location[] locations = {Location.Court1, Location.Court2, Location.Court3};
         List<TimeSlotForLocation> timeSlotForLocations = new ArrayList<>();
+
+        // Pre každý kurt
         for (int i = 0; i < locations.length; i++) {
-            List<Reservation> reservations = reservationRepository.findApprovedReservationsByDateAndPlace(selectedDate, locations[i]);
-            List<ReservationTimeSlot> timeSlots = reservationService.generateTimeSlots(reservations, selectedDate);
-            timeSlotForLocations.add(new TimeSlotForLocation("Court "+(i+1),timeSlots));
+            // Získaj všetky rezervácie pre daný deň a miesto (pending a approved)
+            List<Reservation> allReservations = reservationRepository.findAllReservationsByDateAndPlace(selectedDate, locations[i]);
+
+            // Vytvorime časové sloty pre všetky rezervácie (pending a approved)
+            List<ReservationTimeSlot> timeSlots = reservationService.generateTimeSlotsWithStatus(allReservations, selectedDate);
+
+            // Pridáme časové sloty pre tento kurt
+            timeSlotForLocations.add(new TimeSlotForLocation("Court "+(i+1), timeSlots));
         }
+
+        // Odovzdáme časové sloty do modelu
         model.addAttribute("timeSlotForLocations", timeSlotForLocations);
         model.addAttribute("selectedDate", selectedDate);
-        log.info("selectedDate: " + selectedDate);
+        log.info("selectedDate: {}", selectedDate);
         return "reservations-graph";
     }
 
