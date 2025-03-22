@@ -91,7 +91,7 @@ aside {
 }
 
 .tables-container {
-    display: flex; /* Umožní umiestnenie tabuliek vedľa seba */
+    /*display: flex; !* Umožní umiestnenie tabuliek vedľa seba *!*/
     justify-content: space-between; /* Rozdelí tabulky na maximálny možný priestor */
     width: 100%; /* Tabuľky zaberú celú šírku rodiča */
     padding: 8px;
