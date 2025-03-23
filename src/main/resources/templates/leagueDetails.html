@@ -20,6 +20,11 @@
     <main>
 
         <h2 th:text="${league.name}" class="mb-4"></h2>
+
+        <div th:if="${errorMessage}" class="alert alert-danger">
+            <span th:text="${errorMessage}"></span>
+        </div>
+
         <table class="table table-striped table-hover">
             <thead>
             <tr>

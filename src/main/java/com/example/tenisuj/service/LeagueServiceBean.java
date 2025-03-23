@@ -84,6 +84,10 @@ public class LeagueServiceBean implements LeagueService {
         var league = leagueRepository.findById(leagueId)
                 .orElseThrow(() -> new IllegalArgumentException("League not found"));
 
+        if (!league.getMatches().isEmpty()) {
+            throw new IllegalStateException("League is in progress!");
+        }
+
         List<Player> playerList = league.getPlayers();
 
         for (int i = 0; i < playerList.size(); i++) {
