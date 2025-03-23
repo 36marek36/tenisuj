@@ -26,6 +26,9 @@ public interface ReservationRepository extends JpaRepository<Reservation, String
     @Query("select r from reservations r where r.customer= :playerFullName")
     List<Reservation> findAllPlayerReservations(String playerFullName);
 
+    @Query("select r from reservations r where r.customer= :userName")
+    List<Reservation> findAllUserReservations(String userName);
+
     @Query("select r from reservations r where r.place =:place and r.date =:date")
     List<Reservation> findAllReservationsByDateAndPlace(@Param("date") LocalDate date,
                                                         @Param("place") Location place);
@@ -37,4 +40,7 @@ public interface ReservationRepository extends JpaRepository<Reservation, String
     @Query("select r from reservations r where r.status='pending' and r.place =:place and r.date =:date")
     List<Reservation> findPendingReservationsByDateAndPlace(@Param("date") LocalDate date,
                                                              @Param("place") Location place);
+
+    @Query("select r from reservations r order by r.date,r.startTime")
+    List<Reservation> getAllReservationsSortedByDateAndStartTime();
 }

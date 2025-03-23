@@ -28,7 +28,7 @@ footer {
 h2 {
     display: flex;
     justify-content: center;
-    color: #710000;
+    color: darkslateblue;
     font-size: 2rem;
     font-weight: 800;
     padding: 20px;
@@ -37,6 +37,7 @@ h2 {
 h3{
     display: flex;
     justify-content: center;
+    color: darkgoldenrod;
 }
 
 h4{
@@ -190,4 +191,9 @@ aside {
 .free {
     background-color: green;
     color: white;
+}
+.home-buttons{
+    display: flex;
+    flex-direction: column;
+    width: 30%;
 }

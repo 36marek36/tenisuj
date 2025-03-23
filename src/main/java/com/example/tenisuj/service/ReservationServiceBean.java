@@ -3,6 +3,7 @@ package com.example.tenisuj.service;
 import com.example.tenisuj.model.Match;
 import com.example.tenisuj.model.Player;
 import com.example.tenisuj.model.Reservation;
+import com.example.tenisuj.model.User;
 import com.example.tenisuj.model.dto.ReservationTimeSlot;
 import com.example.tenisuj.model.enums.Location;
 import com.example.tenisuj.repository.ReservationRepository;
@@ -24,12 +25,14 @@ public class ReservationServiceBean implements ReservationService {
     private final ReservationRepository reservationRepository;
     private final MatchService matchService;
     private final PlayerService playerService;
+    private final UserService userService;
 
     @Autowired
-    public ReservationServiceBean(ReservationRepository reservationRepository, MatchService matchService, PlayerService playerService) {
+    public ReservationServiceBean(ReservationRepository reservationRepository, MatchService matchService, PlayerService playerService, UserService userService) {
         this.reservationRepository = reservationRepository;
         this.matchService = matchService;
         this.playerService = playerService;
+        this.userService = userService;
     }
 
 
@@ -52,7 +55,8 @@ public class ReservationServiceBean implements ReservationService {
 
     @Override
     public List<Reservation> getAllReservations() {
-        return reservationRepository.findAll().stream().toList();
+        return reservationRepository.getAllReservationsSortedByDateAndStartTime();
+//        return reservationRepository.findAll().stream().toList();
     }
 
     @Override
@@ -77,6 +81,13 @@ public class ReservationServiceBean implements ReservationService {
         Player player = playerService.getPlayerById(playerId);
         String playerFullName = player.getFirstName() + " " + player.getLastName();
         return reservationRepository.findAllPlayerReservations(playerFullName);
+    }
+
+    @Override
+    public List<Reservation> getAllUserReservation(String userName) {
+        User user = userService.getUser(userName);
+        userName = user.getUsername();
+        return reservationRepository.findAllUserReservations(userName);
     }
 
     @Override
