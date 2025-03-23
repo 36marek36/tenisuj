@@ -45,9 +45,8 @@ public class ReservationWeb {
         setDefaultValues(model, principal);
         if (principal != null) {
             User user = userService.getUser(principal.getName());
+            model.addAttribute("customer", user.getUsername());
             if (user.getPlayer() != null) {
-                String playerName = user.getPlayer().getFirstName() + " " + user.getPlayer().getLastName();
-                model.addAttribute("customer", playerName);
                 model.addAttribute("myMatches", matchService.findAllPlayerMatches(user.getPlayer().getId()));
             }
 
@@ -90,11 +89,20 @@ public class ReservationWeb {
         return "reservation-result";
     }
 
-    @GetMapping("/my_reservations/{playerId}")
-    public String showMyReservations(@PathVariable String playerId, Model model, Principal principal) {
+//    @GetMapping("/my_reservations/{playerId}")
+//    public String showMyReservations(@PathVariable String playerId, Model model, Principal principal) {
+//        setDefaultValues(model, principal);
+//        playerId = userService.getUser(principal.getName()).getPlayer().getId();
+//        model.addAttribute("myReservations", reservationService.getAllPlayerReservation(playerId));
+//        log.info("My reservations found");
+//        return "my-reservations";
+//    }
+
+    @GetMapping("/my_reservations/{userName}")
+    public String showMyReservations(@PathVariable String userName, Model model, Principal principal) {
         setDefaultValues(model, principal);
-        playerId = userService.getUser(principal.getName()).getPlayer().getId();
-        model.addAttribute("myReservations", reservationService.getAllPlayerReservation(playerId));
+        userName = userService.getUser(principal.getName()).getUsername();
+        model.addAttribute("myReservations", reservationService.getAllUserReservation(userName));
         log.info("My reservations found");
         return "my-reservations";
     }

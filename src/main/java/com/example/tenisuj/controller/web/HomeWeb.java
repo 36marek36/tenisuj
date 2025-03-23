@@ -1,5 +1,6 @@
 package com.example.tenisuj.controller.web;
 
+import com.example.tenisuj.model.User;
 import com.example.tenisuj.service.HomeService;
 import com.example.tenisuj.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,12 +25,11 @@ public class HomeWeb {
     public String player(Model model, Principal principal) {
         setDefaultValues(model, principal);
         model.addAttribute("home", homeService.getHome());
-
         return "home";
     }
 
     public void setDefaultValues(Model model, Principal principal) {
-        model.addAttribute("pageTitle", "Tenisuj-sk");
+        model.addAttribute("pageTitle", "Home");
         if (principal != null) {
             userService.addUserAndPlayerToModel(principal.getName(), model);
         }

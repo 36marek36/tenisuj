@@ -20,16 +20,15 @@
 <main class="tenisuj">
     <aside>
         <div class="tables-container">
-            <h2 style="color: whitesmoke">Tenisuj-sk</h2>
-            <h3 style="color: darkgoldenrod" th:text="${today.getDayOfWeek()}"></h3>
-            <h3 style="color: darkgoldenrod" th:text="${today.getDayOfMonth()+'.'+today.getMonthValue()+'.'+today.getYear()}"></h3>
+            <h2>Tenisuj-sk</h2>
+            <h3 th:text="${today.getDayOfWeek()}"></h3>
+            <h3 th:text="${today.getDayOfMonth()+'.'+today.getMonthValue()+'.'+today.getYear()}"></h3>
             <table sec:authorize="hasAnyRole('ROLE_ADMIN','ROLE_USER')" >
                 <thead>
                 <tr>
                     <th style="font-size: large">Today Reservations</th>
                 </tr>
                 </thead>
-
                 <tbody>
 
                 <tr>
