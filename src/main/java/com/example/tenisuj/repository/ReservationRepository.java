@@ -41,6 +41,6 @@ public interface ReservationRepository extends JpaRepository<Reservation, String
     List<Reservation> findPendingReservationsByDateAndPlace(@Param("date") LocalDate date,
                                                              @Param("place") Location place);
 
-    @Query("select r from reservations r order by r.date,r.startTime")
-    List<Reservation> getAllReservationsSortedByDateAndStartTime();
+    @Query("select r from reservations r order by r.date,r.place,r.startTime")
+    List<Reservation> getAllReservationsSortedByPlaceAndDateAndStartTime();
 }
