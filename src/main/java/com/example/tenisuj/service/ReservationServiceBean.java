@@ -55,7 +55,7 @@ public class ReservationServiceBean implements ReservationService {
 
     @Override
     public List<Reservation> getAllReservations() {
-        return reservationRepository.getAllReservationsSortedByDateAndStartTime();
+        return reservationRepository.getAllReservationsSortedByPlaceAndDateAndStartTime();
 //        return reservationRepository.findAll().stream().toList();
     }
 
