@@ -30,7 +30,8 @@
             <tr>
                 <th>Player name</th>
                 <th>Player contact</th>
-                <th sec:authorize="hasRole('ROLE_ADMIN')">Start matches</th>
+                <th sec:authorize="isAuthenticated()">League option</th>
+                <th></th>
             </tr>
             </thead>
 
@@ -52,46 +53,54 @@
                     </ul>
                 </td>
 
-                <td sec:authorize="hasRole('ROLE_ADMIN')">
+                <td sec:authorize="isAuthenticated()">
                     <form method="get" th:action="@{/leagues/add-matches/{id}(id=${league.id})}">
-                        <button type="submit" class="btn btn-primary">Start</button>
+                        <button sec:authorize="hasRole('ROLE_ADMIN')" type="submit" class="button">Start League
+                        </button>
+                        <br><br>
                     </form>
+                    <button class="button" sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_USER')"
+                            onclick="toggleContent('matches')">
+                        League Matches
+                    </button>
+                    <br><br>
+                    <button class="button" sec:authorize="hasRole('ROLE_ADMIN')" onclick="toggleContent('addPlayer')">
+                        Add Player
+                    </button>
+                </td>
+                <td>
+                    <h4 th:text="Table" class="tabulka"></h4>
+                    <div class="tabulka">
+                        <table class="table table-sm table-hover">
+                            <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Name</th>
+                                <th>Rating</th>
+                            </tr>
+                            </thead>
+
+                            <tbody>
+                            <tr th:each="player, iterStat : ${sortedPlayers}">
+                                <td th:text="${iterStat.count}"></td>
+                                <td th:text="${player.firstName} + ' ' + ${player.lastName}"></td>
+                                <td th:text="${player.leagueRating}"></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </td>
             </tr>
         </table>
 
-        <h4 th:text="Table" class="tabulka"></h4>
-        <div class="tabulka">
-            <table class="table table-sm table-hover">
-                <thead>
-                <tr>
-                    <th>#</th>
-                    <th>Name</th>
-                    <th>Rating</th>
-                </tr>
-                </thead>
-
-                <tbody>
-                <tr th:each="player, iterStat : ${sortedPlayers}">
-                    <td th:text="${iterStat.count}"></td>
-                    <td th:text="${player.firstName} + ' ' + ${player.lastName}"></td>
-                    <td th:text="${player.leagueRating}"></td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-
-
-        <div>
-            <button sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_USER')" onclick="toggleContent('matches')">
-                League Matches
-            </button>
-            <button sec:authorize="hasRole('ROLE_ADMIN')" onclick="toggleContent('addPlayer')">add player</button>
-        </div>
-
 
         <table id="matches" style="display:none" class="table table-striped table-hover">
             <thead>
+            <tr>
+                <td colspan="4">
+                    <h4 th:text="'League Matches'"></h4>
+                </td>
+            </tr>
             <tr>
                 <th>League matches</th>
                 <th>Matches results</th>

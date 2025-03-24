@@ -67,6 +67,9 @@ public class LeagueServiceBean implements LeagueService {
                 .orElseThrow(() -> new IllegalArgumentException("League not found"));
         var player = playerRepository.findById(playerId)
                 .orElseThrow(() -> new IllegalArgumentException("Player not found"));
+        if (player.getLeagueId()!=null && !player.getLeagueId().equals(leagueId)) {
+            throw new IllegalArgumentException("Player is in a different league!");
+        }
         league.getPlayers().add(player);
         player.setLeagueStatus(true);
         player.setLeagueId(leagueId);
