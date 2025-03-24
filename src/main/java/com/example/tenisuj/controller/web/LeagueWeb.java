@@ -66,9 +66,15 @@ public class LeagueWeb {
     }
 
     @PostMapping("/details/{id}/add")
-    public String addPlayerToLeague(@PathVariable("id") String leagueId, UpdateLeagueDto updateLeagueDto) {
-        leagueService.addPlayerToLeague(leagueId, updateLeagueDto.getPlayerId());
-        log.info("add player to league {}", leagueId);
+    public String addPlayerToLeague(@PathVariable("id") String leagueId, UpdateLeagueDto updateLeagueDto,RedirectAttributes redirectAttributes) {
+        try {
+            leagueService.addPlayerToLeague(leagueId, updateLeagueDto.getPlayerId());
+            log.info("add player to league {}", leagueId);
+        }catch (IllegalArgumentException e){
+            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+            return "redirect:/leagues/details/" + leagueId;
+        }
+
         return "redirect:/leagues/details/" + leagueId;
     }
 
