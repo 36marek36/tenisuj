@@ -180,10 +180,11 @@ public class MatchServiceBean implements MatchService {
 
         matchRepository.save(match);
 
-        if (match.getLeagueId() != null) {
-            playerService.updateRatingInLeague(match.getPlayer1().getId());
-            playerService.updateRatingInLeague(match.getPlayer2().getId());
-        }
+//          move to approveMatch()
+//        if (match.getLeagueId() != null) {
+//            playerService.updateRatingInLeague(match.getPlayer1().getId());
+//            playerService.updateRatingInLeague(match.getPlayer2().getId());
+//        }
         playerService.updateRating(match.getPlayer1().getId());
         playerService.updateRating(match.getPlayer2().getId());
 
@@ -195,6 +196,10 @@ public class MatchServiceBean implements MatchService {
     public void approveMatch(String matchId) {
         Match match = getMatch(matchId);
         match.setStatus("approved");
+        if (match.getLeagueId() != null) {
+            playerService.updateRatingInLeague(match.getPlayer1().getId());
+            playerService.updateRatingInLeague(match.getPlayer2().getId());
+        }
         matchRepository.save(match);
     }
 

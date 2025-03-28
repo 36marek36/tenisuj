@@ -108,10 +108,10 @@
             </tr>
             </thead>
             <tbody>
-            <tr>
+            <tr th:each="match : ${league.matches}">
                 <td>
                     <ul class="no-bullets">
-                        <li th:each="match : ${league.matches}">
+                        <li>
                             <span th:text="${match.player1.firstName}"></span>
                             <span th:text="${match.player1.lastName}"></span>
                             <span> vs </span>
@@ -123,43 +123,41 @@
 
                 <td>
                     <ul class="no-bullets">
-                        <li th:each="match : ${league.matches}">
-                            <th:block th:if="${match.player1_set1!=null||match.player2_set1!=null}">
-                                <span th:text="${match.player1_set1}"></span>
-                                <span> / </span>
-                                <span th:text="${match.player2_set1}"></span>
-                            </th:block>
-                            <th:block th:if="${match.player1_set2!=null||match.player2_set2!=null}">
-                                <span> ; </span>
-                                <span th:text="${match.player1_set2}"></span>
-                                <span> / </span>
-                                <span th:text="${match.player2_set2}"></span>
-                            </th:block>
-                            <th:block th:if="${match.player1_set3!=null||match.player2_set3!=null}">
-                                <span> ; </span>
-                                <span th:text="${match.player1_set3}"></span>
-                                <span> / </span>
-                                <span th:text="${match.player2_set3}"></span>
-                            </th:block>
-                            <th:block th:if="${match.player1_set4!=null||match.player2_set4!=null}">
-                                <span> ; </span>
-                                <span th:text="${match.player1_set4}"></span>
-                                <span> / </span>
-                                <span th:text="${match.player2_set4}"></span>
-                            </th:block>
-                            <th:block th:if="${match.player1_set5!=null||match.player2_set5!=null}">
-                                <span> ; </span>
-                                <span th:text="${match.player1_set5}"></span>
-                                <span> / </span>
-                                <span th:text="${match.player2_set5}"></span>
-                            </th:block>
-                        </li>
+                        <th:block th:if="${match.player1_set1 != null || match.player2_set1 != null}">
+                            <span th:text="${match.player1_set1}"></span>
+                            <span> / </span>
+                            <span th:text="${match.player2_set1}"></span>
+                        </th:block>
+                        <th:block th:if="${match.player1_set2!=null||match.player2_set2!=null}">
+                            <span> ; </span>
+                            <span th:text="${match.player1_set2}"></span>
+                            <span> / </span>
+                            <span th:text="${match.player2_set2}"></span>
+                        </th:block>
+                        <th:block th:if="${match.player1_set3!=null||match.player2_set3!=null}">-->
+                            <span> ; </span>
+                            <span th:text="${match.player1_set3}"></span>
+                            <span> / </span>
+                            <span th:text="${match.player2_set3}"></span>
+                        </th:block>
+                        <th:block th:if="${match.player1_set4!=null||match.player2_set4!=null}">
+                            <span> ; </span>
+                            <span th:text="${match.player1_set4}"></span>
+                            <span> / </span>
+                            <span th:text="${match.player2_set4}"></span>
+                        </th:block>
+                        <th:block th:if="${match.player1_set5!=null||match.player2_set5!=null}">
+                            <span> ; </span>
+                            <span th:text="${match.player1_set5}"></span>
+                            <span> / </span>
+                            <span th:text="${match.player2_set5}"></span>
+                        </th:block>
                     </ul>
                 </td>
 
                 <td>
                     <ul class="no-bullets">
-                        <li th:each="match : ${league.matches}" th:if="${match.winner!=null}">
+                        <li th:if="${match.winner != null}">
                             <span th:text="${match.winner.firstName}"></span>
                             <span th:text="${match.winner.lastName}"></span>
                         </li>

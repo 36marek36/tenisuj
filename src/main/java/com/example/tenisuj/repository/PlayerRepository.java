@@ -16,5 +16,5 @@ public interface PlayerRepository extends JpaRepository<Player, String> {
     @Query("select p from players p where lower(concat(p.firstName,'',p.lastName)) like lower(concat('%', :keyword, '%'))")
     List<Player> search(@Param("keyword") String keyword);
 
-    List<Player> findByLeagueIdOrderByRatingDesc(String leagueId);
+    List<Player> findByLeagueIdOrderByLeagueRatingDesc(String leagueId);
 }
