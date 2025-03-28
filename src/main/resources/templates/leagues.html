@@ -29,6 +29,8 @@
                     <thead>
                     <tr>
                         <th>League name</th>
+                        <th></th>
+                        <th>Number of Matches</th>
                     </tr>
                     </thead>
 
@@ -40,6 +42,9 @@
                             <form method="get" th:action="@{/leagues/details/{id}(id=${league.id})}">
                                 <button type="submit" class="btn btn-primary">League details</button>
                             </form>
+                        </td>
+                        <td th:text="${league.matches.size()}">
+
                         </td>
                     </tr>
                     </tbody>

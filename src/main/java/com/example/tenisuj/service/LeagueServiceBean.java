@@ -118,7 +118,7 @@ public class LeagueServiceBean implements LeagueService {
     }
 
     @Override
-    public List<Player> getPlayersSortedByRating(String leagueId) {
-        return playerRepository.findByLeagueIdOrderByRatingDesc(leagueId);
+    public List<Player> getPlayersSortedByLeagueRating(String leagueId) {
+        return playerRepository.findByLeagueIdOrderByLeagueRatingDesc(leagueId);
     }
 }
