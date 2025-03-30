@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${pageTitle} ? ${pageTitle} : 'default title'"></title>
+    <link th:href="@{/webjars/bootstrap/5.3.3/css/bootstrap.min.css}" rel="stylesheet"/>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <style></style>
+</head>
+<body>
+<div class="page-wrapper">
+
+    <header>
+        <div id="menu" th:insert="~{fragments/menu :: menu}"></div>
+    </header>
+
+    <main>
+        <div id="page" class="container mt-4">
+            <h2 th:text="${pageTitle}" class="mb-5"></h2>
+            <h3 th:text="${editUser.username}">r</h3>
+
+            <form action="#" th:action="@{/users/{id}(id=${editUser.username})}" th:object="${editUser}"
+                  method="post"
+                  class="mb-4">
+                <div class="mb-3">
+                    <label for="userRole" class="form-label">User Role
+                        <select th:field="*{role}" id="userRole" class="form-control">
+                            <option value="" disabled selected>Select a role></option>
+                            <option th:each="role : ${roles}"
+                                    th:value="${role}"
+                                    th:text="${role}"></option>
+                        </select>
+                    </label>
+
+                    <p>
+                        <button type="submit" class="btn btn-primary">Update role</button>
+                    </p>
+                </div>
+                <div class="mb-3">
+                    <label for="userPlayerLeague" class="form-label">Player League
+                        <select th:field="*{player.leagueId}" id="userPlayerLeague" class="form-control">
+                            <option value="" disabled selected>Select a league></option>
+                            <option th:each="league : ${leagues}"
+                                    th:value="${league.id}"
+                                    th:text="${league.name}"></option>
+                        </select>
+                    </label>
+
+                    <p>
+                        <button type="submit" class="btn btn-primary">Update league</button>
+                    </p>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <footer>
+        <a th:text="${#authentication.name}"></a>
+    </footer>
+</div>
+
+</body>
+</html>
