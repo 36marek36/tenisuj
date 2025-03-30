@@ -30,7 +30,7 @@
             <tr>
                 <th>Player name</th>
                 <th>Player contact</th>
-                <th sec:authorize="isAuthenticated()">League option</th>
+                <th>League option</th>
                 <th></th>
             </tr>
             </thead>
@@ -53,13 +53,13 @@
                     </ul>
                 </td>
 
-                <td sec:authorize="isAuthenticated()">
+                <td>
                     <form method="get" th:action="@{/leagues/add-matches/{id}(id=${league.id})}">
                         <button sec:authorize="hasRole('ROLE_ADMIN')" type="submit" class="button">Start League
                         </button>
                         <br><br>
                     </form>
-                    <button class="button" sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_USER')"
+                    <button class="button"
                             onclick="toggleContent('matches')">
                         League Matches
                     </button>
@@ -68,7 +68,8 @@
                         Add Player To League
                     </button>
                     <br><br>
-                    <button class="button" sec:authorize="hasRole('ROLE_ADMIN')" onclick="toggleContent('removePlayer')">
+                    <button class="button" sec:authorize="hasRole('ROLE_ADMIN')"
+                            onclick="toggleContent('removePlayer')">
                         Remove Player From League
                     </button>
                 </td>
@@ -107,8 +108,8 @@
             </tr>
             <tr>
                 <th>League matches</th>
-                <th>Matches results</th>
-                <th>Matches winner</th>
+                <th>Match result</th>
+                <th>Match winner</th>
             </tr>
             </thead>
             <tbody>
@@ -126,7 +127,20 @@
                 </td>
 
                 <td>
-                    <ul class="no-bullets">
+                    <div th:if="${match.status == null}">
+                        <button class="add-result-button" th:data-edit-url="@{/matches/details/{id}(id=${match.id})}"
+                                onclick="handleEdit(this)">
+                            Add Result
+                        </button>
+                    </div>
+
+                    <div th:if="${match.status=='pending'}">
+                        <div style="text-align: right;">
+                            <span>pending</span>
+                        </div>
+                    </div>
+
+                    <ul th:if="${match.status=='approved'}" class="no-bullets">
                         <th:block th:if="${match.player1_set1 != null || match.player2_set1 != null}">
                             <span th:text="${match.player1_set1}"></span>
                             <span> / </span>
@@ -161,7 +175,7 @@
 
                 <td>
                     <ul class="no-bullets">
-                        <li th:if="${match.winner != null}">
+                        <li th:if="${match.status=='approved'}">
                             <span th:text="${match.winner.firstName}"></span>
                             <span th:text="${match.winner.lastName}"></span>
                         </li>
@@ -190,7 +204,8 @@
 
         <div id="removePlayer" style="display:none" sec:authorize="hasRole('ROLE_ADMIN')">
             <h4>Remove player from league</h4>
-            <form th:action="@{/leagues/details/{id}/remove(id=${league.id})}" th:object="${updateLeagueDto}" method="post"
+            <form th:action="@{/leagues/details/{id}/remove(id=${league.id})}" th:object="${updateLeagueDto}"
+                  method="post"
                   class="mb-4">
                 <div class="mb-3">
                     <label for="removePlayerId" class="form-label">Player:</label>
