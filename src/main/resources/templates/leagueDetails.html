@@ -179,7 +179,7 @@
                     <label for="addPlayerId" class="form-label">Player:</label>
                     <select th:field="*{playerId}" id="addPlayerId" class="form-select">
                         <option value="" disabled selected>Select a player</option>
-                        <option th:each="player : ${players}"
+                        <option th:each="player : ${playersWL}"
                                 th:value="${player.id}"
                                 th:text="${player.firstName} + ' ' + ${player.lastName}"></option>
                     </select>

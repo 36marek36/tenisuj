@@ -23,4 +23,6 @@ public interface LeagueService {
 
     League deletePlayerFromLeague(String leagueId, String playerId);
 
+    List<Player> playersWithoutLeague();
+
 }

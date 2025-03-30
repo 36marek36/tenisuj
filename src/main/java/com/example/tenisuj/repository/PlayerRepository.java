@@ -17,4 +17,6 @@ public interface PlayerRepository extends JpaRepository<Player, String> {
     List<Player> search(@Param("keyword") String keyword);
 
     List<Player> findByLeagueIdOrderByLeagueRatingDesc(String leagueId);
+
+    List<Player> findByLeagueIdIsNull();
 }

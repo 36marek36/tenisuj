@@ -3,7 +3,6 @@ package com.example.tenisuj.controller.web;
 import com.example.tenisuj.model.League;
 import com.example.tenisuj.model.dto.UpdateLeagueDto;
 import com.example.tenisuj.service.LeagueService;
-import com.example.tenisuj.service.PlayerService;
 import com.example.tenisuj.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,13 +19,11 @@ import java.security.Principal;
 public class LeagueWeb {
 
     private final LeagueService leagueService;
-    private final PlayerService playerService;
     private final UserService userService;
 
     @Autowired
-    public LeagueWeb(LeagueService leagueService, PlayerService playerService, UserService userService) {
+    public LeagueWeb(LeagueService leagueService, UserService userService) {
         this.leagueService = leagueService;
-        this.playerService = playerService;
         this.userService = userService;
     }
 
@@ -59,7 +56,7 @@ public class LeagueWeb {
     public String getLeague(@PathVariable("id") String leagueId, UpdateLeagueDto updateLeagueDto, Model model, Principal principal) {
         setDefaultValues(model, principal);
         model.addAttribute("league", leagueService.getLeague(leagueId));
-        model.addAttribute("players", playerService.getAllPlayers(null));
+        model.addAttribute("playersWL", leagueService.playersWithoutLeague());
         model.addAttribute("updateLeagueDto", updateLeagueDto);
         model.addAttribute("sortedPlayers", leagueService.getPlayersSortedByLeagueRating(leagueId));
         return "leagueDetails";
