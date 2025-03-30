@@ -1,6 +1,7 @@
 package com.example.tenisuj.service;
 
 import com.example.tenisuj.model.User;
+import com.example.tenisuj.model.enums.Role;
 import org.springframework.ui.Model;
 
 import java.util.List;
@@ -14,7 +15,7 @@ public interface UserService {
 
     List<User> getAllUsers();
 
-    void updateUser(String username, String password, String playerId);
+    void updateUser(String username, String role, String password, String playerId);
 
     List<User> getUsersByName(String name);
 

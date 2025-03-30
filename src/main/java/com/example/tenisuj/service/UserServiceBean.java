@@ -70,7 +70,7 @@ public class UserServiceBean implements UserService {
     }
 
     @Override
-    public void updateUser(String username, String password, String playerId) {
+    public void updateUser(String username,String role, String password, String playerId) {
         var user = userRepository
                 .findById(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
@@ -84,6 +84,11 @@ public class UserServiceBean implements UserService {
         } else {
             updated.setPassword(user.getPassword());
         }
+        if (StringUtils.hasText(role)) {
+            updated.setRole((role));
+        } else {
+            updated.setRole(user.getRole());
+        }
 
         if (StringUtils.hasText(playerId)) {
             updated.setPlayer(playerRepository.findById(playerId)
@@ -91,7 +96,7 @@ public class UserServiceBean implements UserService {
         } else {
             updated.setPlayer(user.getPlayer());
         }
-        updated.setRole(user.getRole());
+//        updated.setRole(user.getRole());
         userRepository.save(updated);
         log.info("User updated: {}", updated.getUsername());
     }
