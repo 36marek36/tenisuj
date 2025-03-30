@@ -137,4 +137,9 @@ public class LeagueServiceBean implements LeagueService {
         leagueRepository.save(league);
         return league;
     }
+
+    @Override
+    public List<Player> playersWithoutLeague() {
+        return playerRepository.findByLeagueIdIsNull();
+    }
 }
