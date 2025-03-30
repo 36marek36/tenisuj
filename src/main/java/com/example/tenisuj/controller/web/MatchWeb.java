@@ -105,8 +105,11 @@ public class MatchWeb {
         String previousPage = (String) request.getSession().getAttribute("previousPage");
         log.info("previousPage:" + previousPage);
 
-        if (previousPage != null && previousPage.contains("/my_matches/")) {
-            return "redirect:/home";
+        if (previousPage != null && previousPage.contains("/matches/my_matches/")) {
+            return "redirect:"+previousPage;
+        }
+        if (previousPage != null && previousPage.contains("/leagues/")) {
+            return "redirect:"+previousPage;
         }
 
         return "redirect:/matches/";

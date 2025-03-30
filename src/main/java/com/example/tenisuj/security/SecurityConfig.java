@@ -52,16 +52,18 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorizeRequests ->
                         authorizeRequests
                                 // Umožniť prístup na tieto adresy aj neprihláseným používateľom
-                                .requestMatchers("/tenisuj/**","/reservations/**","/home", "/login", "/signup","/players/**","/matches/**","/leagues/**","/css/**", "/js/**", "/images/**", "/webjars/**").permitAll()
+                                .requestMatchers("/tenisuj/**","/reservations/**","/home", "/login", "/signup","/players/**","/leagues/**","/css/**", "/js/**", "/images/**", "/webjars/**").permitAll()
 
                                 // Adresy ktore vyžadujú prihlásenie
                                 .requestMatchers( "/profile/**").authenticated()
+                                .requestMatchers( "/matches/**").authenticated()
 
                                 // Admin sekcia
                                 .requestMatchers("/users/**").hasRole("ADMIN")
 
                                 // Pre všetky ostatné požiadavky musí byť používateľ prihlásený
-                                .anyRequest().authenticated()
+                                .anyRequest().permitAll()
+//                                .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
                         .loginPage("/login")

@@ -14,7 +14,7 @@
         <div id="menu" th:insert="~{fragments/menu :: menu}"></div>
     </header>
 
-    <main>
+    <main sec:authorize="hasRole('ADMIN')">
         <div id="page" class="container mt-4">
             <h2 th:text="${pageTitle}" class="mb-5"></h2>
             <h3>Search matches</h3>
