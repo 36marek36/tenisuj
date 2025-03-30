@@ -121,4 +121,20 @@ public class LeagueServiceBean implements LeagueService {
     public List<Player> getPlayersSortedByLeagueRating(String leagueId) {
         return playerRepository.findByLeagueIdOrderByLeagueRatingDesc(leagueId);
     }
+
+    @Override
+    public League deletePlayerFromLeague(String leagueId, String playerId) {
+        var league = leagueRepository.findById(leagueId)
+                .orElseThrow(() -> new IllegalArgumentException("League not found"));
+        var player = playerRepository.findById(playerId)
+                .orElseThrow(() -> new IllegalArgumentException("Player not found"));
+
+        league.getPlayers().remove(player);
+        player.setLeagueStatus(false);
+        player.setLeagueId(null);
+        log.info("Removing player from league {}", league);
+        playerRepository.save(player);
+        leagueRepository.save(league);
+        return league;
+    }
 }

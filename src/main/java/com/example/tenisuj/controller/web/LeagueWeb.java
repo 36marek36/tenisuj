@@ -78,6 +78,19 @@ public class LeagueWeb {
         return "redirect:/leagues/details/" + leagueId;
     }
 
+    @PostMapping("/details/{id}/remove")
+    public String deletePlayerFromLeague(@PathVariable("id") String leagueId, UpdateLeagueDto updateLeagueDto,RedirectAttributes redirectAttributes) {
+        try {
+            leagueService.deletePlayerFromLeague(leagueId, updateLeagueDto.getPlayerId());
+            log.info("remove player from league {}", leagueId);
+        }catch (IllegalArgumentException e){
+            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+            return "redirect:/leagues/details/" + leagueId;
+        }
+
+        return "redirect:/leagues/details/" + leagueId;
+    }
+
     private void setDefaultValues(Model model, Principal principal) {
         model.addAttribute("pageTitle", "Leagues");
         if (principal != null) {
