@@ -21,4 +21,6 @@ public interface LeagueService {
 
     List<Player> getPlayersSortedByLeagueRating(String leagueId);
 
+    League deletePlayerFromLeague(String leagueId, String playerId);
+
 }

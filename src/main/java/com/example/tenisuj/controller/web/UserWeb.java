@@ -41,8 +41,8 @@ public class UserWeb {
     }
 
     @PostMapping("/{id}")
-    public String editUser(@PathVariable("id") String userName, @ModelAttribute("editUser")User user) {
-       userService.updateUser(userName,user.getRole(),user.getPassword(),user.getPlayer().getId());
+    public String editUser(@PathVariable("id") String userName, @ModelAttribute("editUser") User user) {
+        userService.updateUser(userName, user.getRole(), user.getPassword(), user.getPlayer().getId());
         log.info("user edited {}", userName);
         return "redirect:/users/";
     }

@@ -65,7 +65,11 @@
                     </button>
                     <br><br>
                     <button class="button" sec:authorize="hasRole('ROLE_ADMIN')" onclick="toggleContent('addPlayer')">
-                        Add Player
+                        Add Player To League
+                    </button>
+                    <br><br>
+                    <button class="button" sec:authorize="hasRole('ROLE_ADMIN')" onclick="toggleContent('removePlayer')">
+                        Remove Player From League
                     </button>
                 </td>
                 <td>
@@ -172,8 +176,8 @@
             <form th:action="@{/leagues/details/{id}/add(id=${league.id})}" th:object="${updateLeagueDto}" method="post"
                   class="mb-4">
                 <div class="mb-3">
-                    <label for="playerId" class="form-label">Player:</label>
-                    <select th:field="*{playerId}" id="playerId" class="form-select">
+                    <label for="addPlayerId" class="form-label">Player:</label>
+                    <select th:field="*{playerId}" id="addPlayerId" class="form-select">
                         <option value="" disabled selected>Select a player</option>
                         <option th:each="player : ${players}"
                                 th:value="${player.id}"
@@ -181,6 +185,23 @@
                     </select>
                 </div>
                 <button type="submit">Add Player</button>
+            </form>
+        </div>
+
+        <div id="removePlayer" style="display:none" sec:authorize="hasRole('ROLE_ADMIN')">
+            <h4>Remove player from league</h4>
+            <form th:action="@{/leagues/details/{id}/remove(id=${league.id})}" th:object="${updateLeagueDto}" method="post"
+                  class="mb-4">
+                <div class="mb-3">
+                    <label for="removePlayerId" class="form-label">Player:</label>
+                    <select th:field="*{playerId}" id="removePlayerId" class="form-select">
+                        <option value="" disabled selected>Select a player</option>
+                        <option th:each="player : ${sortedPlayers}"
+                                th:value="${player.id}"
+                                th:text="${player.firstName} + ' ' + ${player.lastName}"></option>
+                    </select>
+                </div>
+                <button type="submit">Remove Player</button>
             </form>
         </div>
     </main>

@@ -55,10 +55,17 @@ public class LeagueApi {
         return new ResponseEntity<>("League deleted", HttpStatus.OK);
     }
 
-    @PatchMapping("/{id}")
+    @PatchMapping("/{id}/addPlayer")
     ResponseEntity<League> addPlayerToLeague(@PathVariable("id") String id, @RequestBody UpdateLeagueDto league) {
         var updated = leagueService.addPlayerToLeague(id, league.getPlayerId());
         log.info("addPlayerToLeague {}", id);
+        return ResponseEntity.ok(updated);
+    }
+
+    @DeleteMapping("/{id}/deletePlayer")
+    ResponseEntity<League> deletePlayerFromLeague(@PathVariable("id") String id, @RequestBody UpdateLeagueDto league) {
+        var updated = leagueService.deletePlayerFromLeague(id, league.getPlayerId());
+        log.info("deletePlayerFromLeague {}", id);
         return ResponseEntity.ok(updated);
     }
 
