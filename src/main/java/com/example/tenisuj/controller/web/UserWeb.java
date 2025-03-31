@@ -2,7 +2,6 @@ package com.example.tenisuj.controller.web;
 
 import com.example.tenisuj.model.User;
 import com.example.tenisuj.model.enums.Role;
-import com.example.tenisuj.service.LeagueService;
 import com.example.tenisuj.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -17,11 +16,9 @@ import java.security.Principal;
 public class UserWeb {
 
     private final UserService userService;
-    private final LeagueService leagueService;
 
-    public UserWeb(UserService userService, LeagueService leagueService) {
+    public UserWeb(UserService userService) {
         this.userService = userService;
-        this.leagueService = leagueService;
     }
 
     @GetMapping("/")
@@ -36,13 +33,12 @@ public class UserWeb {
         setDefaultValues(model, principal);
         model.addAttribute("editUser", userService.getUser(userName));
         model.addAttribute("roles", Role.values());
-        model.addAttribute("leagues", leagueService.getAllLeagues());
         return "userEdit";
     }
 
     @PostMapping("/{id}")
     public String editUser(@PathVariable("id") String userName, @ModelAttribute("editUser") User user) {
-        userService.updateUser(userName, user.getRole(), user.getPassword(), user.getPlayer().getId());
+        userService.updateUser(userName, user.getRole(), null, null);
         log.info("user edited {}", userName);
         return "redirect:/users/";
     }

@@ -26,27 +26,23 @@
                     <thead>
                     <tr>
                         <th>Username</th>
-                        <th>User Role</th>
+                        <th th:colspan="2">User Role</th>
                         <th>Player</th>
-                        <th>Player League</th>
-                        <th>Admin actions</th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr th:each="user : ${users}">
                         <td th:text="${user.username}">Username</td>
                         <td th:text="${user.role}">User Role</td>
-                        <td th:text="${user.player != null ? user.player.firstName + ' ' + user.player.lastName : 'No player for user'}">
-                            Player
-                        </td>
-                        <td th:text="${user.player!=null && user.player.leagueId != null ? user.player.leagueId : 'No league for user'}">
-                            Player League
-                        </td>
                         <td sec:authorize="hasRole('ROLE_ADMIN')">
                             <button class="btn btn-primary" th:data-edit-url="@{/users/{id}(id=${user.username})}"
                                     onclick="handleEdit(this)">Edit
                             </button>
                         </td>
+                        <td th:text="${user.player != null ? user.player.firstName + ' ' + user.player.lastName : 'No player for user'}">
+                            Player
+                        </td>
+
                     </tr>
                     </tbody>
 
