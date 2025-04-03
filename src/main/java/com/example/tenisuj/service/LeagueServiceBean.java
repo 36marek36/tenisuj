@@ -162,7 +162,29 @@ public class LeagueServiceBean implements LeagueService {
             throw new IllegalArgumentException("League is not in progress!");
         }
 
+        List<Player> playerList = league.getPlayers();
+
+        for (Player player : playerList) {
+
+            player.setLeagueStatus(false);
+            player.setLeagueId(null);
+            player.setLeagueRating(0);
+            playerRepository.save(player);
+        }
+
+//        league.getPlayers().clear();
+
         league.setStatus(LeagueStatus.FINISHED);
         leagueRepository.save(league);
+    }
+
+    @Override
+    public List<League> getFinishedLeagues() {
+        return leagueRepository.findByStatus(LeagueStatus.FINISHED);
+    }
+
+    @Override
+    public List<League> getNotFinishedLeagues() {
+        return leagueRepository.findByStatusNot(LeagueStatus.FINISHED);
     }
 }

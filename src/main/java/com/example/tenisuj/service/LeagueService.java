@@ -27,4 +27,8 @@ public interface LeagueService {
 
     void finishLeague(String leagueId);
 
+    List<League> getFinishedLeagues();
+
+    List<League> getNotFinishedLeagues();
+
 }

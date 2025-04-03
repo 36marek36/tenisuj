@@ -54,8 +54,15 @@
                 </td>
 
                 <td>
-                    <form method="get" th:action="@{/leagues/add-matches/{id}(id=${league.id})}">
+                    <form method="get" th:action="@{/leagues/add-matches/{id}(id=${league.id})}"
+                          th:if="${league.status == T(com.example.tenisuj.model.enums.LeagueStatus).CREATED}">
                         <button sec:authorize="hasRole('ROLE_ADMIN')" type="submit" class="button">Start League
+                        </button>
+                        <br><br>
+                    </form>
+                    <form method="post" th:action="@{/leagues/finishLeague/{id}(id=${league.id})}"
+                          th:if="${league.status == T(com.example.tenisuj.model.enums.LeagueStatus).ACTIVE}">
+                        <button sec:authorize="hasRole('ROLE_ADMIN')" type="submit" class="button">Finish League
                         </button>
                         <br><br>
                     </form>
@@ -64,16 +71,18 @@
                         League Matches
                     </button>
                     <br><br>
-                    <button class="button" sec:authorize="hasRole('ROLE_ADMIN')" onclick="toggleContent('addPlayer')">
+                    <button class="button" sec:authorize="hasRole('ROLE_ADMIN')" onclick="toggleContent('addPlayer')"
+                            th:if="${league.status == T(com.example.tenisuj.model.enums.LeagueStatus).CREATED}">
                         Add Player To League
                     </button>
                     <br><br>
                     <button class="button" sec:authorize="hasRole('ROLE_ADMIN')"
-                            onclick="toggleContent('removePlayer')">
+                            onclick="toggleContent('removePlayer')"
+                            th:if="${league.status == T(com.example.tenisuj.model.enums.LeagueStatus).CREATED}">
                         Remove Player From League
                     </button>
                 </td>
-                <td>
+                <td th:if="${league.status == T(com.example.tenisuj.model.enums.LeagueStatus).ACTIVE}">
                     <h4 th:text="Table" class="tabulka"></h4>
                     <div class="tabulka">
                         <table class="table table-sm table-hover">
@@ -127,8 +136,9 @@
                 </td>
 
                 <td>
-                    <div th:if="${match.status == null}">
-                        <button class="add-result-button" th:data-edit-url="@{/matches/details/{id}(id=${match.id})}"
+                    <div th:if="${match.status == null or match.status == 'rejected'}">
+                        <button th:if="${league.status == T(com.example.tenisuj.model.enums.LeagueStatus).ACTIVE}"
+                                class="add-result-button" th:data-edit-url="@{/matches/details/{id}(id=${match.id})}"
                                 onclick="handleEdit(this)">
                             Add Result
                         </button>
@@ -143,32 +153,35 @@
                     <ul th:if="${match.status=='approved'}" class="no-bullets">
                         <th:block th:if="${match.player1_set1 != null || match.player2_set1 != null}">
                             <span th:text="${match.player1_set1}"></span>
-                            <span> / </span>
+                            <span> : </span>
                             <span th:text="${match.player2_set1}"></span>
                         </th:block>
                         <th:block th:if="${match.player1_set2!=null||match.player2_set2!=null}">
-                            <span> ; </span>
+                            <span> | </span>
                             <span th:text="${match.player1_set2}"></span>
-                            <span> / </span>
+                            <span> : </span>
                             <span th:text="${match.player2_set2}"></span>
                         </th:block>
-                        <th:block th:if="${match.player1_set3!=null||match.player2_set3!=null}">-->
-                            <span> ; </span>
+                        <th:block th:if="${match.player1_set3!=null||match.player2_set3!=null}">
+                            <span> | </span>
                             <span th:text="${match.player1_set3}"></span>
-                            <span> / </span>
+                            <span> : </span>
                             <span th:text="${match.player2_set3}"></span>
                         </th:block>
                         <th:block th:if="${match.player1_set4!=null||match.player2_set4!=null}">
-                            <span> ; </span>
+                            <span> | </span>
                             <span th:text="${match.player1_set4}"></span>
-                            <span> / </span>
+                            <span> : </span>
                             <span th:text="${match.player2_set4}"></span>
                         </th:block>
                         <th:block th:if="${match.player1_set5!=null||match.player2_set5!=null}">
-                            <span> ; </span>
+                            <span> | </span>
                             <span th:text="${match.player1_set5}"></span>
-                            <span> / </span>
+                            <span> : </span>
                             <span th:text="${match.player2_set5}"></span>
+                        </th:block>
+                        <th:block th:if="${match.scratched != null}">
+                            <span th:text="'scratched'"></span>
                         </th:block>
                     </ul>
                 </td>

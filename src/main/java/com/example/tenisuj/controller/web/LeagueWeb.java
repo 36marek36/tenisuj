@@ -30,7 +30,8 @@ public class LeagueWeb {
     @GetMapping("/")
     public String getAllLeagues(Model model, Principal principal) {
         setDefaultValues(model, principal);
-        model.addAttribute("leagues", leagueService.getAllLeagues());
+        model.addAttribute("leagues", leagueService.getNotFinishedLeagues());
+        model.addAttribute("finishedLeagues", leagueService.getFinishedLeagues());
         model.addAttribute("league", new League());
         return "leagues";
     }
@@ -45,6 +46,17 @@ public class LeagueWeb {
     public String addMatches(@PathVariable("id") String leagueId, RedirectAttributes redirectAttributes) {
         try{
             leagueService.leagueMatchGenerator(leagueId);
+        }catch (IllegalStateException e){
+            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+            return "redirect:/leagues/details/" + leagueId;
+        }
+        return "redirect:/leagues/details/" + leagueId;
+    }
+
+    @PostMapping("/finishLeague/{id}")
+    public String finishLeague(@PathVariable("id") String leagueId, RedirectAttributes redirectAttributes) {
+        try {
+            leagueService.finishLeague(leagueId);
         }catch (IllegalStateException e){
             redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
             return "redirect:/leagues/details/" + leagueId;
