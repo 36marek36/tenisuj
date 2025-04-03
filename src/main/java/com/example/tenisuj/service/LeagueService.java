@@ -25,4 +25,6 @@ public interface LeagueService {
 
     List<Player> playersWithoutLeague();
 
+    void finishLeague(String leagueId);
+
 }

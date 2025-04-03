@@ -3,6 +3,7 @@ package com.example.tenisuj.service;
 import com.example.tenisuj.model.League;
 import com.example.tenisuj.model.Match;
 import com.example.tenisuj.model.Player;
+import com.example.tenisuj.model.enums.LeagueStatus;
 import com.example.tenisuj.repository.LeagueRepository;
 import com.example.tenisuj.repository.MatchRepository;
 import com.example.tenisuj.repository.PlayerRepository;
@@ -34,7 +35,7 @@ public class LeagueServiceBean implements LeagueService {
         if (leagueRepository.existsByName(leagueName)) {
             throw new IllegalArgumentException("League already exists!");
         }
-        League league = new League(UUID.randomUUID().toString(), leagueName, null, null);
+        League league = new League(UUID.randomUUID().toString(), leagueName, null, null, LeagueStatus.CREATED);
         log.info("Adding league {}", leagueName);
         leagueRepository.save(league);
 
@@ -87,7 +88,10 @@ public class LeagueServiceBean implements LeagueService {
         var league = leagueRepository.findById(leagueId)
                 .orElseThrow(() -> new IllegalArgumentException("League not found"));
 
-        if (!league.getMatches().isEmpty()) {
+//        if (!league.getMatches().isEmpty()) {
+//            throw new IllegalStateException("League is in progress!");
+//        }
+        if (league.getStatus().equals(LeagueStatus.ACTIVE)){
             throw new IllegalStateException("League is in progress!");
         }
 
@@ -110,6 +114,7 @@ public class LeagueServiceBean implements LeagueService {
             matchRepository.save(match);
         }
 
+        league.setStatus(LeagueStatus.ACTIVE);
         league.setMatches(matchList);
         leagueRepository.save(league);
 
@@ -141,5 +146,23 @@ public class LeagueServiceBean implements LeagueService {
     @Override
     public List<Player> playersWithoutLeague() {
         return playerRepository.findByLeagueIdIsNull();
+    }
+
+    @Override
+    public void finishLeague(String leagueId) {
+
+        var league = leagueRepository.findById(leagueId)
+                .orElseThrow(() -> new IllegalArgumentException("League not found"));
+
+        if (league.getStatus().equals(LeagueStatus.FINISHED)) {
+            throw new IllegalStateException("The League has already been finished!");
+        }
+
+        if (!league.getStatus().equals(LeagueStatus.ACTIVE)) {
+            throw new IllegalArgumentException("League is not in progress!");
+        }
+
+        league.setStatus(LeagueStatus.FINISHED);
+        leagueRepository.save(league);
     }
 }

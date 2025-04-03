@@ -1,5 +1,6 @@
 package com.example.tenisuj.model;
 
+import com.example.tenisuj.model.enums.LeagueStatus;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
@@ -21,4 +22,6 @@ public class League {
     private List<Player> players;
     @OneToMany
     private List<Match> matches;
+
+    LeagueStatus status;
 }
