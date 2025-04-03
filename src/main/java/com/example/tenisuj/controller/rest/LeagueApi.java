@@ -69,9 +69,9 @@ public class LeagueApi {
         return ResponseEntity.ok(updated);
     }
 
-    @PostMapping("/{id}")
-    ResponseEntity<String> findLeagueById(@PathVariable("id") String id) {
-        log.info("findLeagueById {}", id);
+    @PostMapping("/{id}/finish")
+    ResponseEntity<String> finishLeague(@PathVariable("id") String id) {
+        log.info("finish league {}", id);
         try {
             leagueService.finishLeague(id);
             return ResponseEntity.ok("League finished");
