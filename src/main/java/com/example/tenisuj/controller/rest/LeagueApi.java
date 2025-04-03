@@ -69,6 +69,17 @@ public class LeagueApi {
         return ResponseEntity.ok(updated);
     }
 
+    @PostMapping("/{id}")
+    ResponseEntity<String> findLeagueById(@PathVariable("id") String id) {
+        log.info("findLeagueById {}", id);
+        try {
+            leagueService.finishLeague(id);
+            return ResponseEntity.ok("League finished");
+        }catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
+    }
+
 
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<String> handleIllegalArgumentException(IllegalArgumentException e) {
