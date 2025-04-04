@@ -85,7 +85,7 @@
                     <tr th:each="league : ${finishedLeagues}">
                         <td th:text="${league.name}"></td>
                         <td th:text="${league.players.size()}"></td>
-                        <td th:text="${league.matches.size()}"></td>
+                        <td th:text="${league.winner.firstName+' '+league.winner.lastName}"></td>
                         <td>
                             <form method="get" th:action="@{/leagues/details/{id}(id=${league.id})}">
                                 <button type="submit">League details</button>

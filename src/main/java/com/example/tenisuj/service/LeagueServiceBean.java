@@ -35,7 +35,7 @@ public class LeagueServiceBean implements LeagueService {
         if (leagueRepository.existsByName(leagueName)) {
             throw new IllegalArgumentException("League already exists!");
         }
-        League league = new League(UUID.randomUUID().toString(), leagueName, null, null, LeagueStatus.CREATED);
+        League league = new League(UUID.randomUUID().toString(), leagueName, null, null,null, LeagueStatus.CREATED);
         log.info("Adding league {}", leagueName);
         leagueRepository.save(league);
 
@@ -163,6 +163,7 @@ public class LeagueServiceBean implements LeagueService {
         }
 
         List<Player> playerList = league.getPlayers();
+        Player winner = playerRepository.findByLeagueIdOrderByLeagueRatingDesc(leagueId).getFirst();
 
         for (Player player : playerList) {
 
@@ -172,8 +173,7 @@ public class LeagueServiceBean implements LeagueService {
             playerRepository.save(player);
         }
 
-//        league.getPlayers().clear();
-
+        league.setWinner(winner);
         league.setStatus(LeagueStatus.FINISHED);
         leagueRepository.save(league);
     }
