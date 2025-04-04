@@ -67,7 +67,7 @@ public class TenisujApplication implements CommandLineRunner {
         Match match1 = new Match("00000000-0000-0000-0000-000000000010",players.get(0),player1,null, LocalDateTime.of(2025,1,31,10,30),7,5,6,4,null,null,null,null,null,null,null,players.get(0),null,null);
         Match match2 = new Match("00000000-0000-0000-0000-000000000011",players.get(1),players.get(2),null,null,7,5,0,6,3,0,null,null,null,null,players.get(1),players.get(2),null,null);
 
-        League league = new League("00000000-0000-0000-0000-000000000100","League",players,null, LeagueStatus.CREATED);
+        League league = new League("00000000-0000-0000-0000-000000000100","League",players,null,null, LeagueStatus.CREATED);
 
         users.getFirst().setPlayer(players.get(1));
         league.setPlayers(players);
