@@ -178,13 +178,14 @@ public class MatchServiceBean implements MatchService {
         match.setPlayer1_set5(player1_set5);
         match.setPlayer2_set5(player2_set5);
 
+        if (match.getLeagueId() != null) {
+            match.setStatus("pending");
+        }else {
+            match.setStatus("approved");
+        }
+
         matchRepository.save(match);
 
-//          move to approveMatch()
-//        if (match.getLeagueId() != null) {
-//            playerService.updateRatingInLeague(match.getPlayer1().getId());
-//            playerService.updateRatingInLeague(match.getPlayer2().getId());
-//        }
         playerService.updateRating(match.getPlayer1().getId());
         playerService.updateRating(match.getPlayer2().getId());
 

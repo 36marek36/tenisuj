@@ -20,7 +20,7 @@ public class League {
     private List<Player> players;
     @OneToMany
     private List<Match> matches;
-    @ManyToOne
+    @OneToOne
     private Player winner;
 
     LeagueStatus status;

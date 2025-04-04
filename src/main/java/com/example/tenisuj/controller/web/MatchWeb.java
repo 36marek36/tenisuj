@@ -86,7 +86,7 @@ public class MatchWeb {
     @PostMapping("/details/{id}/add_result")
     public String addMatchResult(@PathVariable("id") String matchId,
                                  UpdateResultDto updateResultDto,
-                                 @RequestParam String status,
+//                                 @RequestParam String status,
                                  HttpServletRequest request) {
         Match match = matchService.getMatch(matchId);
         if (updateResultDto.getScratchedPlayerId() != null) {
@@ -95,7 +95,7 @@ public class MatchWeb {
         } else {
             match.setScratched(null);
         }
-        match.setStatus(status);
+//        match.setStatus(status);
 
         matchService.addResult(matchId, updateResultDto.getPlayer1_set1(), updateResultDto.getPlayer2_set1(), updateResultDto.getPlayer1_set2(), updateResultDto.getPlayer2_set2(), updateResultDto.getPlayer1_set3(), updateResultDto.getPlayer2_set3(), updateResultDto.getPlayer1_set4(), updateResultDto.getPlayer2_set4(), updateResultDto.getPlayer1_set5(), updateResultDto.getPlayer2_set5(), updateResultDto.getScratchedPlayerId(), updateResultDto.getWinnerPlayerId());
         log.info("Match result added");
