@@ -39,7 +39,7 @@ public class Reservation {
 
     @ManyToOne
     @JoinColumn(name = "match_id")
-    Match match;
+    private Match match;
 
     private String status;
 }
