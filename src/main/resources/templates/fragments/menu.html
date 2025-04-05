@@ -31,13 +31,21 @@
                     <li class="nav-item" sec:authorize="isAuthenticated()" th:if="${player!=null}">
                         <a class="nav-link" href="/matches/my_matches/{id}">My Matches</a>
                     </li>
+                    <li class="nav-item" sec:authorize="isAuthenticated()">
+                        <a class="nav-link" href="/reservations/reservation-form">New Reservation</a>
+                    </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/reservations/">Reservations</a>
+                        <a class="nav-link" sec:authorize="hasRole('ROLE_ADMIN')" href="/reservations/">Reservations</a>
+                    </li>
+                </ul>
+
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item" sec:authorize="isAuthenticated()">
+                        <a class="nav-link" href="/reservations/reservations-graph">Reservations Graph</a>
                     </li>
                 </ul>
 
                 <ul class="navbar-nav ms-auto">
-
                     <!-- Zobraziť "Log In" a "Sign Up", ak používateľ nie je prihlásený -->
                     <li class="nav-item" sec:authorize="isAnonymous()">
                         <a class="nav-link" href="/login">Log In</a>

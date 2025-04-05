@@ -39,8 +39,15 @@ public class ReservationWeb {
         this.matchService = matchService;
         this.reservationRepository = reservationRepository;
     }
-
     @GetMapping("/")
+    public String getAllReservations (Model model, Principal principal) {
+        setDefaultValues(model, principal);
+        model.addAttribute("reservations", reservationService.getAllReservations());
+
+        return "reservations";
+    }
+
+    @GetMapping("/reservation-form")
     public String showReservationForm(Model model, Principal principal) {
         setDefaultValues(model, principal);
         if (principal != null) {
@@ -53,12 +60,10 @@ public class ReservationWeb {
         }
         model.addAttribute("locations", Location.values());
         model.addAttribute("reservation", new Reservation());
-        model.addAttribute("reservations", reservationService.getAllReservations());
-
         return "reservation-form";
     }
 
-    @PostMapping("/")
+    @PostMapping("/reservation-form")
     public String makeReservation(@Valid @ModelAttribute("reservation") Reservation reservation, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
             return "reservation-form";
