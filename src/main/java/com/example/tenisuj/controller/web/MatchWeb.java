@@ -38,11 +38,10 @@ public class MatchWeb {
     String getAllMatches(Model model, @Param("playerName") String playerName, Principal principal) {
         setDefaultValues(model, principal);
         model.addAttribute("matches", matchService.getMatches(playerName));
-        model.addAttribute("match", new Match());
-        model.addAttribute("players", playerService.getAllPlayers(null));
         model.addAttribute("playerName", playerName);
         return "matches";
     }
+
 
     @GetMapping("/my_matches/{playerId}")
     String getMyMatches(Model model, Principal principal, @PathVariable("playerId") String playerId) {
@@ -73,6 +72,14 @@ public class MatchWeb {
         model.addAttribute("updateMatchLocationDateAndTimeDto", updateMatchLocationDateAndTimeDto);
         model.addAttribute("updateResultDto", updateResultDto);
         return "matchDetails";
+    }
+
+    @GetMapping("/matchCreate")
+    public String getMatchCreateForm(Model model, Principal principal, HttpServletRequest request) {
+        setDefaultValues(model, principal);
+        model.addAttribute("match", new Match());
+        model.addAttribute("players", playerService.getAllPlayers(null));
+        return "matchCreate";
     }
 
     @PostMapping("/details/{id}/add_lad")
@@ -127,10 +134,10 @@ public class MatchWeb {
         return "redirect:/matches/";
     }
 
-    @PostMapping("/create_match")
+    @PostMapping("/matchCreate")
     public String createMatch(@ModelAttribute("match") Match match) {
         matchService.addMatch(match.getPlayer1().getId(), match.getPlayer2().getId());
-        return "redirect:/matches/";
+        return "redirect:/home";
     }
 
     private static UpdateResultDto getUpdateResultDto(Match match) {

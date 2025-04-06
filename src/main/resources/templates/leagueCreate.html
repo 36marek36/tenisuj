@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+  <meta charset="UTF-8">
+  <title th:text="${pageTitle} ? ${pageTitle} : 'default title'"></title>
+  <link th:href="@{/webjars/bootstrap/5.3.3/css/bootstrap.min.css}" rel="stylesheet"/>
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+  <style></style>
+
+</head>
+
+<body>
+<div class="page-wrapper">
+
+
+  <header>
+    <div id="menu" th:insert="~{fragments/menu :: menu}"></div>
+  </header>
+
+  <main>
+
+    <h2 th:text="${pageTitle}" class="mb-4"></h2>
+
+    <div class="container mt-4" sec:authorize="hasRole('ROLE_ADMIN')">
+      <h4>Add new league</h4>
+      <form action="#" th:action="@{/leagues/create}" th:object="${league}" method="post" class="mb-4">
+        <div class="mb-3">
+          <label for="leagueName" class="form-label">League name</label>
+          <input type="text" th:field="*{name}" id="leagueName" class="form-control">
+        </div>
+
+        <p>
+          <button type="submit">ADD</button>
+        </p>
+      </form>
+    </div>
+
+  </main>
+  <footer>
+    <a th:text="${#authentication.name}"></a>
+  </footer>
+</div>
+</body>
+</html>

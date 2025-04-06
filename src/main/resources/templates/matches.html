@@ -29,31 +29,31 @@
             </form>
         </div>
 
-        <div class="container mt-4">
-            <h3>New Match</h3>
-            <form action="#" th:action="@{/matches/create_match}" th:object="${match}" method="post" class="mb-4">
-                <div class="mb-3">
-                    <label for="newMatchP1" class="form-label">Player1</label>
-                    <select th:field="*{player1}" id="newMatchP1" class="form-select">
-                        <option value="" disabled selected>Select a player 1</option>
-                        <option th:each="player : ${players}"
-                                th:value="${player.id}"
-                                th:text="${player.firstName} + ' ' + ${player.lastName}"></option>
-                    </select>
-                    <label for="newMatchP2" class="form-label">Player2</label>
-                    <select th:field="*{player2}" id="newMatchP2" class="form-select">
-                        <option value="" disabled selected>Select a player 2</option>
-                        <option th:each="player : ${players}"
-                                th:value="${player.id}"
-                                th:text="${player.firstName} + ' ' + ${player.lastName}"></option>
-                    </select>
-                </div>
-                <p>
-                    <button type="submit">ADD</button>
-                </p>
+<!--        <div class="container mt-4">-->
+<!--            <h3>New Match</h3>-->
+<!--            <form action="#" th:action="@{/matches/create_match}" th:object="${match}" method="post" class="mb-4">-->
+<!--                <div class="mb-3">-->
+<!--                    <label for="newMatchP1" class="form-label">Player1</label>-->
+<!--                    <select th:field="*{player1}" id="newMatchP1" class="form-select">-->
+<!--                        <option value="" disabled selected>Select a player 1</option>-->
+<!--                        <option th:each="player : ${players}"-->
+<!--                                th:value="${player.id}"-->
+<!--                                th:text="${player.firstName} + ' ' + ${player.lastName}"></option>-->
+<!--                    </select>-->
+<!--                    <label for="newMatchP2" class="form-label">Player2</label>-->
+<!--                    <select th:field="*{player2}" id="newMatchP2" class="form-select">-->
+<!--                        <option value="" disabled selected>Select a player 2</option>-->
+<!--                        <option th:each="player : ${players}"-->
+<!--                                th:value="${player.id}"-->
+<!--                                th:text="${player.firstName} + ' ' + ${player.lastName}"></option>-->
+<!--                    </select>-->
+<!--                </div>-->
+<!--                <p>-->
+<!--                    <button type="submit">ADD</button>-->
+<!--                </p>-->
 
-            </form>
-        </div>
+<!--            </form>-->
+<!--        </div>-->
 
         <div th:switch="${#lists.size(matches)}">
             <p th:case="0">No matches</p>

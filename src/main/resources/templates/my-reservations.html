@@ -22,6 +22,7 @@
           <tr>
             <th>Place</th>
             <th>Date</th>
+            <th>Day</th>
             <th>Start Time</th>
             <th>End Time</th>
             <th>Match</th>
@@ -31,7 +32,8 @@
           <tbody>
           <tr th:each="reservation : ${myReservations}">
             <td th:text="${reservation.place}">Place</td>
-            <td th:text="${reservation.date}">Date</td>
+            <td th:text="${reservation.date.getDayOfMonth()+'.'+reservation.date.getMonthValue()+'.'+reservation.date.getYear()}">Date</td>
+            <td th:text="${reservation.date.getDayOfWeek()}"></td>
             <td th:text="${reservation.startTime}">Start Time</td>
             <td th:text="${reservation.endTime}">End Time</td>
             <td th:text="${reservation.match != null ? reservation.match.player1.firstName + ' ' + reservation.match.player1.lastName + ' vs ' + reservation.match.player2.firstName + ' ' + reservation.match.player2.lastName : 'Match not available'}">Match</td>

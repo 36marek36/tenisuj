@@ -52,53 +52,11 @@
                     </tbody>
                 </table>
             </div>
-            <div class="container mt-4" sec:authorize="hasRole('ROLE_ADMIN')">
-                <h4>Add new league</h4>
-                <form action="#" th:action="@{/leagues/create}" th:object="${league}" method="post" class="mb-4">
-                    <div class="mb-3">
-                        <label for="leagueName" class="form-label">League name</label>
-                        <input type="text" th:field="*{name}" id="leagueName" class="form-control">
-                    </div>
-
-                    <p>
-                        <button type="submit">ADD</button>
-                    </p>
-                </form>
-            </div>
         </div>
 
-        <div th:switch="${#lists.size(finishedLeagues)}">
-            <h4>Archive</h4>
-            <p th:case="0">No leagues</p>
-            <div th:case="*">
-                <table class="table table-striped table-hover">
-                    <thead>
-                    <tr>
-                        <th>League name</th>
-                        <th>Number of Players</th>
-                        <th>Winner</th>
-                        <th>Details</th>
-                    </tr>
-                    </thead>
-
-                    <tbody>
-                    <tr th:each="league : ${finishedLeagues}">
-                        <td th:text="${league.name}"></td>
-                        <td th:text="${league.players.size()}"></td>
-                        <td th:text="${league.winner.firstName+' '+league.winner.lastName}"></td>
-                        <td>
-                            <form method="get" th:action="@{/leagues/details/{id}(id=${league.id})}">
-                                <button type="submit">League details</button>
-                            </form>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
     </main>
     <footer>
-        <a th:text="${user != null ? user.username : #authentication.name}"></a>
+        <a th:text="${#authentication.name}"></a>
     </footer>
 </div>
 </body>
