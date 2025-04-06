@@ -31,9 +31,22 @@ public class LeagueWeb {
     public String getAllLeagues(Model model, Principal principal) {
         setDefaultValues(model, principal);
         model.addAttribute("leagues", leagueService.getNotFinishedLeagues());
-        model.addAttribute("finishedLeagues", leagueService.getFinishedLeagues());
-        model.addAttribute("league", new League());
+
         return "leagues";
+    }
+
+    @GetMapping("/archive")
+    public String getFinishedLeagues(Model model, Principal principal) {
+        setDefaultValues(model, principal);
+        model.addAttribute("finishedLeagues", leagueService.getFinishedLeagues());
+        return "leaguesArchive";
+    }
+
+    @GetMapping("/leagueCreate")
+    public String getCreateLeagueForm(Model model, Principal principal) {
+        setDefaultValues(model, principal);
+        model.addAttribute("league", new League());
+        return "leagueCreate";
     }
 
     @PostMapping("/create")
@@ -43,7 +56,7 @@ public class LeagueWeb {
     }
 
     @GetMapping("/add-matches/{id}")
-    public String addMatches(@PathVariable("id") String leagueId, RedirectAttributes redirectAttributes) {
+    public String startLeague(@PathVariable("id") String leagueId, RedirectAttributes redirectAttributes) {
         try{
             leagueService.leagueMatchGenerator(leagueId);
         }catch (IllegalStateException e){

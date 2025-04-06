@@ -21,109 +21,12 @@
     <aside>
         <div class="tables-container">
             <h2>Tenisuj-sk</h2>
-            <h3 th:text="${today.getDayOfWeek()}"></h3>
-            <h3 th:text="${today.getDayOfMonth()+'.'+today.getMonthValue()+'.'+today.getYear()}"></h3>
-            <table sec:authorize="hasAnyRole('ROLE_ADMIN','ROLE_USER')" >
-                <thead>
-                <tr>
-                    <th style="font-size: large">Today Reservations</th>
-                </tr>
-                </thead>
-                <tbody>
-
-                <tr>
-                    <td th:text="'Court 1 :'"></td>
-                    <td th:text="${court1Reservations}"></td>
-                </tr>
-                <tr>
-                    <td th:text="'Court 2 :'"></td>
-                    <td th:text="${court2Reservations}"></td>
-                </tr>
-                <tr>
-                    <td th:text="'Court 3 :'"></td>
-                    <td th:text="${court3Reservations}"></td>
-                </tr>
-                </tbody>
-            </table>
+            <h3 th:text="${home}"></h3>
         </div>
         <div class="photo">
             <img src="/images/69_silhout.jpg" alt="Your Photo">
         </div>
     </aside>
-
-
-    <!--    <aside>-->
-    <!--        <div sec:authorize="hasAnyRole('ROLE_USER','ROLE_ADMIN')">-->
-    <!--            <h3 th:text="${player!=null ? player.firstName+' '+player.lastName : 'Your player profile is not filled out yet.'}"></h3>-->
-    <!--            <h4 th:if="${player!=null}" th:text="${player.email.equals('') ? 'No email' : player.email}"></h4>-->
-    <!--            <div class="tables-container">-->
-    <!--                <table class="playerDet" th:if="${player!=null}">-->
-    <!--                    <thead>-->
-    <!--                    <tr>-->
-    <!--                        <th colspan="2" style="text-align: center">My details</th>-->
-    <!--                    </tr>-->
-    <!--                    <tr>-->
-    <!--                        <th>Details</th>-->
-    <!--                        <th>Value</th>-->
-    <!--                    </tr>-->
-
-    <!--                    </thead>-->
-
-    <!--                    <tbody>-->
-
-    <!--                    <tr th:if="${player.registrationDate!=null}">-->
-    <!--                        <td th:text="'Registration date:'"></td>-->
-    <!--                        <td th:text="${player.registrationDate}"></td>-->
-    <!--                    </tr>-->
-    <!--                    <tr th:if="${player.gender!=null}">-->
-    <!--                        <td th:text="'Gender:'"></td>-->
-    <!--                        <td th:text="${player.gender}"></td>-->
-    <!--                    </tr>-->
-    <!--                    <tr th:if="${player.hand!=null}">-->
-    <!--                        <td th:text="'Hand:'"></td>-->
-    <!--                        <td th:text="${player.hand}"></td>-->
-    <!--                    </tr>-->
-    <!--                    <tr th:if="${league!=null}">-->
-    <!--                        <td th:text="'League:'"></td>-->
-    <!--                        <td th:text="${league.name}+' #'+${player.leagueRating}"></td>-->
-    <!--                    </tr>-->
-    <!--                    <tr>-->
-    <!--                        <td th:text="'Rating:'"></td>-->
-    <!--                        <td th:text="${player.rating}"></td>-->
-    <!--                    </tr>-->
-    <!--                    </tbody>-->
-    <!--                </table>-->
-    <!--                <table class="playerDet" th:if="${player!=null}">-->
-    <!--                    <thead>-->
-    <!--                    <tr>-->
-    <!--                        <th colspan="4" style="text-align: center">My matches</th>-->
-    <!--                    </tr>-->
-    <!--                    <tr>-->
-    <!--                        <th>Opponent</th>-->
-    <!--                        <th>Location</th>-->
-    <!--                        <th>Date</th>-->
-    <!--                        <th>Time</th>-->
-    <!--                    </tr>-->
-    <!--                    </thead>-->
-    <!--                    <tbody>-->
-    <!--                    <tr th:each="match : ${myMatches}">-->
-    <!--                        <td th:if="${player.id==match.player1.id}" th:text="${match.player2?.firstName + ' ' + match.player2?.lastName}"></td>-->
-    <!--                        <td th:if="${player.id==match.player2.id}" th:text="${match.player1?.firstName + ' ' + match.player1?.lastName}"></td>-->
-    <!--                        <td th:text="${match.location != null ? match.location : 'N/A'}"></td>-->
-    <!--                        <td th:text="${match.dateTime != null ? match.dateTime.getDayOfMonth()+'.'+match.dateTime.getMonthValue()+'.'+match.dateTime.getYear() : 'N/A'}"></td>-->
-    <!--                        <td th:text="${match.dateTime != null ? match.dateTime.getHour()+':'+match.dateTime.getMinute() : 'N/A'}"></td>-->
-
-    <!--                    </tr>-->
-    <!--                    </tbody>-->
-    <!--                </table>-->
-    <!--            </div>-->
-    <!--        </div>-->
-    <!--        <div class="photo">-->
-    <!--            <img src="/images/69_silhout.jpg" alt="Your Photo">-->
-    <!--        </div>-->
-    <!--    </aside>-->
-
-
     <div class="image-container">
         <img src="/images/tennis.jpg" alt="Your Image">
     </div>
