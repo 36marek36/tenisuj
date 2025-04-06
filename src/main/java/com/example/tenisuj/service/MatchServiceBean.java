@@ -76,6 +76,10 @@ public class MatchServiceBean implements MatchService {
         if (!matchRepository.existsById(matchId)) {
             throw new RuntimeException("Match not found");
         }
+        Match match = getMatch(matchId);
+        if (match.getLeagueId() != null) {
+            throw new RuntimeException("League match can not be deleted");
+        }
         matchRepository.deleteById(matchId);
         log.info("Match deleted");
     }
