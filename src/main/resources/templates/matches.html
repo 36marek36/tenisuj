@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title th:text="${pageTitle} ? ${pageTitle} : 'default title'"></title>
     <link th:href="@{/webjars/bootstrap/5.3.3/css/bootstrap.min.css}" rel="stylesheet"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
     <link rel="stylesheet" th:href="@{/css/style.css}">
     <style></style>
 </head>
@@ -15,6 +16,12 @@
     </header>
 
     <main sec:authorize="hasRole('ADMIN')">
+        <div th:if="${successMessage != null}" class="alert alert-info mt-3">
+            <span th:text="${successMessage}"></span>
+        </div>
+        <div th:if="${errorMessage != null}" class="alert alert-danger">
+            <span th:text="${errorMessage}"></span>
+        </div>
         <div id="page" class="container mt-4">
             <h2 th:text="${pageTitle}" class="mb-5"></h2>
             <h3>Search matches</h3>
@@ -28,32 +35,6 @@
                 </div>
             </form>
         </div>
-
-<!--        <div class="container mt-4">-->
-<!--            <h3>New Match</h3>-->
-<!--            <form action="#" th:action="@{/matches/create_match}" th:object="${match}" method="post" class="mb-4">-->
-<!--                <div class="mb-3">-->
-<!--                    <label for="newMatchP1" class="form-label">Player1</label>-->
-<!--                    <select th:field="*{player1}" id="newMatchP1" class="form-select">-->
-<!--                        <option value="" disabled selected>Select a player 1</option>-->
-<!--                        <option th:each="player : ${players}"-->
-<!--                                th:value="${player.id}"-->
-<!--                                th:text="${player.firstName} + ' ' + ${player.lastName}"></option>-->
-<!--                    </select>-->
-<!--                    <label for="newMatchP2" class="form-label">Player2</label>-->
-<!--                    <select th:field="*{player2}" id="newMatchP2" class="form-select">-->
-<!--                        <option value="" disabled selected>Select a player 2</option>-->
-<!--                        <option th:each="player : ${players}"-->
-<!--                                th:value="${player.id}"-->
-<!--                                th:text="${player.firstName} + ' ' + ${player.lastName}"></option>-->
-<!--                    </select>-->
-<!--                </div>-->
-<!--                <p>-->
-<!--                    <button type="submit">ADD</button>-->
-<!--                </p>-->
-
-<!--            </form>-->
-<!--        </div>-->
 
         <div th:switch="${#lists.size(matches)}">
             <p th:case="0">No matches</p>
@@ -133,6 +114,14 @@
                             <form th:action="@{/matches/rejectMatch}" method="POST">
                                 <input type="hidden" name="matchId" th:value="${match.id}">
                                 <button type="submit">Reject</button>
+                            </form>
+                        </td>
+                        <td sec:authorize="hasRole('ROLE_ADMIN')">
+                            <form th:action="@{/matches/matchDelete}" method="POST">
+                                <input type="hidden" name="matchId" th:value="${match.id}">
+                                <button type="submit" class="btn btn-danger">
+                                    <i class="bi bi-trash"></i>
+                                </button>
                             </form>
                         </td>
                     </tr>

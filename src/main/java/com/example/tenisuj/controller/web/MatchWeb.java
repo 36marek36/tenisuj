@@ -15,6 +15,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
 
@@ -35,8 +36,16 @@ public class MatchWeb {
     }
 
     @GetMapping("/")
-    String getAllMatches(Model model, @Param("playerName") String playerName, Principal principal) {
+    String getAllMatches(Model model, @Param("playerName") String playerName, Principal principal,
+                         @RequestParam(value = "successMessage", required = false) String message,
+                         @RequestParam(value = "errorMessage", required = false) String error) {
         setDefaultValues(model, principal);
+        if (message != null) {
+            model.addAttribute("successMessage", message);
+        }
+        if (error != null) {
+            model.addAttribute("errorMessage", error);
+        }
         model.addAttribute("matches", matchService.getMatches(playerName));
         model.addAttribute("playerName", playerName);
         return "matches";
@@ -113,10 +122,10 @@ public class MatchWeb {
         log.info("previousPage:" + previousPage);
 
         if (previousPage != null && previousPage.contains("/matches/my_matches/")) {
-            return "redirect:"+previousPage;
+            return "redirect:" + previousPage;
         }
         if (previousPage != null && previousPage.contains("/leagues/")) {
-            return "redirect:"+previousPage;
+            return "redirect:" + previousPage;
         }
 
         return "redirect:/matches/";
@@ -138,6 +147,18 @@ public class MatchWeb {
     public String createMatch(@ModelAttribute("match") Match match) {
         matchService.addMatch(match.getPlayer1().getId(), match.getPlayer2().getId());
         return "redirect:/home";
+    }
+
+    @PostMapping("matchDelete")
+    public String deleteMatch(@RequestParam String matchId, RedirectAttributes redirectAttributes) {
+        try {
+            matchService.deleteMatch(matchId);
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+            return "redirect:/matches/";
+        }
+        redirectAttributes.addFlashAttribute("successMessage", "Match deleted successfully");
+        return "redirect:/matches/";
     }
 
     private static UpdateResultDto getUpdateResultDto(Match match) {
