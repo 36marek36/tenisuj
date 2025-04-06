@@ -50,8 +50,11 @@ public class UserServiceBean implements UserService {
 
     @Override
     public void deleteUser(String username) {
-        if (!userRepository.existsById(username)) {
-            throw new IllegalArgumentException("User does not exist");
+//        if (!userRepository.existsById(username)) {
+//            throw new IllegalArgumentException("User does not exist");
+//        }
+        if (username.equals("admin")) {
+            throw new IllegalArgumentException("Admin user cannot be deleted");
         }
         userRepository.deleteById(username);
         log.info("User deleted: {}", username);
@@ -70,7 +73,7 @@ public class UserServiceBean implements UserService {
     }
 
     @Override
-    public void updateUser(String username,String role, String password, String playerId) {
+    public void updateUser(String username, String role, String password, String playerId) {
         var user = userRepository
                 .findById(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
