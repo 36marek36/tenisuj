@@ -27,19 +27,25 @@
                 </h2>
                 <div th:if="${player == null}">
                     <h3>Your player profile is not filled out yet.</h3>
-                    <div class="div-center">
-                        <button type="button" class="button"
-                                th:onclick="|window.location.href='@{/profile/create}'|">Create player profile
-                        </button>
-                    </div>
+<!--                    <div class="div-center">-->
+<!--                        <button type="button" class="button"-->
+<!--                                th:onclick="|window.location.href='@{/profile/create}'|">Create player profile-->
+<!--                        </button>-->
+<!--                    </div>-->
                 </div>
-                <div th:if="${player != null}" class="home-buttons">
-                    <button type="button" class="button"
+                <div class="home-buttons">
+                    <button th:if="${player == null}" type="button" class="button"
+                            th:onclick="|window.location.href='@{/profile/create}'|">Create player profile
+                    </button>
+                    <button th:if="${player != null}" type="button" class="button"
                             th:onclick="|window.location.href='@{/matches/my_matches/{playerId}}'|">My Matches
                     </button>
                     <button type="button" class="button"
                             th:onclick="|window.location.href='@{/reservations/my_reservations/{playerId}}'|">My
                         Reservations
+                    </button>
+                    <button type="button" class="button" style="background: darkorange"
+                            th:onclick="|window.location.href='@{/reservations/reservation-form}'|">New Reservation
                     </button>
                 </div>
             </div>
