@@ -1,7 +1,6 @@
 package com.example.tenisuj.service;
 
 import com.example.tenisuj.model.User;
-import com.example.tenisuj.model.enums.Role;
 import org.springframework.ui.Model;
 
 import java.util.List;
@@ -22,5 +21,7 @@ public interface UserService {
     void addUserAndPlayerToModel (String username, Model model);
 
     boolean userExists(String username);
+
+    User getUserByPlayerId(String playerId);
 
 }
