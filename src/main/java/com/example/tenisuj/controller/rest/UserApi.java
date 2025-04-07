@@ -42,6 +42,12 @@ public class UserApi {
         return userService.getUsersByName(name);
     }
 
+    @GetMapping("/player/!find")
+    User findUserByPlayerId(@RequestParam("playerId") String playerId) {
+        log.info("Find user by playerId: {}", playerId);
+        return userService.getUserByPlayerId(playerId);
+    }
+
     @PostMapping("/create")
     ResponseEntity<String> createUser(@RequestBody CreateUser user) {
         userService.addUser(user.username(), user.password());

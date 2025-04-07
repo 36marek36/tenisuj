@@ -125,6 +125,11 @@ public class UserServiceBean implements UserService {
         return userRepository.existsById(username);
     }
 
+    @Override
+    public User getUserByPlayerId(String playerId) {
+        return userRepository.findUserByPlayerId(playerId);
+    }
+
     private String encryptPassword(String password) {
         return passwordEncoder.encode(password);
     }

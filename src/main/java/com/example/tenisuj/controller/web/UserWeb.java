@@ -61,7 +61,6 @@ public class UserWeb {
             redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
             return "redirect:/users/";
         }
-      userService.deleteUser(userName);
       redirectAttributes.addFlashAttribute("successMessage", "User "+userName+" deleted.");
       return "redirect:/users/";
     }
