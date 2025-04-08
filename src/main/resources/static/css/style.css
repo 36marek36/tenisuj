@@ -73,11 +73,22 @@ input.error {
     justify-content: center;}
 
 .button{
-    border: 2px solid black; /* Čierny okraj */
-    padding: 10px 20px; /* Pridanie vnútorného odsadenia */
-    background-color: #007bff; /* Farba pozadia tlačidla */
-    color: white; /* Farba textu */
-    border-radius: 5px; /* Zaoblené rohy */
+    /*border: 2px solid black; !* Čierny okraj *!*/
+    /*padding: 10px 20px; !* Pridanie vnútorného odsadenia *!*/
+    /*background-color: #007bff; !* Farba pozadia tlačidla *!*/
+    /*color: white; !* Farba textu *!*/
+    /*border-radius: 5px; !* Zaoblené rohy *!*/
+    width: 200px;
+    height: 50px;
+    background-color: #e0e0e0;
+    border-radius: 30px;
+    box-shadow: 8px 8px 15px #bebebe,
+                -8px -8px 15px #ffffff;
+}
+.button:active{
+    box-shadow:
+            inset 8px 8px 15px #bebebe,
+            inset -8px -8px 15px #ffffff;
 }
 
 .add-result-button{
@@ -106,24 +117,14 @@ aside {
     padding: 8px;
 }
 
-.playerDet {
-
-    width: 48%; /* Každá tabuľka zaberie 48% šírky rodiča (zabezpečí medzi nimi trochu medzery) */
-    border-collapse: collapse; /* Zabezpečí, že tabuľka bude mať čistý vzhľad bez medzier medzi bunkami */
-    margin: 0;
+.home-menu{
+    display: flex;
+    justify-content: space-between;
+    width: 75%;
 }
 
-.playerDet th, .playerDet td {
-    padding: 2px; /* Pridá trochu paddingu do tabuliek pre lepšie rozmiestnenie textu */
-    /*border: 1px solid #ddd; !* Zabezpečí okraje medzi bunkami tabuliek *!*/
-}
-
-.playerDet th {
-    text-align: left; /* Zarovná názvy stĺpcov naľavo */
-}
-
-.playerDet td {
-    text-align: left; /* Zarovná údaje naľavo */
+.home-statistic{
+    margin-top: 30px;
 }
 
 .photo {
@@ -203,5 +204,5 @@ aside {
 .home-buttons{
     display: flex;
     flex-direction: column;
-    width: 30%;
+    gap: 15px;
 }
