@@ -15,14 +15,24 @@
         <div id="menu" th:insert="~{fragments/menu :: menu}"></div>
     </header>
 
-    <main>
+    <main class="graph">
         <form method="get" th:action="@{/reservations/reservations-graph}">
-            <label for="date">Select date:</label>
+            <label style="color: black" for="date">Select date:</label>
             <input type="date" id="date" name="date" th:value="${selectedDate}"/>
             <button type="submit">Show Reservations</button>
         </form>
         <h2>Reservations for</h2>
-        <h2 th:text="${selectedDate.getDayOfWeek()+' '+selectedDate.getDayOfMonth()+'.'+selectedDate.getMonthValue()+'.'+selectedDate.getYear()}"></h2>
+
+        <div class="reservationFor">
+            <div style="margin-left: 20px">
+                <button type="button" class="button" style="background: darkorange"
+                        th:onclick="|window.location.href='@{/reservations/reservation-form}'|">New Reservation
+                </button>
+            </div>
+            <div>
+                <h2 th:text="${selectedDate.getDayOfWeek()+' '+selectedDate.getDayOfMonth()+'.'+selectedDate.getMonthValue()+'.'+selectedDate.getYear()}"></h2>
+            </div>
+        </div>
 
         <div th:each="location : ${timeSlotForLocations}">
             <h3 th:text="${location.name}"></h3>
@@ -33,6 +43,7 @@
                 </div>
             </div>
         </div>
+
 
     </main>
 

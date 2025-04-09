@@ -130,7 +130,6 @@ aside {
 .photo {
     width: 60%; /* Nastaví šírku divu na 100% šírky obrazovky */
     overflow: hidden; /* Skryje akýkoľvek obsah, ktorý presahuje hranice divu */
-    margin-top: 50px;
 }
 
 .photo img {
@@ -206,3 +205,40 @@ aside {
     flex-direction: column;
     gap: 15px;
 }
+.survey-form{
+    display: flex;
+    align-items: end;
+}
+.survey-form label{
+    display: flex;
+    font-size: 1em;
+    margin-left: 20px;
+}
+.survey-form label:hover{
+    color: #007BFF;
+}
+.survey-form input[type="radio"]{
+    margin-right: 10px;
+    accent-color: #007BFF;
+}
+.survey-form button{
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    padding: 10px 25px;
+    font-size: 1.2em;
+    border-radius: 50px;
+    margin-left: 70px;
+    margin-bottom: 20px;
+}
+.survey-form button:hover{
+    background-color: #0056b3;
+}
+/*.graph{*/
+/*    background: linear-gradient(to right, black 2%, #710000 30%,black 100%);*/
+/*}*/
+/*.reservationFor {*/
+/*    display: flex;*/
+/*    justify-content: space-between;*/
+
+/*}*/

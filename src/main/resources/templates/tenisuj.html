@@ -21,7 +21,47 @@
     <aside>
         <div class="tables-container">
             <h2>Tenisuj-sk</h2>
-            <h3 th:text="${home}"></h3>
+            <!--            <h3 th:text="${home}"></h3>-->
+        </div>
+        <div class="survey-container">
+            <h3>Who from big four?</h3>
+            <div th:if="${error}" style="color: red;">
+                <p th:text="${error}"></p>
+            </div>
+
+
+            <form class="survey-form" action="#" th:action="@{/tenisuj/vote}" method="post">
+                <div>
+                    <label>
+                        <input type="radio" name="name" value="Roger"/> Roger Federer
+                        <span th:text="${votesRoger.vote}"></span>votes
+                    </label>
+                    <br>
+                    <label>
+                        <input type="radio" name="name" value="Rafa"/> Rafael Nadal
+                        <span th:text="${votesRafa.vote}"></span>votes
+                    </label>
+                    <br>
+                    <label>
+                        <input type="radio" name="name" value="Novak"/> Novak Djokovic
+                        <span th:text="${votesNovak.vote}"></span>votes
+                    </label>
+                    <br>
+                    <label>
+                        <input type="radio" name="name" value="Marek"/> Marek Krnčok
+                        <span th:text="${votesMarek.vote}"></span>votes
+                    </label>
+                    <br>
+                </div>
+                <div>
+                    <button type="submit">Send</button>
+                </div>
+            </form>
+
+            <div th:if="${success}">
+                <h3 th:text="${success}"></h3>
+            </div>
+
         </div>
         <div class="photo">
             <img src="/images/69_silhout.jpg" alt="Your Photo">
@@ -34,7 +74,7 @@
 </main>
 
 <footer>
-    <a th:text="${username != null ? username : #authentication.name}"></a>
+    <a th:text="${#authentication.name}"></a>
 </footer>
 
 
