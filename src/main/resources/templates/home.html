@@ -60,7 +60,7 @@
                         <button type="button" class="button" style="background: red"
                                 th:onclick="|window.location.href='@{/leagues/archive}'|">Archive
                         </button>
-                        <button type="submit" class="button" style="background: red"
+                        <button sec:authorize="hasRole('ROLE_ADMIN')" type="submit" class="button" style="background: red"
                                 th:onclick="|window.location.href='@{/tenisuj/resetVotes}'|">Reset Votes
                         </button>
 

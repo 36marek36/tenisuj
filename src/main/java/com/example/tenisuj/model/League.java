@@ -23,5 +23,5 @@ public class League {
     @OneToOne
     private Player winner;
 
-    LeagueStatus status;
+    private LeagueStatus status;
 }

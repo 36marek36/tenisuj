@@ -136,7 +136,7 @@
                 </td>
 
                 <td>
-                    <div th:if="${match.status == null or match.status == 'rejected'}">
+                    <div th:if="${match.status == T(com.example.tenisuj.model.enums.MatchStatus).CREATED or match.status == T(com.example.tenisuj.model.enums.MatchStatus).REJECTED}">
                         <button th:if="${league.status == T(com.example.tenisuj.model.enums.LeagueStatus).ACTIVE}"
                                 class="add-result-button" th:data-edit-url="@{/matches/details/{id}(id=${match.id})}"
                                 onclick="handleEdit(this)">
@@ -144,13 +144,13 @@
                         </button>
                     </div>
 
-                    <div th:if="${match.status=='pending'}">
+                    <div th:if="${match.status==T(com.example.tenisuj.model.enums.MatchStatus).PENDING}">
                         <div style="text-align: right;">
                             <span>pending</span>
                         </div>
                     </div>
 
-                    <ul th:if="${match.status=='approved'}" class="no-bullets">
+                    <ul th:if="${match.status==T(com.example.tenisuj.model.enums.MatchStatus).APPROVED}" class="no-bullets">
                         <th:block th:if="${match.player1_set1 != null || match.player2_set1 != null}">
                             <span th:text="${match.player1_set1}"></span>
                             <span> : </span>
@@ -188,7 +188,7 @@
 
                 <td>
                     <ul class="no-bullets">
-                        <li th:if="${match.status=='approved'}">
+                        <li th:if="${match.status==T(com.example.tenisuj.model.enums.MatchStatus).APPROVED}">
                             <span th:text="${match.winner.firstName}"></span>
                             <span th:text="${match.winner.lastName}"></span>
                         </li>
