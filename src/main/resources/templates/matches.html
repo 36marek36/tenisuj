@@ -106,11 +106,11 @@
                         <td>
                             <form th:action="@{/matches/approveMatch}" method="post">
                                 <input type="hidden" th:value="${match.id}" name="matchId"/>
-                                <button type="submit" th:disabled="${match.status != 'pending'}">Approve</button>
+                                <button type="submit" th:disabled="${match.status != T(com.example.tenisuj.model.enums.MatchStatus).PENDING}">Approve</button>
                             </form>
                         </td>
 
-                        <td th:if="${match.status=='pending'}" sec:authorize="hasRole('ROLE_ADMIN')">
+                        <td th:if="${match.status==T(com.example.tenisuj.model.enums.MatchStatus).PENDING}" sec:authorize="hasRole('ROLE_ADMIN')">
                             <form th:action="@{/matches/rejectMatch}" method="POST">
                                 <input type="hidden" name="matchId" th:value="${match.id}">
                                 <button type="submit">Reject</button>

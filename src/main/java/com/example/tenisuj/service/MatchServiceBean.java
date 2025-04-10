@@ -3,6 +3,7 @@ package com.example.tenisuj.service;
 import com.example.tenisuj.model.Match;
 import com.example.tenisuj.model.Player;
 import com.example.tenisuj.model.enums.Location;
+import com.example.tenisuj.model.enums.MatchStatus;
 import com.example.tenisuj.repository.MatchRepository;
 import com.example.tenisuj.repository.PlayerRepository;
 import lombok.NonNull;
@@ -39,7 +40,7 @@ public class MatchServiceBean implements MatchService {
         Player player2 = playerRepository.findById(player2Id)
                 .orElseThrow(() -> new RuntimeException("Player not found"));
 
-        Match match = new Match(UUID.randomUUID().toString(), player1, player2, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null,null);
+        Match match = new Match(UUID.randomUUID().toString(), player1, player2, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, MatchStatus.CREATED);
 
         matchRepository.save(match);
         log.info("Match added");
@@ -183,9 +184,9 @@ public class MatchServiceBean implements MatchService {
         match.setPlayer2_set5(player2_set5);
 
         if (match.getLeagueId() != null) {
-            match.setStatus("pending");
-        }else {
-            match.setStatus("approved");
+            match.setStatus(MatchStatus.PENDING);
+        } else {
+            match.setStatus(MatchStatus.APPROVED);
         }
 
         matchRepository.save(match);
@@ -200,7 +201,7 @@ public class MatchServiceBean implements MatchService {
     @Override
     public void approveMatch(String matchId) {
         Match match = getMatch(matchId);
-        match.setStatus("approved");
+        match.setStatus(MatchStatus.APPROVED);
         if (match.getLeagueId() != null) {
             playerService.updateRatingInLeague(match.getPlayer1().getId());
             playerService.updateRatingInLeague(match.getPlayer2().getId());
@@ -211,8 +212,8 @@ public class MatchServiceBean implements MatchService {
     @Override
     public void rejectMatch(String matchId) {
         Match match = getMatch(matchId);
-        match.setStatus("rejected");
-        match = new Match(matchId,match.getPlayer1(),match.getPlayer2(),null,null,null,null,null,null,null,null,null,null,null,null,null,null,match.getLeagueId(),match.getStatus());
+        match.setStatus(MatchStatus.REJECTED);
+        match = new Match(matchId, match.getPlayer1(), match.getPlayer2(), null, null, null, null, null, null, null, null, null, null, null, null, null, null, match.getLeagueId(), match.getStatus());
         matchRepository.save(match);
 
     }

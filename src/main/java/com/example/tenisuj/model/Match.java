@@ -1,6 +1,7 @@
 package com.example.tenisuj.model;
 
 import com.example.tenisuj.model.enums.Location;
+import com.example.tenisuj.model.enums.MatchStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -50,7 +51,7 @@ public class Match {
 
     private String leagueId;
 
-    private String status;
+    private MatchStatus status;
 
 //    private boolean confirmedResult;
 

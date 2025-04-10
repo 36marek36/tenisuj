@@ -4,6 +4,7 @@ import com.example.tenisuj.model.League;
 import com.example.tenisuj.model.Match;
 import com.example.tenisuj.model.Player;
 import com.example.tenisuj.model.enums.LeagueStatus;
+import com.example.tenisuj.model.enums.MatchStatus;
 import com.example.tenisuj.repository.LeagueRepository;
 import com.example.tenisuj.repository.MatchRepository;
 import com.example.tenisuj.repository.PlayerRepository;
@@ -58,6 +59,12 @@ public class LeagueServiceBean implements LeagueService {
         if (!leagueRepository.existsById(leagueId)) {
             throw new IllegalArgumentException("League does not exists!");
         }
+        League league = getLeague(leagueId);
+        List<Match> matches = league.getMatches();
+        for (Match match : matches) {
+            match.setLeagueId(null);
+            matchRepository.save(match);
+        }
         leagueRepository.deleteById(leagueId);
         log.info("Deleted league {}", leagueId);
     }
@@ -104,7 +111,7 @@ public class LeagueServiceBean implements LeagueService {
                 if (player1.equals(player2)) {
                     continue;
                 }
-                matchList.add(new Match(UUID.randomUUID().toString(), player1, player2, null, null, null, null, null, null, null, null, null, null, null, null, null, null,leagueId,null));
+                matchList.add(new Match(UUID.randomUUID().toString(), player1, player2, null, null, null, null, null, null, null, null, null, null, null, null, null, null,leagueId, MatchStatus.CREATED));
 
             }
         }
