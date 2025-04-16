@@ -140,6 +140,8 @@ public class ReservationWeb {
 
     private void setDefaultValues(Model model, Principal principal) {
         model.addAttribute("pageTitle", "Reservations");
+        model.addAttribute("matchesSize", matchService.getCreatedMatches().size());
+        model.addAttribute("reservationsSize", reservationService.getCreatedReservations().size());
         if (principal != null) {
             userService.addUserAndPlayerToModel(principal.getName(), model);
         }

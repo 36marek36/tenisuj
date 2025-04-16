@@ -130,4 +130,9 @@ public class ReservationServiceBean implements ReservationService {
         }
         return "free"; // Ak časový slot nie je obsadený, je free
     }
+
+    @Override
+    public List<Reservation> getCreatedReservations() {
+        return reservationRepository.findAllReservationsByStatus("pending");
+    }
 }

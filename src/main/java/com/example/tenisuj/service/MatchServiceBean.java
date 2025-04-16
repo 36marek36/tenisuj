@@ -217,4 +217,9 @@ public class MatchServiceBean implements MatchService {
         matchRepository.save(match);
 
     }
+
+    @Override
+    public List<Match> getCreatedMatches() {
+        return matchRepository.findMatchesByStatus(MatchStatus.CREATED);
+    }
 }

@@ -38,4 +38,6 @@ public interface MatchService {
 
     void approveMatch(String matchId);
     void rejectMatch(String matchId);
+
+    List<Match> getCreatedMatches();
 }

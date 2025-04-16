@@ -21,4 +21,5 @@ public interface ReservationService {
     boolean isTimeReserved (LocalTime time,List<Reservation> reservations);
     List<ReservationTimeSlot> generateTimeSlotsWithStatus(List<Reservation> reservations, LocalDate date);
     String getReservationStatus(LocalTime time, List<Reservation> reservations);
+    List<Reservation> getCreatedReservations ();
 }

@@ -3,6 +3,8 @@ package com.example.tenisuj.controller.web;
 import com.example.tenisuj.model.League;
 import com.example.tenisuj.model.dto.UpdateLeagueDto;
 import com.example.tenisuj.service.LeagueService;
+import com.example.tenisuj.service.MatchService;
+import com.example.tenisuj.service.ReservationService;
 import com.example.tenisuj.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,11 +22,15 @@ public class LeagueWeb {
 
     private final LeagueService leagueService;
     private final UserService userService;
+    private final MatchService matchService;
+    private final ReservationService reservationService;
 
     @Autowired
-    public LeagueWeb(LeagueService leagueService, UserService userService) {
+    public LeagueWeb(LeagueService leagueService, UserService userService, MatchService matchService, ReservationService reservationService) {
         this.leagueService = leagueService;
         this.userService = userService;
+        this.matchService = matchService;
+        this.reservationService = reservationService;
     }
 
     @GetMapping("/")
@@ -112,9 +118,17 @@ public class LeagueWeb {
 
         return "redirect:/leagues/details/" + leagueId;
     }
+    @PostMapping("/deleteLeague")
+    public String deleteLeague(@RequestParam String leagueId, RedirectAttributes redirectAttributes) {
+        leagueService.deleteLeague(leagueId);
+        redirectAttributes.addFlashAttribute("successMessage", "League deleted.");
+        return "redirect:/leagues/archive";
+    }
 
     private void setDefaultValues(Model model, Principal principal) {
         model.addAttribute("pageTitle", "Leagues");
+        model.addAttribute("matchesSize", matchService.getCreatedMatches().size());
+        model.addAttribute("reservationsSize", reservationService.getCreatedReservations().size());
         if (principal != null) {
             userService.addUserAndPlayerToModel(principal.getName(), model);
         }
