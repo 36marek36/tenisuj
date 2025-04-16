@@ -3,6 +3,8 @@ package com.example.tenisuj.controller.web;
 import com.example.tenisuj.model.Reservation;
 import com.example.tenisuj.model.enums.Location;
 import com.example.tenisuj.repository.ReservationRepository;
+import com.example.tenisuj.service.MatchService;
+import com.example.tenisuj.service.ReservationService;
 import com.example.tenisuj.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,11 +19,15 @@ import java.util.List;
 public class HomeWeb {
     private final UserService userService;
     private final ReservationRepository reservationRepository;
+    private final MatchService matchService;
+    private final ReservationService reservationService;
 
     @Autowired
-    public HomeWeb(UserService userService, ReservationRepository reservationRepository) {
+    public HomeWeb(UserService userService, ReservationRepository reservationRepository, MatchService matchService, ReservationService reservationService) {
         this.userService = userService;
         this.reservationRepository = reservationRepository;
+        this.matchService = matchService;
+        this.reservationService = reservationService;
     }
 
     @GetMapping("/home")
@@ -39,6 +45,8 @@ public class HomeWeb {
 
     public void setDefaultValues(Model model, Principal principal) {
         model.addAttribute("pageTitle", "Home");
+        model.addAttribute("matchesSize", matchService.getCreatedMatches().size());
+        model.addAttribute("reservationsSize", reservationService.getCreatedReservations().size());
         if (principal != null) {
             userService.addUserAndPlayerToModel(principal.getName(), model);
         }

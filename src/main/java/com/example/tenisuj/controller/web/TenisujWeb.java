@@ -19,10 +19,14 @@ public class TenisujWeb {
 
     private final UserService userService;
     private final HomeService homeService;
+    private final MatchService matchService;
+    private final ReservationService reservationService;
 
-    public TenisujWeb(UserService userService, HomeService homeService) {
+    public TenisujWeb(UserService userService, HomeService homeService, MatchService matchService, ReservationService reservationService) {
         this.userService = userService;
         this.homeService = homeService;
+        this.matchService = matchService;
+        this.reservationService = reservationService;
     }
 
 
@@ -65,6 +69,8 @@ public class TenisujWeb {
 
     public void setDefaultValues(Model model, Principal principal) {
         model.addAttribute("pageTitle", "Tenisuj-sk");
+        model.addAttribute("matchesSize", matchService.getCreatedMatches().size());
+        model.addAttribute("reservationsSize", reservationService.getCreatedReservations().size());
         if (principal != null) {
             userService.addUserAndPlayerToModel(principal.getName(), model);
         }

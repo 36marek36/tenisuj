@@ -7,6 +7,7 @@ import com.example.tenisuj.model.dto.UpdateResultDto;
 import com.example.tenisuj.model.enums.Location;
 import com.example.tenisuj.service.MatchService;
 import com.example.tenisuj.service.PlayerService;
+import com.example.tenisuj.service.ReservationService;
 import com.example.tenisuj.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
@@ -27,12 +28,14 @@ public class MatchWeb {
     private final MatchService matchService;
     private final PlayerService playerService;
     private final UserService userService;
+    private final ReservationService reservationService;
 
     @Autowired
-    public MatchWeb(MatchService matchService, PlayerService playerService, UserService userService) {
+    public MatchWeb(MatchService matchService, PlayerService playerService, UserService userService, ReservationService reservationService) {
         this.matchService = matchService;
         this.playerService = playerService;
         this.userService = userService;
+        this.reservationService = reservationService;
     }
 
     @GetMapping("/")
@@ -185,6 +188,8 @@ public class MatchWeb {
 
     private void setDefaultValues(Model model, Principal principal) {
         model.addAttribute("pageTitle", "Matches");
+        model.addAttribute("matchesSize", matchService.getCreatedMatches().size());
+        model.addAttribute("reservationsSize", reservationService.getCreatedReservations().size());
         if (principal != null) {
             userService.addUserAndPlayerToModel(principal.getName(), model);
         }

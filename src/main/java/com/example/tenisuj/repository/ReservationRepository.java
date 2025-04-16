@@ -33,6 +33,9 @@ public interface ReservationRepository extends JpaRepository<Reservation, String
     List<Reservation> findAllReservationsByDateAndPlace(@Param("date") LocalDate date,
                                                         @Param("place") Location place);
 
+    @Query("select r from reservations r where r.status =:status")
+    List<Reservation> findAllReservationsByStatus(@Param("status") String status);
+
     @Query("select r from reservations r where r.status='approved' and r.place =:place and r.date =:date")
     List<Reservation> findApprovedReservationsByDateAndPlace(@Param("date") LocalDate date,
                                                              @Param("place") Location place);

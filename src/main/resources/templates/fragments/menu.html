@@ -25,14 +25,22 @@
                     <li class="nav-item">
                         <a class="nav-link" href="/leagues/">Leagues</a>
                     </li>
+
                     <li class="nav-item" sec:authorize="hasRole('ROLE_ADMIN')">
-                        <a class="nav-link" href="/matches/">Matches</a>
+                        <a class="nav-link" href="/matches/">Matches
+                        <span class="badge bg-danger" th:if="${matchesSize!=0}" th:text="${matchesSize}"></span></a>
                     </li>
+
+<!--                    <li class="nav-item" sec:authorize="hasRole('ROLE_ADMIN')">-->
+<!--                        <a class="nav-link" href="/matches/">Matches</a>-->
+<!--                    </li>-->
+
 <!--                    <li class="nav-item" sec:authorize="isAuthenticated()" th:if="${player!=null}">-->
 <!--                        <a class="nav-link" href="/matches/my_matches/{id}">My Matches</a>-->
 <!--                    </li>-->
                     <li class="nav-item">
-                        <a class="nav-link" sec:authorize="hasRole('ROLE_ADMIN')" href="/reservations/">Reservations</a>
+                        <a class="nav-link" sec:authorize="hasRole('ROLE_ADMIN')" href="/reservations/">Reservations
+                        <span class="badge bg-danger" th:if="${reservationsSize!=0}" th:text="${reservationsSize}"></span></a>
                     </li>
                 </ul>
 

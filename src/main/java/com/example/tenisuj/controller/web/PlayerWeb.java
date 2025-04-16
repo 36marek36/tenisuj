@@ -3,7 +3,9 @@ package com.example.tenisuj.controller.web;
 import com.example.tenisuj.model.Player;
 import com.example.tenisuj.model.User;
 import com.example.tenisuj.model.dto.PlayerDTO;
+import com.example.tenisuj.service.MatchService;
 import com.example.tenisuj.service.PlayerService;
+import com.example.tenisuj.service.ReservationService;
 import com.example.tenisuj.service.UserService;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
@@ -26,11 +28,15 @@ public class PlayerWeb {
 
     private final PlayerService playerService;
     private final UserService userService;
+    private final MatchService matchService;
+    private final ReservationService reservationService;
 
     @Autowired
-    public PlayerWeb(PlayerService playerService, UserService userService) {
+    public PlayerWeb(PlayerService playerService, UserService userService, MatchService matchService, ReservationService reservationService) {
         this.playerService = playerService;
         this.userService = userService;
+        this.matchService = matchService;
+        this.reservationService = reservationService;
     }
 
     @GetMapping("/")
@@ -101,6 +107,8 @@ public class PlayerWeb {
 
     private void setDefaultValues(Model model, Principal principal) {
         model.addAttribute("pageTitle", "Players");
+        model.addAttribute("matchesSize", matchService.getCreatedMatches().size());
+        model.addAttribute("reservationsSize", reservationService.getCreatedReservations().size());
         if (principal != null) {
             userService.addUserAndPlayerToModel(principal.getName(), model);
         }

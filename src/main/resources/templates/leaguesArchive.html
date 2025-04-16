@@ -6,6 +6,7 @@
   <title th:text="${pageTitle} ? ${pageTitle} : 'default title'"></title>
   <link th:href="@{/webjars/bootstrap/5.3.3/css/bootstrap.min.css}" rel="stylesheet"/>
   <link rel="stylesheet" th:href="@{/css/style.css}">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
   <style></style>
 
 </head>
@@ -21,7 +22,9 @@
   <main>
 
     <h2 th:text="${pageTitle}" class="mb-4"></h2>
-
+    <div th:if="${successMessage != null}" class="alert alert-info mt-3">
+      <span th:text="${successMessage}"></span>
+    </div>
     <div th:switch="${#lists.size(finishedLeagues)}">
       <h4>Archive</h4>
       <p th:case="0">No leagues</p>
@@ -44,6 +47,14 @@
             <td>
               <form method="get" th:action="@{/leagues/details/{id}(id=${league.id})}">
                 <button type="submit">League details</button>
+              </form>
+            </td>
+            <td sec:authorize="hasRole('ROLE_ADMIN')">
+              <form th:action="@{/leagues/deleteLeague}" method="POST">
+                <input type="hidden" name="leagueId" th:value="${league.id}">
+                <button type="submit" class="btn btn-danger">
+                  <i class="bi bi-trash"></i>
+                </button>
               </form>
             </td>
           </tr>
