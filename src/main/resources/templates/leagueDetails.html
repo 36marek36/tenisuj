@@ -32,6 +32,7 @@
                 <th>Player contact</th>
                 <th>League option</th>
                 <th></th>
+                <th>Progress</th>
             </tr>
             </thead>
 
@@ -102,6 +103,11 @@
                             </tr>
                             </tbody>
                         </table>
+                    </div>
+                </td>
+                <td>
+                    <div class="progress">
+                        <div class="progress-bar" th:style="'width:' + ${progress} + '%'" th:text="${progress}"></div>
                     </div>
                 </td>
             </tr>

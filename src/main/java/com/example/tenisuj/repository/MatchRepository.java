@@ -36,4 +36,10 @@ public interface MatchRepository extends JpaRepository<Match, String> {
 
     @Query("select m from Match m where m.status = :status")
     List<Match> findMatchesByStatus(@Param("status") MatchStatus status);
+
+    @Query("select m from Match m where m.leagueId =:leagueId")
+    List<Match> findAllLeagueMatches(@Param("leagueId") String leagueId);
+
+    @Query("select m from Match m where m.leagueId =:leagueId and m.winner is not null")
+    List<Match> findAllPlayedLeagueMatches(@Param("leagueId") String leagueId);
 }

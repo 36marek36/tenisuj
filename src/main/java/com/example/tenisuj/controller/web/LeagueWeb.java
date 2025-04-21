@@ -90,6 +90,7 @@ public class LeagueWeb {
         model.addAttribute("playersWL", leagueService.playersWithoutLeague());
         model.addAttribute("updateLeagueDto", updateLeagueDto);
         model.addAttribute("sortedPlayers", leagueService.getPlayersSortedByLeagueRating(leagueId));
+        model.addAttribute("progress", leagueService.progress(leagueId));
         return "leagueDetails";
     }
 
