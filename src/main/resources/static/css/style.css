@@ -242,3 +242,7 @@ aside {
 /*    justify-content: space-between;*/
 
 /*}*/
+
+.progress-bar {
+    min-width: 30px;
+}

@@ -211,6 +211,7 @@ public class LeagueServiceBean implements LeagueService {
         progress= (double) getAllPlayedLeagueMatches(leagueId).size() /getAllLeagueMatches(leagueId).size()*100;
         log.info(String.valueOf(getAllPlayedLeagueMatches(leagueId).size()));
         log.info(String.valueOf(getAllLeagueMatches(leagueId).size()));
+        log.info(String.valueOf(progress));
         return (int) progress;
     }
 }

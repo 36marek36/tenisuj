@@ -106,8 +106,15 @@
                     </div>
                 </td>
                 <td>
-                    <div class="progress">
-                        <div class="progress-bar" th:style="'width:' + ${progress} + '%'" th:text="${progress}"></div>
+                    <div class="progress" style="height: 25px">
+                        <div class="progress-bar"
+                             th:style="'width:' + ${progress} + '%'"
+                             th:class="'progress-bar ' +
+                             (${progress} >= 75 ? 'bg-success' :
+                             (${progress} >= 50 ? 'bg-warning' : 'bg-danger')) +
+                             ' progress-bar-striped progress-bar-animated'"
+                             th:text="${progress+'%'}">
+                        </div>
                     </div>
                 </td>
             </tr>
@@ -156,7 +163,8 @@
                         </div>
                     </div>
 
-                    <ul th:if="${match.status==T(com.example.tenisuj.model.enums.MatchStatus).APPROVED}" class="no-bullets">
+                    <ul th:if="${match.status==T(com.example.tenisuj.model.enums.MatchStatus).APPROVED}"
+                        class="no-bullets">
                         <th:block th:if="${match.player1_set1 != null || match.player2_set1 != null}">
                             <span th:text="${match.player1_set1}"></span>
                             <span> : </span>
