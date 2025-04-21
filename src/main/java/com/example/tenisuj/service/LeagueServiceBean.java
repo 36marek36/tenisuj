@@ -194,4 +194,23 @@ public class LeagueServiceBean implements LeagueService {
     public List<League> getNotFinishedLeagues() {
         return leagueRepository.findByStatusNot(LeagueStatus.FINISHED);
     }
+
+    @Override
+    public List<Match> getAllLeagueMatches(String leagueId) {
+        return matchRepository.findAllLeagueMatches(leagueId);
+    }
+
+    @Override
+    public List<Match> getAllPlayedLeagueMatches(String leagueId) {
+        return matchRepository.findAllPlayedLeagueMatches(leagueId);
+    }
+
+    @Override
+    public int progress(String leagueId) {
+        double progress;
+        progress= (double) getAllPlayedLeagueMatches(leagueId).size() /getAllLeagueMatches(leagueId).size()*100;
+        log.info(String.valueOf(getAllPlayedLeagueMatches(leagueId).size()));
+        log.info(String.valueOf(getAllLeagueMatches(leagueId).size()));
+        return (int) progress;
+    }
 }

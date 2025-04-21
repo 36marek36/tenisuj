@@ -31,4 +31,10 @@ public interface LeagueService {
 
     List<League> getNotFinishedLeagues();
 
+    List<Match> getAllLeagueMatches(String leagueId);
+
+    List<Match> getAllPlayedLeagueMatches(String leagueId);
+
+    int progress(String leagueId);
+
 }
