@@ -33,6 +33,7 @@
                         <th>Number of Players</th>
                         <th>Number of Matches</th>
                         <th>Status</th>
+                        <th>Progress</th>
                     </tr>
                     </thead>
 
@@ -48,6 +49,18 @@
                         <td th:text="${league.players.size()}"></td>
                         <td th:text="${league.matches.size()}"></td>
                         <td th:text="${league.status}"></td>
+                        <td>
+                            <div class="progress" style="height: 25px">
+                                <div class="progress-bar"
+                                     th:style="'width:' + ${progressMap[league.id]} + '%'"
+                                     th:class="'progress-bar ' +
+                             (${progressMap[league.id]} >= 75 ? 'bg-success' :
+                             (${progressMap[league.id]} >= 50 ? 'bg-warning' : 'bg-danger')) +
+                             ' progress-bar-striped progress-bar-animated'"
+                                     th:text="${progressMap[league.id]+'%'}">
+                                </div>
+                            </div>
+                        </td>
                     </tr>
                     </tbody>
                 </table>
