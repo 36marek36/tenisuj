@@ -32,6 +32,7 @@
                     <tr>
                         <th>Player name</th>
                         <th>Player contact</th>
+                        <th>Player progress</th>
                     </tr>
                     </thead>
                     <tr th:each="player : ${league.players}">
@@ -41,6 +42,11 @@
 
                         <td>
                             <span th:text="${player.email}"></span>
+                        </td>
+                        <td style="text-align: center">
+                            <span th:text="${allPlayedPlayerMatches[player.id].size()}"></span>
+                            <span th:text="'/'"></span>
+                            <span th:text="${allPlayerMatches[player.id].size()}"></span>
                         </td>
                     </tr>
                 </table>
@@ -75,7 +81,7 @@
 
             <div class="league-section"
                  th:if="${league.status == T(com.example.tenisuj.model.enums.LeagueStatus).ACTIVE}">
-                <h4>Progress</h4>
+                <h4>League Progress</h4>
                 <div class="progress" style="height: 25px">
                     <div class="progress-bar"
                          th:style="'width:' + ${progress} + '%'"

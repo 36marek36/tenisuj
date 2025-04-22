@@ -40,4 +40,6 @@ public interface MatchService {
     void rejectMatch(String matchId);
 
     List<Match> getCreatedMatches();
+
+    List<Match> findAllPlayerMatchesInLeague(String playerId, String leagueId);
 }
