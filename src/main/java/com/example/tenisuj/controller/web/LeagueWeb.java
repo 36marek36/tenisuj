@@ -1,7 +1,10 @@
 package com.example.tenisuj.controller.web;
 
 import com.example.tenisuj.model.League;
+import com.example.tenisuj.model.Match;
+import com.example.tenisuj.model.Player;
 import com.example.tenisuj.model.dto.UpdateLeagueDto;
+import com.example.tenisuj.model.enums.MatchStatus;
 import com.example.tenisuj.service.LeagueService;
 import com.example.tenisuj.service.MatchService;
 import com.example.tenisuj.service.ReservationService;
@@ -17,6 +20,7 @@ import java.security.Principal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/leagues")
@@ -101,6 +105,25 @@ public class LeagueWeb {
         model.addAttribute("updateLeagueDto", updateLeagueDto);
         model.addAttribute("sortedPlayers", leagueService.getPlayersSortedByLeagueRating(leagueId));
         model.addAttribute("progress", leagueService.progress(leagueId));
+
+        Map<String,List<Match>> allPlayerMatches = new HashMap<>();
+        Map<String,List<Match>> allPlayedPlayerMatches = new HashMap<>();
+
+        List<Player> players = leagueService.getLeague(leagueId).getPlayers();
+
+        for (Player player : players) {
+            List<Match> allMatches = matchService.findAllPlayerMatchesInLeague(player.getId(),leagueId);
+            List<Match> allPlayedMatches = allMatches.stream()
+                    .filter(match -> match.getStatus()== MatchStatus.APPROVED)
+                    .collect(Collectors.toList());
+
+            allPlayerMatches.put(player.getId(), allMatches);
+            allPlayedPlayerMatches.put(player.getId(), allPlayedMatches);
+        }
+
+        model.addAttribute("allPlayerMatches", allPlayerMatches);
+        model.addAttribute("allPlayedPlayerMatches", allPlayedPlayerMatches);
+
         return "leagueDetails";
     }
 

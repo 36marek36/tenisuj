@@ -222,4 +222,9 @@ public class MatchServiceBean implements MatchService {
     public List<Match> getCreatedMatches() {
         return matchRepository.findMatchesByStatus(MatchStatus.CREATED);
     }
+
+    @Override
+    public List<Match> findAllPlayerMatchesInLeague(String playerId, String leagueId) {
+        return matchRepository.findAllPlayerMatchesInLeague(playerId, leagueId);
+    }
 }
