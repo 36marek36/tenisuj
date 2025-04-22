@@ -14,6 +14,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/leagues")
@@ -36,8 +39,15 @@ public class LeagueWeb {
     @GetMapping("/")
     public String getAllLeagues(Model model, Principal principal) {
         setDefaultValues(model, principal);
-        model.addAttribute("leagues", leagueService.getNotFinishedLeagues());
+        List<League> leagues = leagueService.getNotFinishedLeagues();
+        Map<String, Integer> progressMap = new HashMap<>();
 
+        for (League league : leagues) {
+            progressMap.put(league.getId(), leagueService.progress(league.getId()));
+        }
+
+        model.addAttribute("progressMap", progressMap);
+        model.addAttribute("leagues", leagues);
         return "leagues";
     }
 
@@ -63,9 +73,9 @@ public class LeagueWeb {
 
     @GetMapping("/add-matches/{id}")
     public String startLeague(@PathVariable("id") String leagueId, RedirectAttributes redirectAttributes) {
-        try{
+        try {
             leagueService.leagueMatchGenerator(leagueId);
-        }catch (IllegalStateException e){
+        } catch (IllegalStateException e) {
             redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
             return "redirect:/leagues/details/" + leagueId;
         }
@@ -76,7 +86,7 @@ public class LeagueWeb {
     public String finishLeague(@PathVariable("id") String leagueId, RedirectAttributes redirectAttributes) {
         try {
             leagueService.finishLeague(leagueId);
-        }catch (IllegalStateException e){
+        } catch (IllegalStateException e) {
             redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
             return "redirect:/leagues/details/" + leagueId;
         }
@@ -95,11 +105,11 @@ public class LeagueWeb {
     }
 
     @PostMapping("/details/{id}/add")
-    public String addPlayerToLeague(@PathVariable("id") String leagueId, UpdateLeagueDto updateLeagueDto,RedirectAttributes redirectAttributes) {
+    public String addPlayerToLeague(@PathVariable("id") String leagueId, UpdateLeagueDto updateLeagueDto, RedirectAttributes redirectAttributes) {
         try {
             leagueService.addPlayerToLeague(leagueId, updateLeagueDto.getPlayerId());
             log.info("add player to league {}", leagueId);
-        }catch (IllegalArgumentException e){
+        } catch (IllegalArgumentException e) {
             redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
             return "redirect:/leagues/details/" + leagueId;
         }
@@ -108,17 +118,18 @@ public class LeagueWeb {
     }
 
     @PostMapping("/details/{id}/remove")
-    public String deletePlayerFromLeague(@PathVariable("id") String leagueId, UpdateLeagueDto updateLeagueDto,RedirectAttributes redirectAttributes) {
+    public String deletePlayerFromLeague(@PathVariable("id") String leagueId, UpdateLeagueDto updateLeagueDto, RedirectAttributes redirectAttributes) {
         try {
             leagueService.deletePlayerFromLeague(leagueId, updateLeagueDto.getPlayerId());
             log.info("remove player from league {}", leagueId);
-        }catch (IllegalArgumentException e){
+        } catch (IllegalArgumentException e) {
             redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
             return "redirect:/leagues/details/" + leagueId;
         }
 
         return "redirect:/leagues/details/" + leagueId;
     }
+
     @PostMapping("/deleteLeague")
     public String deleteLeague(@RequestParam String leagueId, RedirectAttributes redirectAttributes) {
         leagueService.deleteLeague(leagueId);
